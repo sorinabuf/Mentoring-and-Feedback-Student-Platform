@@ -17,7 +17,7 @@ import poli.meets.authservice.service.UserUtilsService;
 import poli.meets.authservice.service.dtos.UserRegisterDTO;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api")
 @AllArgsConstructor
 public class AuthController {
 

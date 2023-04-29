@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: authModule
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth/**
+            - Path=/test/**
+        - id: coreModule
+          uri: lb://CORE-SERVICE
+          predicates:
+            - Path=/core/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+

@@ -1,10 +1,4 @@
-
-
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/auth-db
-    username: postgres
-    password: postgres
   liquibase:
     change-log: classpath:/config/liquibase/master.xml
   application:
@@ -14,3 +8,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+server:
+  port: 8081
+  servlet:
+    context-path: /auth

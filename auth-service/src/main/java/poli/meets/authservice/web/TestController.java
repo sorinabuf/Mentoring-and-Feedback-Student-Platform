@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class TestController {
 
-    @GetMapping("/get")
-    public ResponseEntity<String> register() {
+
+    @GetMapping
+    public ResponseEntity<String> test() {
 
         return ResponseEntity.ok("done");
     }
