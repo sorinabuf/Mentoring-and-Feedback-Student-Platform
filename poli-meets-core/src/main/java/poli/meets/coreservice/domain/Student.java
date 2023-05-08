@@ -40,6 +40,14 @@ public class Student {
     @Column(name = "personal_email")
     private String personalEmail;
 
+    @Column(name = "group_num")
+    private String groupNum;
+
+    @Column(name = "image")
+    private byte[] image;
+
+
+
     @ManyToOne
     @JsonIgnoreProperties(value = "students", allowSetters = true)
     private UniversityYear universityYear;

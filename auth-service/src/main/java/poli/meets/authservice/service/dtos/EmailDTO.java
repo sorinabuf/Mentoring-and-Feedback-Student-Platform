@@ -1,4 +1,4 @@
-package poli.meets.authservice.security.dtos;
+package poli.meets.authservice.service.dtos;
 
 import lombok.Data;
 

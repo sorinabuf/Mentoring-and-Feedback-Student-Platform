@@ -7,7 +7,7 @@ import poli.meets.authservice.client.MailClient;
 import poli.meets.authservice.model.User;
 import poli.meets.authservice.repository.UserRepository;
 import poli.meets.authservice.security.JwtTokenUtil;
-import poli.meets.authservice.security.dtos.EmailDTO;
+import poli.meets.authservice.service.dtos.EmailDTO;
 import poli.meets.authservice.service.dtos.UserRegisterDTO;
 
 import java.util.Optional;

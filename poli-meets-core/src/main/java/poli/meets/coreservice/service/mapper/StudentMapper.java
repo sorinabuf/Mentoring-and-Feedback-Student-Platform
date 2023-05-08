@@ -5,6 +5,7 @@ import poli.meets.coreservice.domain.*;
 import poli.meets.coreservice.service.dto.StudentDTO;
 
 import org.mapstruct.*;
+import poli.meets.coreservice.service.dto.StudentPostDTO;
 
 /**
  * Mapper for the entity {@link Student} and its DTO {@link StudentDTO}.
@@ -17,6 +18,8 @@ public interface StudentMapper extends EntityMapper<StudentDTO, Student> {
 
     @Mapping(source = "universityYearId", target = "universityYear")
     Student toEntity(StudentDTO studentDTO);
+
+    Student toEntity(StudentPostDTO studentDTO);
 
     default Student fromId(Long id) {
         if (id == null) {

@@ -30,7 +30,7 @@
             <column name="university_year_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="group" type="varchar(10)">
+            <column name="group_num" type="varchar(10)">
                 <constraints nullable="true" />
             </column>
 

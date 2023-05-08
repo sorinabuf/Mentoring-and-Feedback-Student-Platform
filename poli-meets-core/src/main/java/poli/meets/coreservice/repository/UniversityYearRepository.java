@@ -17,4 +17,6 @@ import poli.meets.coreservice.domain.enumeration.Year;
 public interface UniversityYearRepository extends JpaRepository<UniversityYear, Long> {
 
     List<UniversityYear> findAllByYearAndFacultyId(Year year, Long faculty_id);
+
+    List<UniversityYear> findAllByYearAndFacultyIdAndSeries(Year year, Long faculty_id, String series);
 }

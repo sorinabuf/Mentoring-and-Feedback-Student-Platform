@@ -1,18 +1,21 @@
 package poli.meets.coreservice.web.rest;
 
 import lombok.AllArgsConstructor;
-import poli.meets.coreservice.client.AuthClient;
+import org.springframework.web.multipart.MultipartFile;
 import poli.meets.coreservice.service.StudentService;
 import poli.meets.coreservice.service.dto.StudentDTO;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
+import poli.meets.coreservice.service.dto.StudentPostDTO;
 
 /**
  * REST controller for managing {@link poli.meets.coreservice.domain.Student}.
@@ -27,19 +30,20 @@ public class StudentResource {
     private final StudentService studentService;
 
 
-
     /**
      * {@code POST  /students} : Create a new student.
      *
-     * @param studentDTO the studentDTO to create.
+     * @param studentPostDTO the studentDTO to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new studentDTO, or with status {@code 400 (Bad Request)} if the student has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/students")
-    public ResponseEntity<StudentDTO> createStudent(@RequestBody StudentDTO studentDTO) throws URISyntaxException {
-        log.debug("REST request to save Student : {}", studentDTO);
+    public ResponseEntity<StudentDTO> createStudent(@RequestHeader("Authorization") String token,
+                                                    @RequestBody StudentPostDTO studentPostDTO,
+                                                    @RequestParam(value = "image", required = false) Optional<MultipartFile> image) throws URISyntaxException, IOException {
+        log.debug("REST request to save Student : {}", studentPostDTO);
 
-        StudentDTO result = studentService.save(studentDTO);
+        StudentDTO result = studentService.save(studentPostDTO, image, token);
         return ResponseEntity.created(new URI("/api/students/" + result.getId()))
             .body(result);
     }
@@ -54,10 +58,11 @@ public class StudentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/students")
-    public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO studentDTO) throws URISyntaxException {
+    public ResponseEntity<StudentDTO> updateStudent(@RequestHeader("Authorization") String token,
+                                                    @RequestBody StudentDTO studentDTO) throws URISyntaxException {
         log.debug("REST request to update Student : {}", studentDTO);
 
-        StudentDTO result = studentService.save(studentDTO);
+        StudentDTO result = studentService.update(studentDTO, token);
         return ResponseEntity.ok()
             .body(result);
     }
@@ -102,6 +107,11 @@ public class StudentResource {
     @GetMapping("/students/completed-user")
     public ResponseEntity<Boolean> hasCurrentUserCompletedData(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(studentService.hasCurrentUserCompletedData(token));
+    }
+
+    @GetMapping("/students/current-user")
+    public ResponseEntity<StudentDTO> getCurrentUser(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(studentService.findCurrentUser(token));
     }
 
 }

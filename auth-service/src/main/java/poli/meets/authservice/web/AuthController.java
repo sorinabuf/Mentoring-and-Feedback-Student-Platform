@@ -10,11 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import poli.meets.authservice.model.User;
 import poli.meets.authservice.security.JwtTokenUtil;
-import poli.meets.authservice.security.dtos.LoginRequest;
-import poli.meets.authservice.security.dtos.LoginResponse;
+import poli.meets.authservice.service.dtos.LoginRequest;
+import poli.meets.authservice.service.dtos.LoginResponse;
 import poli.meets.authservice.service.UserService;
 import poli.meets.authservice.service.UserUtilsService;
-import poli.meets.authservice.service.dtos.ActivatedRequestDTO;
 import poli.meets.authservice.service.dtos.UserRegisterDTO;
 
 @RestController
@@ -65,8 +64,8 @@ public class AuthController {
     }
 
     @GetMapping("/is-activated")
-    public ResponseEntity<Boolean> isActivated(@RequestBody ActivatedRequestDTO activatedRequestDTO) {
-        return ResponseEntity.ok(userUtilsService.isActivated(activatedRequestDTO.getUsername()));
+    public ResponseEntity<Boolean> isActivated(@RequestParam String username) {
+        return ResponseEntity.ok(userUtilsService.isActivated(username));
     }
 
     @GetMapping("/current-user")

@@ -38,9 +38,6 @@ public class Faculty {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "group")
-    private String group;
-
     @OneToMany(mappedBy = "faculty")
     private Set<UniversityYear> universityYears = new HashSet<>();
 
