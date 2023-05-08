@@ -1,6 +1,7 @@
 package poli.meets.coreservice.service;
 
 import lombok.AllArgsConstructor;
+import poli.meets.coreservice.client.AuthClient;
 import poli.meets.coreservice.domain.Student;
 import poli.meets.coreservice.repository.StudentRepository;
 import poli.meets.coreservice.service.dto.StudentDTO;
@@ -28,6 +29,8 @@ public class StudentService {
     private final StudentRepository studentRepository;
 
     private final StudentMapper studentMapper;
+
+    private final AuthClient authClient;
 
 
     /**
@@ -78,5 +81,12 @@ public class StudentService {
     public void delete(Long id) {
         log.debug("Request to delete Student : {}", id);
         studentRepository.deleteById(id);
+    }
+
+    public boolean hasCurrentUserCompletedData(String token) {
+        return studentRepository.findByStudentEmail(authClient.getCurrentUser(token).getBody())
+                .stream()
+                .findAny()
+                .isPresent();
     }
 }

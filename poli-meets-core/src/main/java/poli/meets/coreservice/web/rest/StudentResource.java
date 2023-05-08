@@ -1,6 +1,7 @@
 package poli.meets.coreservice.web.rest;
 
 import lombok.AllArgsConstructor;
+import poli.meets.coreservice.client.AuthClient;
 import poli.meets.coreservice.service.StudentService;
 import poli.meets.coreservice.service.dto.StudentDTO;
 
@@ -24,6 +25,7 @@ public class StudentResource {
 
 
     private final StudentService studentService;
+
 
 
     /**
@@ -97,8 +99,9 @@ public class StudentResource {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/students/plm")
-    public ResponseEntity<String> plm() {
-        return ResponseEntity.ok("DA");
+    @GetMapping("/students/completed-user")
+    public ResponseEntity<Boolean> hasCurrentUserCompletedData(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(studentService.hasCurrentUserCompletedData(token));
     }
+
 }

@@ -14,6 +14,7 @@ import poli.meets.authservice.security.dtos.LoginRequest;
 import poli.meets.authservice.security.dtos.LoginResponse;
 import poli.meets.authservice.service.UserService;
 import poli.meets.authservice.service.UserUtilsService;
+import poli.meets.authservice.service.dtos.ActivatedRequestDTO;
 import poli.meets.authservice.service.dtos.UserRegisterDTO;
 
 @RestController
@@ -61,6 +62,16 @@ public class AuthController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/is-activated")
+    public ResponseEntity<Boolean> isActivated(@RequestBody ActivatedRequestDTO activatedRequestDTO) {
+        return ResponseEntity.ok(userUtilsService.isActivated(activatedRequestDTO.getUsername()));
+    }
+
+    @GetMapping("/current-user")
+    public ResponseEntity<String> getCurrentUser(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(jwtTokenUtil.extractUsername(token.substring(7)));
     }
 
 }

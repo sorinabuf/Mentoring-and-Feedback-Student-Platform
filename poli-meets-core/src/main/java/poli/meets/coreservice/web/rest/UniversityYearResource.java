@@ -1,6 +1,7 @@
 package poli.meets.coreservice.web.rest;
 
 import lombok.AllArgsConstructor;
+import poli.meets.coreservice.domain.enumeration.Year;
 import poli.meets.coreservice.service.UniversityYearService;
 import poli.meets.coreservice.service.dto.UniversityYearDTO;
 import org.springframework.beans.factory.annotation.Value;
@@ -82,4 +83,16 @@ public class UniversityYearResource {
         universityYearService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * {@code GET  /university-years} : get all the universityYears.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of universityYears in body.
+     */
+    @GetMapping("/university-years/series")
+    public ResponseEntity<List<String>> getSeries(@RequestParam Long facultyId, @RequestParam Year year) {
+        return ResponseEntity.ok(universityYearService.findAllSeriesFromFacultyInYear(facultyId, year));
+    }
+
+
 }

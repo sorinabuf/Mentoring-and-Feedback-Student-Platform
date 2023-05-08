@@ -2,6 +2,7 @@ package poli.meets.coreservice.service;
 
 import lombok.AllArgsConstructor;
 import poli.meets.coreservice.domain.UniversityYear;
+import poli.meets.coreservice.domain.enumeration.Year;
 import poli.meets.coreservice.repository.UniversityYearRepository;
 import poli.meets.coreservice.service.dto.UniversityYearDTO;
 import poli.meets.coreservice.service.mapper.UniversityYearMapper;
@@ -79,4 +80,14 @@ public class UniversityYearService {
         log.debug("Request to delete UniversityYear : {}", id);
         universityYearRepository.deleteById(id);
     }
+
+
+    @Transactional(readOnly = true)
+    public List<String> findAllSeriesFromFacultyInYear(Long facultyId, Year year) {
+        return universityYearRepository.findAllByYearAndFacultyId(year, facultyId).stream()
+                .map(UniversityYear::getSeries)
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
 }

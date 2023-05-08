@@ -70,4 +70,8 @@ public class UserUtilsService {
         user.setIsActivated(true);
         userRepository.save(user);
     }
+
+    public boolean isActivated(String username) {
+        return userRepository.findByUsername(username).map(User::getIsActivated).orElse(false);
+    }
 }
