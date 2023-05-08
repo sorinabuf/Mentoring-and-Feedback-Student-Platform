@@ -13,10 +13,8 @@ import poli.meets.coreservice.service.dto.StudentPostDTO;
 @Mapper(componentModel = "spring", uses = {UniversityYearMapper.class})
 public interface StudentMapper extends EntityMapper<StudentDTO, Student> {
 
-    @Mapping(source = "universityYear.id", target = "universityYearId")
     StudentDTO toDto(Student student);
 
-    @Mapping(source = "universityYearId", target = "universityYear")
     Student toEntity(StudentDTO studentDTO);
 
     Student toEntity(StudentPostDTO studentDTO);

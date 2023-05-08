@@ -12,14 +12,9 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {FacultyMapper.class})
 public interface UniversityYearMapper extends EntityMapper<UniversityYearDTO, UniversityYear> {
 
-    @Mapping(source = "faculty.id", target = "facultyId")
+
     UniversityYearDTO toDto(UniversityYear universityYear);
 
-    @Mapping(target = "universityClasses", ignore = true)
-    @Mapping(target = "removeUniversityClasses", ignore = true)
-    @Mapping(target = "students", ignore = true)
-    @Mapping(target = "removeStudents", ignore = true)
-    @Mapping(source = "facultyId", target = "faculty")
     UniversityYear toEntity(UniversityYearDTO universityYearDTO);
 
     default UniversityYear fromId(Long id) {

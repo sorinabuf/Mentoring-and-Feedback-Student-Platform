@@ -19,5 +19,5 @@ public class UniversityYearDTO implements Serializable {
 
     private String series;
 
-    private FacultyDTO facultyId;
+    private FacultyDTO faculty;
 }
