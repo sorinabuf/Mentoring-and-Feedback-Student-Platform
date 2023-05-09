@@ -1,6 +1,8 @@
 package poli.meets.coreservice.web.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 import poli.meets.coreservice.service.StudentService;
 import poli.meets.coreservice.service.dto.StudentDTO;
@@ -33,17 +35,17 @@ public class StudentResource {
     /**
      * {@code POST  /students} : Create a new student.
      *
-     * @param studentPostDTO the studentDTO to create.
+     * @param bodyData the studentDTO to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new studentDTO, or with status {@code 400 (Bad Request)} if the student has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/students")
+    @PostMapping(value = "/students")
     public ResponseEntity<StudentDTO> createStudent(@RequestHeader("Authorization") String token,
-                                                    @RequestBody StudentPostDTO studentPostDTO,
-                                                    @RequestParam(value = "image", required = false) Optional<MultipartFile> image) throws URISyntaxException, IOException {
-        log.debug("REST request to save Student : {}", studentPostDTO);
-
-        StudentDTO result = studentService.save(studentPostDTO, image, token);
+                                                    @RequestPart String bodyData,
+                                                    @RequestPart(value = "file", required = false) Optional<MultipartFile> file) throws URISyntaxException, IOException {
+        log.debug("REST request to save Student : {}", bodyData);
+        StudentPostDTO studentPostDTO = new ObjectMapper().readValue(bodyData, StudentPostDTO.class);
+        StudentDTO result = studentService.save(studentPostDTO, file, token);
         return ResponseEntity.created(new URI("/api/students/" + result.getId()))
             .body(result);
     }
