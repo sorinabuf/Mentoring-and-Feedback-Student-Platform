@@ -25,6 +25,19 @@ services:
     volumes:
       - core-data:/var/lib/postgresql/data
 
+  mentorship-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: mentorship-db
+    ports:
+      - "5434:5432"
+    volumes:
+      - mentorship-data:/var/lib/postgresql/data
+
 volumes:
   auth-data:
   core-data:
+  mentorship-data:
