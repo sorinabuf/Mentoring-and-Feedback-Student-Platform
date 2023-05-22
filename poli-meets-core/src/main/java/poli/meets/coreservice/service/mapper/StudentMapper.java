@@ -6,6 +6,7 @@ import poli.meets.coreservice.service.dto.StudentDTO;
 
 import org.mapstruct.*;
 import poli.meets.coreservice.service.dto.StudentPostDTO;
+import poli.meets.coreservice.service.util.ImageUtility;
 
 /**
  * Mapper for the entity {@link Student} and its DTO {@link StudentDTO}.
@@ -13,9 +14,15 @@ import poli.meets.coreservice.service.dto.StudentPostDTO;
 @Mapper(componentModel = "spring", uses = {UniversityYearMapper.class})
 public interface StudentMapper extends EntityMapper<StudentDTO, Student> {
 
+    @Mapping(source = "image", qualifiedByName = "mapImage", target = "image")
     StudentDTO toDto(Student student);
 
     Student toEntity(StudentDTO studentDTO);
+
+    @Named("mapImage")
+    default byte[] mapImage(byte[] image) {
+        return ImageUtility.decompressImage(image);
+    }
 
     Student toEntity(StudentPostDTO studentDTO);
 
