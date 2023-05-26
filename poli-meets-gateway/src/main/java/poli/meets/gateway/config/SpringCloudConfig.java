@@ -24,6 +24,9 @@ public class SpringCloudConfig {
                 .route(r -> r.path("/auth/validate-token")
                         .filters(f -> f.filter(authenticationPrefilter))
                         .uri("lb://AUTH-SERVICE"))
+                .route(r -> r.path("/mentorship")
+                        .filters(f -> f.filter(authenticationPrefilter))
+                        .uri("lb://MENTORSHIP-SERVICE"))
                 .build();
     }
 
