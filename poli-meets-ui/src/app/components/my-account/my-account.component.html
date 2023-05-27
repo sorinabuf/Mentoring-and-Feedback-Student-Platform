@@ -1,0 +1,180 @@
+<div class="account-container-padding">
+    <div class="account-container">
+        <div class="left-container">
+            <div class="profile-photo">
+                <img [src]="profilePhotoUrl">
+            </div>
+
+            <!-- <mat-card class="reset-password">
+                <mat-card-content>
+                    <p>Reset password</p>
+
+                    <form [formGroup]="passwordForm">
+                        <div class="password-form-fields">
+                            <mat-form-field appearance="fill">
+                                <input matInput formControlName="password" placeholder="Current Password">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="fill">
+                                <input matInput formControlName="rePassword" placeholder="New Password">
+                            </mat-form-field>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card> -->
+        </div>
+
+        <div class="right-container">
+            <div class="name-section">
+                <div class="name-info">
+                    <p>{{name}} {{surname}}</p>
+
+                    <a href="mailto:{{email}}">
+                        <div class="email">
+                            <mat-icon>mail_outline</mat-icon>
+                            <span>{{email}}</span>
+                        </div>
+                    </a>
+                </div>
+
+                <button mat-icon-button color="primary" (click)="openAccountEditDialog()">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+
+            <button mat-button *ngIf="!isMentor" class="mentor-button">
+                BECOME A MENTOR
+            </button>
+
+            <div *ngIf="isMentor" class="mentor-buttons">
+                <button mat-button disabled class="mentor-button">
+                    <mat-icon>check</mat-icon>
+                    MENTOR
+                </button>
+
+                <button mat-button color="primary" (click)="endMentorship()">
+                    END MENTORSHIP
+                </button>
+            </div>
+
+            <mat-card class="mat-card-faculty">
+                <mat-card-content>
+                    <div class="faculty-section">
+                        <div class="info-container">
+                            <div class="info-section">
+                                <span>FACULTY</span>
+                                <span>{{faculty}}</span>
+                            </div>
+
+                            <div class="info-section">
+                                <span>STUDY CICLE</span>
+                                <span>{{study_cicle}}</span>
+                            </div>
+
+                            <div class="info-section">
+                                <span>SPECIALTY</span>
+                                <span>{{specialty}}</span>
+                            </div>
+                        </div>
+
+                        <div class="info-container">
+                            <div class="info-section">
+                                <span>YEAR</span>
+                                <span>{{year}}</span>
+                            </div>
+
+                            <div class="info-section">
+                                <span>COHORT</span>
+                                <span>{{cohort}}</span>
+                            </div>
+
+                            <div class="info-section">
+                                <span>GROUP</span>
+                                <span>{{group}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-tab-group class="tabs-group" animationDuration="0ms">
+                <mat-tab [disabled]="!isMentor" label="ABOUT ME">
+                    <div class="tab-content" *ngIf="isMentor">
+                        <span class="label">This is a short description about you and your interests.</span>
+
+                        <mat-card>
+                            <mat-card-content>
+                                <div class="card-content">
+                                    <span class="content">{{description}}</span>
+
+                                    <div class="edit-button-container">
+                                        <button mat-icon-button color="primary">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </mat-tab>
+
+                <mat-tab [disabled]="!isMentor" label="SKILLS">
+                    <div class="tab-content" *ngIf="isMentor">
+                        <span class="label">This is a list of your main technical skills.</span>
+
+                        <mat-card>
+                            <mat-card-content>
+                                <div class="card-content">
+                                    <mat-chip-set>
+                                        <mat-chip *ngFor="let skill of skills">
+                                            {{skill}}
+                                        </mat-chip>
+                                    </mat-chip-set>
+
+                                    <div class="edit-button-container">
+                                        <button mat-icon-button color="primary">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </mat-tab>
+
+                <mat-tab [disabled]="!isMentor" label="SUBJECTS">
+                    <div class="tab-content" *ngIf="isMentor">
+                        <span class="label">This is a list of subjects that you are willing to help mentees with.</span>
+
+                        <mat-card>
+                            <mat-card-content>
+                                <div class="card-content">
+                                    <mat-chip-set>
+                                        <mat-chip *ngFor="let subject of subjects">
+                                            {{subject}}
+                                        </mat-chip>
+                                    </mat-chip-set>
+
+                                    <div class="edit-button-container">
+                                        <button mat-icon-button color="primary">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+
+            <div class="error-section" *ngIf="!isMentor">
+                <span>You need to be a mentor to populate and access these sections.
+                </span>
+
+                <button mat-button color="warn" disableRipple="true">
+                    BECOME A MENTOR NOW
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

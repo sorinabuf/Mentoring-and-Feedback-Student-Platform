@@ -1,0 +1,62 @@
+<div class="home-background">
+    <img class="home-background-image" data-aos="fade-down" data-aos-duration="1200" data-aos-easing="ease-in-out-quad"
+        src="assets/images/home-background/home-background.png">
+
+    <div class="home-decorator-container" data-aos="slide-right" data-aos-duration="1000"
+        data-aos-easing="ease-out-quad" data-aos-delay="200"></div>
+
+    <div class="home-message" data-aos="slide-right" data-aos-duration="1200" data-aos-easing="ease-out-quad">
+        <p>
+            <span class="big-text">STUDENT</span> or <span class="big-text">MENTOR</span> <br> this is where the
+            adventure <br> really begins!
+        </p>
+    </div>
+
+    <div class="home-button" data-aos="fade-up" data-aos-duration="600" data-aos-easing="ease" data-aos-delay="600"
+        data-aos-offset="100px">
+        <button mat-stroked-button color="accent" (click)="scrollToCards()">START EXPLORING</button>
+    </div>
+</div>
+
+<div class="cards-section">
+    <div class="cards-heading">
+        <h1>Discover our cool features</h1>
+        <mat-divider></mat-divider>
+    </div>
+
+    <div class="cards-container">
+        <mat-card class="action-card">
+            <div class="card-image">
+                <img mat-card-image src="assets/images/icons/mentorship.png">
+                <div class="overlay">
+                    <p>Lorem ipsum ceva ana are mere si pere si fructe etc</p>
+                </div>
+            </div>
+
+            <mat-card-header>
+                <mat-card-title>Mentorship</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-actions>
+                <button mat-button color="primary">FIND A MENTOR</button>
+                <button mat-button color="primary">BE A MENTOR</button>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="action-card">
+            <div class="card-image">
+                <img mat-card-image src="assets/images/icons/feedback.png">
+                <div class="overlay"></div>
+            </div>
+
+            <mat-card-header>
+                <mat-card-title>Feedback</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-actions>
+                <button mat-button color="primary">SEE FEEDBACK</button>
+                <button mat-button color="primary">GIVE FEEDBACK</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

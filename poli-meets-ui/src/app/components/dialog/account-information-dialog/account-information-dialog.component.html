@@ -1,0 +1,73 @@
+<mat-dialog-content>
+    <div class="account-setup-container">
+        <div *ngIf="accountSetupStep" class="step-guide" data-aos="fade-right" data-aos-duration="500">
+            <img src="assets/images/auth/account-setup-overlay.png">
+
+            <div class="stepper">
+                <div class="step" (click)="goToStep(1)" [ngClass]="{'disabled': !isStepAvailable(1)}">
+                    <div class="circle" [ngClass]="{'full': accountSetupStep == 1, 'empty' : accountSetupStep != 1}">
+                        <span>1</span>
+                    </div>
+
+                    <div class="step-info">
+                        STEP 1<br>
+                        <span>Your Name</span>
+                    </div>
+                </div>
+
+                <div class="step" (click)="goToStep(2)" [ngClass]="{'disabled': !isStepAvailable(2)}">
+                    <div class="circle" [ngClass]="{'full': accountSetupStep == 2, 'empty' : accountSetupStep != 2}">
+                        <span>2</span>
+                    </div>
+
+                    <div class="step-info">
+                        STEP 2<br>
+                        <span>Your Faculty</span>
+                    </div>
+                </div>
+
+                <div class="step" (click)="goToStep(3)" [ngClass]="{'disabled': !isStepAvailable(3)}">
+                    <div class="circle" [ngClass]="{'full': accountSetupStep == 3, 'empty' : accountSetupStep != 3}">
+                        <span>3</span>
+                    </div>
+
+                    <div class="step-info">
+                        STEP 3<br>
+                        <span>Your Group</span>
+                    </div>
+                </div>
+
+                <div class="step" (click)="goToStep(4)" [ngClass]="{'disabled': !isStepAvailable(4)}">
+                    <div class="circle" [ngClass]="{'full': accountSetupStep == 4, 'empty' : accountSetupStep != 4}">
+                        <span>4</span>
+                    </div>
+
+                    <div class="step-info">
+                        STEP 4<br>
+                        <span>Your Photo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div [ngSwitch]="accountSetupStep" [ngClass]="{'step-form': accountSetupStep}">
+            <app-welcome-step *ngSwitchCase="0" (next)="nextStep()">
+            </app-welcome-step>
+
+            <app-name-info-step [@fadeAnimation] *ngSwitchCase="1" [nameInfoForm]="nameInfoForm" (next)="nextStep()">
+            </app-name-info-step>
+
+            <app-faculty-info-step [@fadeAnimation] *ngSwitchCase="2" [facultyInfoForm]="facultyInfoForm"
+                [faculties]="faculties" [years]="years" (prev)="previousStep()" (next)="nextStep()">
+            </app-faculty-info-step>
+
+            <app-group-info-step [@fadeAnimation] *ngSwitchCase="3" [groupInfoForm]="groupInfoForm" [cohorts]="cohorts"
+                (prev)="previousStep()" (next)="nextStep()">
+            </app-group-info-step>
+
+            <app-photo-step [@fadeAnimation] *ngSwitchCase="4" (prev)="previousStep()"
+                (submit)="onAccountInfoSubmit($event)" [isLoading]="isFormLoading">
+            </app-photo-step>
+        </div>
+    </div>
+</mat-dialog-content>

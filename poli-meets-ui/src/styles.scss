@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'aos/dist/aos.css';
+@import '_theme_variables.scss';
+
+html,
+body {
+    height: 100%;
+    background-color: $primary;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.cdk-overlay-container {
+    z-index: 9999;
+}

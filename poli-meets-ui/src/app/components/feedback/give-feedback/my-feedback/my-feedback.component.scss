@@ -1,0 +1,168 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600");
+@import "../../../../../font_colors";
+@import "../../../../../theme_variables";
+
+.feedback-container-padding {
+    padding-top: 64px; // dimensiunea navbar-ului
+
+    .feedback-container {
+        min-height: calc(100vh - 64px); // minus dimensiunea navbar-ului
+        width: 100%;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .feedback-action-card {
+            margin-top: 64px;
+            width: 75%;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+            
+            img {
+                margin: -10px 36px 20px 36px;
+            }
+
+            .primary-content {
+                height: 100px;
+                width: 100%;
+                display: flex;
+                align-items: center;
+
+                p {
+                    font-family: "Montserrat";
+                    font-size: xx-large;
+                    font-weight: 500;
+                    color: $font-color;
+                    padding: 0 36px;
+                }
+            }
+
+            .secondary-content {
+                display: flex;
+                height: 120px;
+                width: 100%;
+
+                p {
+                    margin: 0;
+                    color: white;
+                    font-family: "Montserrat";
+                }
+
+                .left-section {
+                    background-color: $font-color-light;
+                    width: 70%;
+                    padding-top: 24px;
+                    cursor: pointer;
+
+                    p {
+                        font-size: x-large;
+                        font-weight: 600;
+                        padding: 4px 36px;
+                    }
+
+                    p:nth-of-type(2) {
+                        font-size: larger;
+                        font-weight: 400;
+                    }
+                }
+
+                .right-section {
+                    cursor: pointer;
+                    background-color: $primary;
+                    width: 30%;
+                    padding-top: 24px;
+
+                    p {
+                        font-size: x-large;
+                        font-weight: 600;
+                        padding: 0 36px;
+                    }
+                }
+            }
+        }
+
+        .feedback-info-cards {
+            padding: 48px 0;
+            width: 75%;
+            min-height: 200px;
+            display: flex;
+            justify-content: space-between;
+            gap: 24px;
+
+            .card {
+                width: 50%;
+                box-shadow: $font-color-light 0px 0px 0px 1.5px;
+                border-radius: 4px;
+            }
+
+            .left-card {
+                display: flex;
+                flex-direction: column;
+                padding: 32px;
+                gap: 24px;
+                justify-content: space-between;
+
+                .section {
+                    display: flex;
+                    align-items: center;
+                    gap: 24px;
+
+                    mat-icon {
+                        color: $font-color-light;
+                    }
+
+                    .info {
+                        font-size: large;
+                        color: $font-color;
+                        line-height: 24px;
+                        margin: 0;
+
+                        span {
+                            font-weight: 600;
+                        }
+                    }
+                }
+            }
+
+            .right-card {
+                padding: 32px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                img {
+                    margin: 24px;
+                }
+
+                p {
+                    color: $font-color;
+                    margin: 0;
+                    margin-top: 12px;
+                }
+
+                .heading {
+                    font-family: "Montserrat";
+                    font-size: xx-large;
+                    font-weight: 600;
+                }
+
+                .subheading {
+                    font-size: large;
+                }
+
+                .redirect {
+                    display: flex;
+                    color: #377AB8;
+                    margin-top: 36px;
+
+                    .clickable-content {
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        gap: 4px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,95 @@
+<div *ngIf="!successfulRegister">
+    <img class="background-img" src="assets/images/auth/auth-background.png">
+
+    <img class="logo" src="assets/images/logo/poli-meets-logo-dark.png">
+
+    <img class="background-img overlay-register" src="assets/images/auth/overlay-signup.png">
+
+    <div class="register-card-container">
+        <div class="register-card-container-width">
+            <mat-card class="register-card">
+                <div class="register-card-content">
+                    <div class="left" data-aos="slide-left" data-aos-duration="900" data-aos-easing="ease">
+                        <div class="left-padding">
+                            <mat-card-header>
+                                <mat-card-title class="title">Sign Up</mat-card-title>
+                                <mat-card-subtitle class="subtitle">
+                                    Already a member?
+                                    <span><a routerLink="/login">Sign In</a></span></mat-card-subtitle>
+                            </mat-card-header>
+
+                            <mat-card-content>
+                                <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+                                    <div class="register-fields">
+                                        <mat-label>Email</mat-label>
+                                        <mat-form-field appearance="fill">
+                                            <input matInput type="email" placeholder="Enter your email address"
+                                                formControlName="email" (ngModelChange)="clearEmailErrors()"
+                                                (focus)="clearEmailErrors()">
+                                            <mat-error>{{getEmailErrorMessage()}}</mat-error>
+                                        </mat-form-field>
+
+                                        <mat-label><span>Password</span>
+                                            <mat-icon class="info-password"
+                                                [matTooltip]="getPasswordInfo()">info</mat-icon>
+                                        </mat-label>
+                                        <mat-form-field appearance="fill">
+                                            <input matInput [type]="getPasswordType()" placeholder="Enter your password"
+                                                formControlName="password" (ngModelChange)="clearPasswordErrors()"
+                                                (focus)="clearPasswordErrors()">
+                                            <mat-icon color="primary"
+                                                *ngIf="passwordVisibility && registerForm.controls['password'].value"
+                                                matIconSuffix (click)="toggleVisibility()">visibility</mat-icon>
+                                            <mat-icon color="primary"
+                                                *ngIf="!passwordVisibility && registerForm.controls['password'].value"
+                                                matIconSuffix (click)="toggleVisibility()">visibility_off</mat-icon>
+                                            <mat-error>{{getPasswordErrorMessage()}}</mat-error>
+                                        </mat-form-field>
+
+                                        <mat-error class="incorrect-register" *ngIf="failedRegister">
+                                            Email is already registered.
+                                        </mat-error>
+
+                                        <button class="register-button" mat-raised-button color="accent" type="submit"
+                                            [disabled]="isLoading">
+                                            <span *ngIf="!isLoading">SIGN UP
+                                            </span>
+                                            <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+                                        </button>
+                                    </div>
+                                </form>
+                            </mat-card-content>
+                        </div>
+                    </div>
+
+                    <div class="right">
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>
+
+<div class="email-verify-card-container" *ngIf="successfulRegister">
+    <img class="background-img" src="assets/images/auth/email-verify-background.png" data-aos="zoom-out"
+        data-aos-duration="1000" data-aos-easing="ease-in-out-quad" data-aos-delay="200">
+
+    <mat-card class="email-verify-card" data-aos="zoom-in" data-aos-duration="600" data-aos-easing="ease-in-out-quad"
+        data-aos-delay="600">
+        <mat-card-header class="email-verify-card-header">
+            <img mat-card-image src="assets/images/auth/email-verify.png">
+        </mat-card-header>
+
+        <mat-card-content class="email-verify-card-content">
+            <div>
+                <p>Verify your email address</p>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div>
+                <p>Check your email and click the link received to activate your account.</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

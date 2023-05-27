@@ -1,0 +1,85 @@
+@mixin stroked-button-border-color {
+    border-color: currentColor !important;
+}
+
+@mixin background-img-auth {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center center;
+}
+
+@mixin background-img-auth-overlay {
+    z-index: 10;
+    animation-duration: 1000ms;
+    animation-delay: 850ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    opacity: 0;
+}
+
+@mixin logo-auth {
+    position: fixed;
+    width: 15%;
+    margin: -30px 0 0 0;
+    left: 40px;
+    top: 10px;
+}
+
+@mixin card-auth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    z-index: 9;
+}
+
+@mixin card-width-auth {
+    max-width: 1000px;
+    width: 100%;
+}
+
+@mixin card-color-auth {
+    background-color: rgb(0, 0, 0, 0);
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+@mixin card-transparent-side-auth {
+    width: 44%;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(2.5px);
+    -webkit-backdrop-filter: blur(2.5px);
+}
+
+@mixin card-full-side-auth {
+    background-color: $primary;
+    width: 56%;
+    color: white;
+    z-index: 11;
+}
+
+@mixin card-full-side-header-auth {
+    .mat-mdc-card-header {
+        justify-content: center;
+        text-align: center;
+        margin: 30px 0;
+    }
+
+    .title {
+        margin: 0 0 5px 0 !important;
+        font-size: xx-large;
+    }
+
+    .subtitle {
+        color: #b9c4d3;
+        font-weight: lighter;
+        font-size: small;
+    }
+
+    .subtitle>span {
+        color: $accent;
+        font-weight: 500;
+    }
+}

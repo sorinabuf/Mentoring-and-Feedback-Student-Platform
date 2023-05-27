@@ -1,0 +1,54 @@
+@import "../../../../font_colors";
+@import "../../../../text_form_field";
+@import "../../../../theme_variables";
+
+.mat-mdc-dialog-container {
+    max-width: 50vw;
+}
+
+.mat-mdc-dialog-content {
+    max-height: 85vh;
+}
+
+.mat-mdc-dialog-content.mdc-dialog__content.mentor-dialog {
+    padding: 0;
+}
+
+.dialog-header {
+    background-color: $primary;
+    padding: 32px;
+
+    p {
+        margin: 0;
+        color: #f5f5f5;
+        font-weight: 400;
+    }
+
+    p:first-of-type {
+        padding-bottom: 32px;
+        font-size: xx-large;
+    }
+}
+
+.dialog-content {
+    padding: 32px;
+
+    p {
+        margin: 0;
+        font-size: small;
+        font-weight: 400;
+        color: $font-color-light;
+    }
+
+    .mentor-info-fields {
+        display: flex;
+        flex-direction: column;
+        padding: 24px 0 0 0;
+
+        mat-label {
+            font-size: small;
+            font-weight: 400;
+            color: $font-color-light;
+        }
+    }
+}

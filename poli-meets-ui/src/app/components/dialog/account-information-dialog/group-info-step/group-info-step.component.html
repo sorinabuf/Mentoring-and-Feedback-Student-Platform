@@ -1,0 +1,35 @@
+<div class="account-form-container">
+    <div class="account-form-header">
+        <p>Group Info</p>
+        <span>* required fields</span>
+    </div>
+
+    <p>Please provide your group information. This will help others identify you as a collegue.</p>
+
+    <form [formGroup]="groupInfoForm">
+        <div class="account-form-fields">
+            <mat-label>Cohort <span>*</span></mat-label>
+            <mat-form-field appearance="fill">
+                <mat-select formControlName="cohort" placeholder="Select a cohort">
+                    <mat-option *ngFor="let cohort of cohorts" [value]="cohort">
+                        {{cohort}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-label>Group <span>*</span></mat-label>
+            <mat-form-field appearance="fill">
+                <input matInput formControlName="group" placeholder="Enter your group">
+                <mat-hint>The group must be a 3 digit value</mat-hint>
+            </mat-form-field>
+        </div>
+    </form>
+
+    <div class="account-form-buttons">
+        <button mat-flat-button color="primary" (click)="prev.emit()">Previous
+            Step</button>
+
+        <button mat-flat-button color="primary" (click)="next.emit()" [disabled]="!groupInfoForm.valid">Next
+            Step</button>
+    </div>
+</div>

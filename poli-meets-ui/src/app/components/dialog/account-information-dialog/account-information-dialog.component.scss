@@ -1,0 +1,110 @@
+@import "../../../../theme_variables";
+@import "../../../../font_colors";
+
+.account-setup-container {
+    max-width: 800px;
+    display: flex;
+    height: auto;
+
+    .step-guide {
+        min-width: 100px;
+        width: 30%;
+        height: auto;
+        background-color: $primary;
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+        margin: -8px;
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: center bottom;
+        }
+
+        .stepper {
+            position: absolute;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            margin-top: 12px;
+            width: 100%;
+
+            .disabled {
+                opacity: 0.5;
+                pointer-events: none;
+            }
+
+            .step {
+                display: flex;
+                gap: 16px;
+                cursor: pointer;
+                padding: 16px 24px;
+
+                .circle {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;
+                    font-size: 12px;
+                    font-weight: 500;
+                    border: 2px solid #f5f5f5;
+                    ;
+                }
+
+                .full {
+                    color: $primary;
+                    font-weight: 900;
+                    background-color: #f5f5f5;
+                }
+
+                .empty {
+                    color: #f5f5f5;
+                    ;
+                }
+
+                .step-info {
+                    color: $font-color-light;
+                    font-size: x-small;
+                    font-family: "Montserrat";
+                    line-height: 16px;
+
+                    span {
+                        font-weight: 500;
+                        font-size: 12px;
+                        font-family: "Roboto";
+                        color: #f5f5f5;
+                    }
+                }
+
+                &:hover {
+                    background-color: #002d55;
+                }
+            }
+        }
+    }
+
+    .step-form {
+        margin: 24px 40px 24px 64px;
+        flex-grow: 1;
+        min-width: 400px;
+        width: 70%;
+    }
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+    min-width: auto !important;
+    padding: 0 50px 0 50px;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__label {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.mat-mdc-dialog-content {
+    max-height: 85vh;
+}

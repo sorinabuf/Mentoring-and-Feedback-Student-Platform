@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:600,800");
+@import "../../../../theme_variables.scss";
+@import "../../../../mixins";
+@import "../../../../text_form_field";
+
+.background-img {
+    @include background-img-auth;
+}
+
+.background-img.overlay-login {
+    animation-name: fade-in-login;
+    @include background-img-auth-overlay;
+}
+
+@keyframes fade-in-login {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.logo {
+    @include logo-auth;
+}
+
+.login-card-container {
+    @include card-auth;
+
+    .login-card-container-width {
+        @include card-width-auth;
+
+        .login-card {
+            @include card-color-auth;
+
+            .login-card-content {
+                display: flex;
+
+                .left {
+                    @include card-transparent-side-auth;
+                }
+
+                .right {
+                    @include card-full-side-auth;
+
+                    .right-padding {
+                        padding: 0 30px;
+                    }
+
+                    .mat-mdc-card-header {
+                        justify-content: center;
+                        text-align: center;
+                        margin: 30px 0;
+                    }
+
+                    .title {
+                        margin: 0 0 5px 0 !important;
+                        font-size: xx-large;
+                    }
+
+                    .subtitle {
+                        color: #b9c4d3;
+                        font-weight: lighter;
+                        font-size: small;
+                    }
+
+                    .subtitle>span {
+                        color: $accent;
+                        font-weight: 500;
+                    }
+
+                    .login-fields {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 12px;
+                    }
+
+                    .incorrect-login {
+                        background-color: #ffcfd6;
+                        font-weight: normal;
+                        font-size: small;
+                        padding: 8px 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: $button-border-radius;
+                    }
+
+                    .login-button {
+                        border-radius: $button-border-radius !important;
+                        height: 56px;
+                        margin: 15px 0 30px 0;
+
+                        &:disabled {
+                            background-color: $accent;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+a[routerLink] {
+    text-decoration: none;
+    color: inherit;
+    font-weight: inherit;
+}
+
+.mat-mdc-form-field-error-wrapper {
+    border-radius: 0 0 $button-border-radius $button-border-radius;
+    background-color: #ffcfd6;
+    color: $warn;
+    margin-top: -10px;
+    padding-top: 5px;
+}
+
+.mat-mdc-checkbox-ripple,
+.mdc-checkbox__ripple {
+    display: none;
+}
+
+.mat-mdc-checkbox label {
+    color: white;
+}
+
+.mat-checkbox:not(.mat-checkbox-checked) .mat-checkbox-background {
+    background-color: gray;
+}
+
+.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
+    border-color: white !important;
+}

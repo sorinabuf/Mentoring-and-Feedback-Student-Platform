@@ -1,0 +1,23 @@
+@import "../../../../font_colors";
+
+.mat-mdc-dialog-container {
+    max-width: 50vw;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__title {
+    color: $font-color;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__content {
+    color: $font-color-light;
+}
+
+.cdk-overlay-dark-backdrop {
+    background: rgba(0, 0, 0, 0.32);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+}
+
+.dialog-confirmation-submessage {
+    padding: 24px 0 0 0;
+}

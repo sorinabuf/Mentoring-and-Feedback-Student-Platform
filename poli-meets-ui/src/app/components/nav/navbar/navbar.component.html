@@ -1,0 +1,29 @@
+<mat-toolbar class="navbar" [ngClass]="{'transparent' : hasTransparentBackground()}" color="primary">
+    <div class="navbar-container">
+        <div class="logo-nav">
+            <a>
+                <img class="logo-image" src="assets/images/logo/poli-meets-logo.png">
+            </a>
+        </div>
+
+        <div class="navbar-links">
+            <a mat-button>HOME</a>
+
+            <app-button-menu buttonName="MENTORSHIP" [menuItems]="mentorshipMenuItems"></app-button-menu>
+
+            <app-button-menu buttonName="FEEDBACK" [menuItems]="feedbackMenuItems"></app-button-menu>
+
+            <a mat-button>CONTACT</a>
+
+            <a mat-button>ABOUT</a>
+        </div>
+
+        <div class="navbar-buttons">
+            <button mat-flat-button color="accent" class="button-round-outline" (click)="goToMyAccount()">My Account</button>
+
+            <button mat-stroked-button [ngClass]="{'transparent' : hasTransparentBackground()}"
+                [color]="getLogoutButtonColor()" class="button-round-outline"
+                (click)="openLogoutDialog()">Logout</button>
+        </div>
+    </div>
+</mat-toolbar>

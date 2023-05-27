@@ -1,0 +1,13 @@
+$button-border-radius: 8px;
+
+.mdc-text-field {
+    border-radius: $button-border-radius !important;
+}
+
+.mat-mdc-form-field-focus-overlay {
+    background-color: rgb(0, 0, 0, 0) !important;
+}
+
+.mdc-line-ripple {
+    display: none;
+}

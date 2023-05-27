@@ -1,0 +1,11 @@
+<a mat-button #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu" (mouseenter)="triggerEnter(menuTrigger)"
+    (mouseleave)="triggerLeave(menuTrigger)">{{buttonName}}</a>
+
+<mat-menu #menu="matMenu" hasBackdrop="false">
+    <span (mouseenter)="menuEnter()" (mouseleave)="menuLeave(menuTrigger)">
+        <ng-template ngFor let-menuItem [ngForOf]="menuItems" let-menuItemIndex="index">
+            <mat-divider *ngIf="menuItemIndex > 0"></mat-divider>
+            <button mat-menu-item>{{menuItem}}</button>
+        </ng-template>
+    </span>
+</mat-menu>

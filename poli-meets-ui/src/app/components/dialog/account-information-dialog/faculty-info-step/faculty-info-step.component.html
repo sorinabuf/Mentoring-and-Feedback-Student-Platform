@@ -1,0 +1,38 @@
+<div class="account-form-container">
+    <div class="account-form-header">
+        <p>Faculty Info</p>
+        <span>* required fields</span>
+    </div>
+
+    <p>Please provide your faculty information to have access to content designed for your study program.</p>
+
+    <form [formGroup]="facultyInfoForm">
+        <div class="account-form-fields">
+            <mat-label>Faculty <span>*</span></mat-label>
+            <mat-form-field appearance="fill">
+                <mat-select formControlName="faculty" placeholder="Select a faculty">
+                    <mat-option *ngFor="let faculty of faculties" [value]="faculty.id">
+                        {{faculty.name}} - {{faculty.domain}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-label>Year <span>*</span></mat-label>
+            <mat-form-field appearance="fill">
+                <mat-select formControlName="year" placeholder="Select a study year">
+                    <mat-option *ngFor="let year of years" [value]="year">
+                        {{year}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
+
+    <div class="account-form-buttons">
+        <button mat-flat-button color="primary" (click)="prev.emit()">Previous
+            Step</button>
+
+        <button mat-flat-button color="primary" (click)="next.emit()" [disabled]="!facultyInfoForm.valid">Next
+            Step</button>
+    </div>
+</div>

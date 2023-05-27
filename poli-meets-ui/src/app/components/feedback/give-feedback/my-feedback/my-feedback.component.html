@@ -1,0 +1,65 @@
+<div class="feedback-container-padding">
+    <div class="feedback-container">
+        <mat-card class="feedback-action-card">
+            <div class="primary-content">
+                <p>{{numDaysTillYearEnd}} days until the end of university year</p>
+            </div>
+
+            <img mat-card-image src="assets/images/feedback/feedback-bg.png">
+
+            <div class="secondary-content">
+                <div class="left-section" routerLink="/feedback/me/subjects">
+                    <p>{{numSubjectsForFeedback}} subjects left for feedback</p>
+                    <p>{{numAvailableSubjectsForFeedback}} are available</p>
+                </div>
+                <!-- TODO: redirect to contact page when it will exist -->
+                <div class="right-section" routerLink="/home">
+                    <p>Get help</p>
+                </div>
+            </div>
+        </mat-card>
+
+        <div class="feedback-info-cards">
+            <mat-card class="left-card card">
+                <div class="section">
+                    <mat-icon>domain</mat-icon>
+                    <p class="info"><span>Faculty</span><br>{{faculty}}</p>
+                </div>
+
+                <div class="section">
+                    <mat-icon>school</mat-icon>
+                    <p class="info"><span>Specialty</span><br>{{specialty}}</p>
+                </div>
+
+                <div class="section">
+                    <mat-icon>timeline</mat-icon>
+                    <p class="info"><span>Study Cicle</span><br>{{study_cicle}}</p>
+                </div>
+
+                <div class="section">
+                    <mat-icon>date_range</mat-icon>
+                    <p class="info"><span>Year</span><br>{{year}}</p>
+                </div>
+            </mat-card>
+
+            <mat-card class="right-card card">
+                <img mat-card-image src="assets/images/feedback/stars.png">
+
+                <div>
+                    <p class="heading">Explore all subjects feedback</p>
+
+                    <p class="subheading">Browse the dedicated feedback page for more information about all
+                        university
+                        subjects based on student reviews.</p>
+                </div>
+
+                <div class="redirect">
+                    <div class="clickable-content" routerLink="/feedback/subjects">
+                        <span>Go To All Feedback Page</span>
+                        <mat-icon>open_in_new</mat-icon>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>

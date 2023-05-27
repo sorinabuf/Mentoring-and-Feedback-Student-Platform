@@ -1,0 +1,23 @@
+@import "../../../../../theme_variables";
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500");
+
+.account-setup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto 16px;
+
+    p:first-of-type {
+        color: $primary;
+        font-weight: 800;
+        font-size: xx-large;
+        margin-bottom: 16px;
+    }
+
+    p:last-of-type {
+        font-family: "Montserrat";
+        font-weight: 500;
+        font-size: small;
+        margin-bottom: 32px;
+    }
+}

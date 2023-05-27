@@ -1,0 +1,27 @@
+<div class="account-form-container">
+    <div class="account-form-header">
+        <p>Personal Info</p>
+        <span>* required fields</span>
+    </div>
+
+    <p>Please provide your name information for a more personal experience.</p>
+
+    <form [formGroup]="nameInfoForm">
+        <div class="account-form-fields">
+            <mat-label>First Name <span>*</span></mat-label>
+            <mat-form-field appearance="fill">
+                <input matInput formControlName="name" placeholder="Enter your name">
+            </mat-form-field>
+
+            <mat-label>Last Name <span>*</span></mat-label>
+            <mat-form-field appearance="fill">
+                <input matInput formControlName="surname" placeholder="Enter your surname">
+            </mat-form-field>
+        </div>
+    </form>
+
+    <div class="account-form-buttons">
+        <button mat-flat-button color="primary" (click)="next.emit()" [disabled]="!nameInfoForm.valid">Next
+            Step</button>
+    </div>
+</div>

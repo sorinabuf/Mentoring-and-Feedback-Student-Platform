@@ -1,0 +1,201 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:600,800");
+@import "../../../../theme_variables.scss";
+@import "../../../../mixins";
+@import "../../../../text_form_field";
+@import "../../../../font_colors";
+
+.background-img {
+    @include background-img-auth;
+}
+
+.background-img.overlay-register {
+    animation-name: fade-in-register;
+    @include background-img-auth-overlay;
+}
+
+@keyframes fade-in-register {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.logo {
+    @include logo-auth;
+}
+
+.register-card-container {
+    @include card-auth;
+
+    .register-card-container-width {
+        @include card-width-auth;
+
+        .register-card {
+            @include card-color-auth;
+
+            .register-card-content {
+                display: flex;
+
+                .right {
+                    @include card-transparent-side-auth;
+                }
+
+                .left {
+                    @include card-full-side-auth;
+                }
+
+                .left-padding {
+                    padding: 0 30px;
+                }
+
+                .mat-mdc-card-header {
+                    justify-content: center;
+                    text-align: center;
+                    margin: 30px 0;
+                }
+
+                .title {
+                    margin: 0 0 5px 0 !important;
+                    font-size: xx-large;
+                }
+
+                .subtitle {
+                    color: #b9c4d3;
+                    font-weight: lighter;
+                    font-size: small;
+                }
+
+                .subtitle>span {
+                    color: $accent;
+                    font-weight: 500;
+                }
+
+                .register-fields {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                }
+
+                .info-password {
+                    transform: scale(0.7);
+                }
+
+                mat-label {
+                    display: inline-flex;
+                    align-items: center;
+                }
+
+                .incorrect-register {
+                    background-color: #ffcfd6;
+                    font-weight: normal;
+                    font-size: small;
+                    padding: 8px 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: $button-border-radius;
+                }
+
+                .register-button {
+                    border-radius: $button-border-radius !important;
+                    height: 56px;
+                    margin: 15px 0 30px 0;
+
+                    &:disabled {
+                        background-color: $accent;
+                    }
+                }
+            }
+        }
+    }
+}
+
+a[routerLink] {
+    text-decoration: none;
+    color: inherit;
+    font-weight: inherit;
+}
+
+.mat-mdc-form-field-error-wrapper {
+    border-radius: 0 0 $button-border-radius $button-border-radius;
+    background-color: #ffcfd6;
+    color: $warn;
+    margin-top: -10px;
+    padding-top: 5px;
+}
+
+.email-verify-card-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+
+    .email-verify-card {
+        width: 40%;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(9px);
+        -webkit-backdrop-filter: blur(16.5px);
+        border-radius: 8px;
+        border: 2px solid rgba(255, 255, 255, 0.18);
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+
+        .email-verify-card-header {
+            display: flex;
+            justify-content: center;
+            padding: 50px 0 20px 0;
+
+            img {
+                width: 25%;
+                height: 25%;
+                filter: drop-shadow(0px 0px 15px #FFFFFF);
+            }
+        }
+
+        .email-verify-card-content {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+            div:first-of-type p {
+                font-family: "Montserrat";
+                font-weight: 800;
+                font-size: x-large;
+                color: $font-color;
+            }
+
+            div:nth-of-type(2) {
+                min-height: 80px;
+                display: flex;
+                align-items: center;
+
+                p {
+                    font-family: "Montserrat";
+                    font-weight: 600;
+                    font-size: small;
+                    color: $font-color-light;
+                }
+            }
+
+            mat-divider {
+                width: 10%;
+                border-top-width: 3px;
+                border-top-color: $primary;
+            }
+        }
+    }
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+    min-width: auto !important;
+    padding: 0 50px 0 50px;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__label {
+    padding-left: 0;
+    padding-right: 0;
+}

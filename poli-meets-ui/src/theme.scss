@@ -1,0 +1,87 @@
+@use '@angular/material' as mat;
+
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: white;
+
+$oxford-blue-palette: (
+    50: #e4e7ed,
+    100: #b9c4d3,
+    200: #8d9eb5,
+    300: #627a97,
+    400: #415f84,
+    500: #184673,
+    600: #103f6c,
+    700: #053661,
+    800: #002d55,
+    900: #001d3d,
+    contrast: (50: $dark-primary-text,
+        100: $dark-primary-text,
+        200: $dark-primary-text,
+        300: $dark-primary-text,
+        400: $light-primary-text,
+        500: $light-primary-text,
+        600: $light-primary-text,
+        700: $light-primary-text,
+        800: $light-primary-text,
+        900: $light-primary-text,
+    )
+);
+
+$gold-palette: (
+    50: #fffde5,
+    100: #fff9c0,
+    200: #fff495,
+    300: #fff068,
+    400: #feeb42,
+    500: #fbe504,
+    600: #ffd60a,
+    700: #febd00,
+    800: #fea400,
+    900: #fc7800,
+    contrast: (50: $dark-primary-text,
+        100: $dark-primary-text,
+        200: $dark-primary-text,
+        300: $dark-primary-text,
+        400: $dark-primary-text,
+        500: $dark-primary-text,
+        600: $dark-primary-text,
+        700: $dark-primary-text,
+        800: $dark-primary-text,
+        900: $light-primary-text,
+    )
+);
+
+$imperial-red-palette: (
+    50: #ffecf0,
+    100:#ffcfd6,
+    200: #f39ca0,
+    300: #ec757b,
+    400: #f8545a,
+    500: #ff4242,
+    600: #ef3840,
+    700: #dd2e3a,
+    800: #d02632,
+    900: #c11826,
+    contrast: (50: $dark-primary-text,
+        100: $dark-primary-text,
+        200: $dark-primary-text,
+        300: $dark-primary-text,
+        400: $dark-primary-text,
+        500: $light-primary-text,
+        600: $light-primary-text,
+        700: $light-primary-text,
+        800: $light-primary-text,
+        900: $light-primary-text,
+    )
+);
+
+$theme-primary: mat.define-palette($oxford-blue-palette, 900, 300, 900);
+$theme-accent: mat.define-palette($gold-palette, 600, 400, 700);
+$theme-warn: mat.define-palette($imperial-red-palette, 500, 300, 800);
+
+$theme: mat.define-light-theme((color: (primary: $theme-primary,
+                accent: $theme-accent,
+            ),
+        ));
+
+@include mat.all-component-themes($theme);

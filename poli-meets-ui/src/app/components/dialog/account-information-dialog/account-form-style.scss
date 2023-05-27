@@ -1,0 +1,69 @@
+@import "../../../../theme_variables";
+@import "../../../../font_colors";
+@import "../../../../text_form_field";
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500");
+
+.account-form-container {
+    .account-form-header {
+        display: flex;
+        justify-content: space-between;
+
+        p {
+            color: $primary;
+            font-weight: 800;
+            font-size: x-large;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        span {
+            font-weight: 500;
+            font-size: x-small;
+            color: $warn;
+        }
+    }
+
+    p {
+        font-family: "Montserrat";
+        font-weight: lighter;
+        font-size: x-small;
+        color: $font-color-light;
+        margin-bottom: 30px;
+        line-height: normal;
+    }
+
+    .account-form-fields {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 60px;
+
+        mat-label {
+            color: #002d55;
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: small;
+
+            span {
+                color: $warn;
+                font-weight: 500;
+                font-size: small;
+            }
+        }
+    }
+
+    .account-form-buttons {
+        display: flex;
+    }
+
+    .mat-mdc-form-field-error-wrapper {
+        display: none;
+    }
+
+    .mdc-text-field--invalid .mdc-text-field__input {
+        caret-color: inherit;
+    }
+
+    .mat-mdc-form-field .mat-mdc-select.mat-mdc-select-invalid .mat-mdc-select-arrow {
+        color: inherit;
+    }
+}

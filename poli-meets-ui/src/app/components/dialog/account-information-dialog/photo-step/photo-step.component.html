@@ -1,0 +1,64 @@
+<div class="account-form-container">
+    <div class="account-form-header">
+        <p>Profile Photo</p>
+    </div>
+
+    <p>Please choose an avatar or upload a personal photograph for a more transparent experience.</p>
+
+    <p>IMPORTANT: You must choose only one avatar OR upload one image. Uploading an image after choosing an avatar will
+        discard the avatar selection. Choosing an avatar after uploading an image will discard the image.</p>
+
+    <mat-tab-group>
+        <mat-tab label="Avatars">
+            <div class="avatars-container">
+                <mat-card class="avatars-overlay-hover" [ngClass]="{'selected' : selectedAvatar == 'male'}"
+                    (click)="selectAvatar('male')">
+                    <img mat-card-image src="assets/images/auth/male-avatar.png">
+                </mat-card>
+                <mat-card class="avatars-overlay-hover" [ngClass]="{'selected' : selectedAvatar == 'female'}"
+                    (click)="selectAvatar('female')">
+                    <img mat-card-image src="assets/images/auth/female-avatar.png">
+                </mat-card>
+                <mat-card class="avatars-overlay-hover" [ngClass]="{'selected' : selectedAvatar == 'non-binary'}"
+                    (click)="selectAvatar('non-binary')">
+                    <img mat-card-image src="assets/images/auth/non-binary-avatar.png">
+                </mat-card>
+            </div>
+        </mat-tab>
+        <mat-tab label="Personal Photo">
+            <div class="photo-container">
+                <input type="file" accept="image/*" (change)="selectPhoto($event)" #fileInput>
+                <mat-card>
+                    <mat-card-content>
+                        <button mat-button color="primary" [disabled]="!selectedPhoto" (click)="discardPhoto()">
+                            <mat-icon>delete</mat-icon>Discard photo
+                        </button>
+
+                        <div class="card-content">
+                            <img src="assets/images/auth/open-folder.png" *ngIf="!selectedPhoto">
+                            <img [src]="selectedPhoto" *ngIf="selectedPhoto">
+
+                            <div class="choose-file-container">
+                                <button mat-flat-button color="primary"
+                                    (click)="fileInput.click()"><mat-icon>attach_file</mat-icon>Choose file
+                                </button>
+                                <span>{{selectedPhotoName}}</span>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+
+    <div class="account-form-buttons">
+        <button mat-flat-button color="primary" (click)="prev.emit()">Previous
+            Step</button>
+
+        <button mat-flat-button color="primary" [disabled]="!selectedPhoto&&!selectedAvatar"
+            (click)="onAccountInfoSubmit()" [disabled]="isLoading">
+            <span *ngIf="!isLoading">Submit</span>
+            <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+        </button>
+    </div>
+</div>
