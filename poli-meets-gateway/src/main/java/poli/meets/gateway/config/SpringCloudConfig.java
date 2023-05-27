@@ -27,6 +27,9 @@ public class SpringCloudConfig {
                 .route(r -> r.path("/mentorship")
                         .filters(f -> f.filter(authenticationPrefilter))
                         .uri("lb://MENTORSHIP-SERVICE"))
+                .route(r -> r.path("/feedback")
+                        .filters(f -> f.filter(authenticationPrefilter))
+                        .uri("lb://FEEDBACK-SERVICE"))
                 .build();
     }
 

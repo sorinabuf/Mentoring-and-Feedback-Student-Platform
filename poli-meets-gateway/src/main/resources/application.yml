@@ -15,6 +15,10 @@ spring:
           uri: lb://MENTORSHIP-SERVICE
           predicates:
             - Path=/mentorship/**
+        - id: feedbackModule
+          uri: lb://FEEDBACK-SERVICE
+          predicates:
+            - Path=/feedback/**
 
 eureka:
   client:

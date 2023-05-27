@@ -37,7 +37,20 @@ services:
     volumes:
       - mentorship-data:/var/lib/postgresql/data
 
+  feedback-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: feedback-db
+    ports:
+      - "5435:5432"
+    volumes:
+      - feedback-data:/var/lib/postgresql/data
+
 volumes:
   auth-data:
   core-data:
   mentorship-data:
+  feedback-data:

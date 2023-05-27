@@ -1,0 +1,109 @@
+
+entity Faculty {
+    name String
+    domain String
+    description String
+}
+
+enum Semester {
+    FIRST_SEMESTER, SECOND_SEMESTER
+}
+
+enum Grade {
+	STRONGLY_AGREE,
+	AGREE,
+	NEUTRAL,
+	DISAGREE,
+	STRONGLY_DISAGREE
+}
+
+enum Year {
+    YEAR_I_DEGREE,
+    YEAR_II_DEGREE,
+    YEAR_III_DEGREE,
+    YEAR_IV_DEGREE,
+    YEAR_I_MASTER,
+    YEAR_II_MASTER
+}
+
+entity UniversityYear {
+    year Year
+    series String
+}
+
+entity Teacher {
+    firstName String
+    lastName String
+}
+
+entity TeachingAssistant {
+    firstName String
+    lastName String
+}
+
+entity UniversityClass {
+    name String
+    abbreviation String
+    description String
+    semester Semester
+}
+
+entity Student {
+    firstName String
+    lastName String
+    studentEmail String
+    personalEmail String
+}
+
+entity TeachingAssistantUniversityClass {
+}
+
+entity Feedback {
+	gradeCourse Grade,
+	feedbackCourse String,
+	gradeLaboratory Grade,
+	feedbackLaboratory String,
+	gradeHomework Grade,
+	feedbackDuringSemester String,
+	gradeExam Grade,
+	feedbackExam String,
+	gradeDifficulty Grade,
+	feedbackDifficutly String,
+	gradeRelevance Grade,
+	feedbackRelevance String
+}
+
+// defining multiple OneToMany relationships with comments
+relationship OneToMany {
+	Teacher{universityClasses} to UniversityClass{teacher}
+    UniversityYear{universityClasses} to UniversityClass{universityYear}
+	Faculty{universityYears} to UniversityYear{faculty}
+    UniversityYear{students} to Student{universityYear}
+    TeachingAssistant{universityClasses} to TeachingAssistantUniversityClass{teachingAssistant}
+    UniversityClass{teachingAssistants} to TeachingAssistantUniversityClass{universityClass}
+    Student{feedbacks} to Feedback{student}
+    Student{feedbacks} to Feedback{universityClass}
+    TeachingAssistant{feedbacks} to Feedback{teachingAssistant}
+}
+
+
+// Use Data Transfer Objects (DTO)
+dto all with mapstruct
+
+
+application {
+	config {
+    	baseName MentorshipService
+        applicationType microservice
+        buildTool gradle
+        devDatabaseType postgresql
+        prodDatabaseType postgresql
+        languages [en]
+        packageName com.tremend.poli.meets.mentorship
+        serverPort 8003
+        skipUserManagement true
+        blueprints [tengine-blueprint]
+    }
+    entities *
+}
+
