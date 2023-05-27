@@ -7,8 +7,10 @@ import poli.meets.authservice.client.MailClient;
 import poli.meets.authservice.model.User;
 import poli.meets.authservice.repository.UserRepository;
 import poli.meets.authservice.security.JwtTokenUtil;
+import poli.meets.authservice.service.dtos.ChangePasswordDTO;
 import poli.meets.authservice.service.dtos.EmailDTO;
 import poli.meets.authservice.service.dtos.UserRegisterDTO;
+import poli.meets.authservice.web.error.ForbiddenException;
 
 import java.util.Optional;
 
@@ -73,5 +75,18 @@ public class UserUtilsService {
 
     public boolean isActivated(String username) {
         return userRepository.findByUsername(username).map(User::getIsActivated).orElse(false);
+    }
+
+    public Boolean changePassword(String username, ChangePasswordDTO changePasswordDTO) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new ForbiddenException("Invalid token"));
+
+        if (!user.getPassword().equals(changePasswordDTO.getOldPassword())) {
+            throw new ForbiddenException("Invalid old password");
+        }
+
+        user.setPassword(changePasswordDTO.getNewPassword());
+        userRepository.save(user);
+
+        return true;
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import poli.meets.authservice.model.User;
 import poli.meets.authservice.security.JwtTokenUtil;
+import poli.meets.authservice.service.dtos.ChangePasswordDTO;
 import poli.meets.authservice.service.dtos.LoginRequest;
 import poli.meets.authservice.service.dtos.LoginResponse;
 import poli.meets.authservice.service.UserService;
@@ -52,6 +53,14 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @PutMapping("/change-password")
+    public ResponseEntity<Boolean> chnagePassword(@RequestHeader("Authorization") String token,
+                                            ChangePasswordDTO changePasswordDTO) {
+        return ResponseEntity.ok(userUtilsService.changePassword(
+                jwtTokenUtil.extractUsername(token.substring(7)), changePasswordDTO));
+    }
+
 
     @GetMapping("/activate")
     public ResponseEntity<?> activate(@RequestParam("token") String token) {
