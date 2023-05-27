@@ -2,7 +2,10 @@ package poli.meets.coreservice.service.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import poli.meets.coreservice.domain.enumeration.Semester;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.io.Serializable;
 
 /**
@@ -20,6 +23,8 @@ public class UniversityClassDTO implements Serializable {
 
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    private Semester semester;
 
     private Long teacherId;
 

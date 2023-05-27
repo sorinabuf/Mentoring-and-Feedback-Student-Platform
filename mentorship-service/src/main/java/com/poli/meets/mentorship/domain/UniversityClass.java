@@ -1,6 +1,8 @@
 package com.poli.meets.mentorship.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.poli.meets.mentorship.domain.enumeration.Semester;
+import com.poli.meets.mentorship.domain.enumeration.Year;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -49,6 +51,10 @@ public class UniversityClass {
     @ManyToOne
     @JsonIgnoreProperties(value = "universityClasses", allowSetters = true)
     private UniversityYear universityYear;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "semester")
+    private Semester semester;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 

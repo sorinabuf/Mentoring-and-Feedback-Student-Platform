@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import poli.meets.coreservice.domain.enumeration.Semester;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,6 +51,10 @@ public class UniversityClass {
     @ManyToOne
     @JsonIgnoreProperties(value = "universityClasses", allowSetters = true)
     private UniversityYear universityYear;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "semester")
+    private Semester semester;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 

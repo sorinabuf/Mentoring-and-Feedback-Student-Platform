@@ -1,6 +1,7 @@
 package poli.meets.coreservice.service.dto;
 
 import lombok.Data;
+import poli.meets.coreservice.domain.enumeration.Semester;
 import poli.meets.coreservice.domain.enumeration.Year;
 
 import javax.persistence.EnumType;
