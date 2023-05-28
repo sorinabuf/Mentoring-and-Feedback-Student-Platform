@@ -50,21 +50,14 @@ public class StudentResource {
             .body(result);
     }
 
-    /**
-     * {@code PUT  /students} : Updates an existing student.
-     *
-     * @param studentDTO the studentDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated studentDTO,
-     * or with status {@code 400 (Bad Request)} if the studentDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the studentDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
+
     @PutMapping("/students")
     public ResponseEntity<StudentDTO> updateStudent(@RequestHeader("Authorization") String token,
-                                                    @RequestBody StudentDTO studentDTO) throws URISyntaxException {
-        log.debug("REST request to update Student : {}", studentDTO);
+                                                    @RequestPart String bodyData,
+                                                    @RequestPart(value = "file", required = false) Optional<MultipartFile> file) throws URISyntaxException, IOException {
 
-        StudentDTO result = studentService.update(studentDTO, token);
+        StudentPostDTO studentPostDTO = new ObjectMapper().readValue(bodyData, StudentPostDTO.class);
+        StudentDTO result = studentService.save(studentPostDTO, file, token);
         return ResponseEntity.ok().body(result);
     }
 

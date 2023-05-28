@@ -77,17 +77,6 @@ public class StudentService {
         return studentMapper.toDto(student);
     }
 
-
-    public StudentDTO update(StudentDTO studentDTO, String token) {
-        if (!studentDTO.getStudentEmail().equals(authClient.getCurrentUser(token).getBody())) {
-            throw new ForbiddenException();
-        }
-
-        Student student = studentMapper.toEntity(studentDTO);
-        student = studentRepository.save(student);
-        return studentMapper.toDto(student);
-    }
-
     /**
      * Get all the students.
      *

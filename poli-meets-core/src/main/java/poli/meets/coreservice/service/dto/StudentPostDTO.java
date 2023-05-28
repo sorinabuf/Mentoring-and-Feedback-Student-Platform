@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class StudentPostDTO {
 
+    private Long id;
+
     private String firstName;
 
     private String lastName;
