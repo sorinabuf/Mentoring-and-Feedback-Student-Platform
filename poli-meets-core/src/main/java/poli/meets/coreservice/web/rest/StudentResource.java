@@ -65,8 +65,7 @@ public class StudentResource {
         log.debug("REST request to update Student : {}", studentDTO);
 
         StudentDTO result = studentService.update(studentDTO, token);
-        return ResponseEntity.ok()
-            .body(result);
+        return ResponseEntity.ok().body(result);
     }
 
     /**
