@@ -15,6 +15,7 @@ import poli.meets.authservice.repository.RoleRepository;
 import poli.meets.authservice.repository.UserRepository;
 import poli.meets.authservice.security.JwtTokenUtil;
 import poli.meets.authservice.service.dtos.UserRegisterDTO;
+import poli.meets.authservice.web.error.BadRequestException;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +35,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         User user = optionalUser.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 getAuthorities(roleRepository.findRolesByUsername(username)));
     }

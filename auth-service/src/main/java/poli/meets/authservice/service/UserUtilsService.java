@@ -78,13 +78,14 @@ public class UserUtilsService {
     }
 
     public Boolean changePassword(String username, ChangePasswordDTO changePasswordDTO) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new ForbiddenException("Invalid token"));
+        User user = userRepository.findByUsername(username).orElseThrow(() ->
+                new ForbiddenException("Invalid token"));
 
-        if (!user.getPassword().equals(changePasswordDTO.getOldPassword())) {
+        if (!user.getPassword().equals(passwordEncoder.encode(changePasswordDTO.getOldPassword()))) {
             throw new ForbiddenException("Invalid old password");
         }
 
-        user.setPassword(changePasswordDTO.getNewPassword());
+        user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
         userRepository.save(user);
 
         return true;

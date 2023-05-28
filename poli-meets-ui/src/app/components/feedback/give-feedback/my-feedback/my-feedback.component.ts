@@ -16,7 +16,7 @@ export class MyFeedbackComponent {
   numAvailableSubjectsForFeedback: number;
   faculty: string | undefined;
   specialty: string | undefined;
-  study_cicle: string | undefined;
+  studyCycle: string | undefined;
   year: string | undefined;
 
   constructor(private activatedRoute: ActivatedRoute, private feedbackService: FeedbackService) { 
@@ -33,9 +33,9 @@ export class MyFeedbackComponent {
       this.year = Year[student.universityYear.year as keyof typeof Year];
 
       if (this.year.includes("MASTER")) {
-        this.study_cicle = "Master";
+        this.studyCycle = "Master";
       } else {
-        this.study_cicle = "License";
+        this.studyCycle = "License";
       }
     })
 

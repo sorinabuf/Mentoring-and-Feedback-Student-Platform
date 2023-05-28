@@ -1,10 +1,13 @@
 package com.poli.meets.feedback.service;
 
+import com.poli.meets.feedback.client.AuthClient;
 import com.poli.meets.feedback.service.dto.StudentDTO;
 import com.poli.meets.feedback.service.mapper.StudentMapper;
 import com.poli.meets.feedback.domain.Student;
 import com.poli.meets.feedback.repository.StudentRepository;
 
+import com.poli.meets.feedback.web.rest.errors.ForbiddenException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,16 +24,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @Transactional
+@AllArgsConstructor
 public class StudentService {
 
     private final StudentRepository studentRepository;
 
     private final StudentMapper studentMapper;
 
-    public StudentService(StudentRepository studentRepository, StudentMapper studentMapper) {
-        this.studentRepository = studentRepository;
-        this.studentMapper = studentMapper;
-    }
+    private final AuthClient authClient;
 
     /**
      * Save a student.
@@ -80,5 +81,10 @@ public class StudentService {
     public void delete(Long id) {
         log.debug("Request to delete Student : {}", id);
         studentRepository.deleteById(id);
+    }
+
+    public Student getCurrentUser(String token) {
+        return studentRepository.findByStudentEmail(authClient.getCurrentUser(token).getBody())
+                .orElseThrow(ForbiddenException::new);
     }
 }

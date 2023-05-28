@@ -1,6 +1,7 @@
 package com.poli.meets.feedback.web.rest;
 
 import com.poli.meets.feedback.domain.UniversityClass;
+import com.poli.meets.feedback.service.dto.FeedbackSubjectsDTO;
 import com.poli.meets.feedback.service.dto.UniversityClassDTO;
 import com.poli.meets.feedback.service.UniversityClassService;
 
@@ -82,4 +83,10 @@ public class UniversityClassResource {
         universityClassService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/university-classes/me")
+    public ResponseEntity<FeedbackSubjectsDTO> getAllUniversityClassesForCurrentUser(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(universityClassService.findAllFeedbackSubjects(token));
+    }
+
 }

@@ -24,7 +24,6 @@ public class UniversityClassDTO implements Serializable {
 
     private Semester semester;
 
-
     private Long teacherId;
 
     private Long universityYearId;

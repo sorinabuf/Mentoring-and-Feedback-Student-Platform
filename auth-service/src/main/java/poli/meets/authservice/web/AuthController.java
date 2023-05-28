@@ -16,6 +16,7 @@ import poli.meets.authservice.service.dtos.LoginResponse;
 import poli.meets.authservice.service.UserService;
 import poli.meets.authservice.service.UserUtilsService;
 import poli.meets.authservice.service.dtos.UserRegisterDTO;
+import poli.meets.authservice.web.error.ForbiddenException;
 
 @RestController
 @RequestMapping("/api")
@@ -40,6 +41,11 @@ public class AuthController {
         }
 
         UserDetails userDetails = userService.loadUserByUsername(loginRequest.getUsername());
+
+        if (!userUtilsService.isActivated(userDetails.getUsername())) {
+            throw new ForbiddenException("Account is not activated");
+        }
+
         String jwtToken = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new LoginResponse(jwtToken));
     }
