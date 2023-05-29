@@ -1,3 +1,8 @@
 .account-form-buttons {
     justify-content: space-between;
+
+    div {
+        display: flex;
+        gap: 16px;
+    }
 }

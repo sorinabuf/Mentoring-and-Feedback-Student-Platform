@@ -5,6 +5,7 @@ import com.poli.meets.mentorship.domain.UniversityClass;
 import com.poli.meets.mentorship.domain.*;
 import com.poli.meets.mentorship.service.dto.UniversityClassDTO;
 
+import com.poli.meets.mentorship.service.dto.UniversityClassMentorshipDTO;
 import org.mapstruct.*;
 
 /**
@@ -15,6 +16,9 @@ public interface UniversityClassMapper extends EntityMapper<UniversityClassDTO, 
 
     @Mapping(source = "universityYear.id", target = "universityYearId")
     UniversityClassDTO toDto(UniversityClass universityClass);
+
+
+    UniversityClassMentorshipDTO toMentorshipDto(UniversityClass universityClass);
 
     @Mapping(target = "mentorSubjects", ignore = true)
     @Mapping(target = "removeMentorSubjects", ignore = true)

@@ -1,6 +1,7 @@
 import { Input, Component } from '@angular/core';
 
 import { MatMenuTrigger } from '@angular/material/menu';
+import { Router } from '@angular/router';
 
 /**
  * Fixes menu bug. Hovering over the nagivation link button opens the links menu. Leaving the button/menu forces menu to close.
@@ -18,6 +19,8 @@ export class ButtonMenuComponent {
 
   isButtonHovered = false;
   isMenuOpen = false;
+
+  constructor(private router: Router) { }
 
   menuEnter(): void {
     this.isMenuOpen = true;

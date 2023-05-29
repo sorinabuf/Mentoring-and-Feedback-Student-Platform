@@ -20,3 +20,7 @@ export function readFile(): any {
             reader.readAsDataURL(file);
         });
 }
+
+export function compareArrays(array1: Array<any>, array2: Array<any>): boolean {
+    return array1.length === array2.length && array1.every((value, index) => value === array2[index]);
+}

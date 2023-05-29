@@ -5,10 +5,15 @@ import com.poli.meets.mentorship.domain.MentorSubject;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Spring Data repository for the MentorSubject entity.
  */
 @SuppressWarnings("unused")
 @Repository
 public interface MentorSubjectRepository extends JpaRepository<MentorSubject, Long>, JpaSpecificationExecutor<MentorSubject> {
+    List<MentorSubject> findByMentorId(Long mentorId);
+
+    void deleteByMentorId(Long mentorId);
 }

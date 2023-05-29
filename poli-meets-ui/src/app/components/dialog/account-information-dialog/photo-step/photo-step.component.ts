@@ -7,7 +7,8 @@ import { createFile } from 'src/app/helpers/methods';
   styleUrls: ['./photo-step.component.scss', '../account-form-style.scss']
 })
 export class PhotoStepComponent {
-  @Input() isLoading : boolean;
+  @Input() isLoading: boolean;
+  @Input() isEdit: boolean;
   @Output() prev = new EventEmitter<void>();
   @Output() submit = new EventEmitter<File>();
 
@@ -23,6 +24,7 @@ export class PhotoStepComponent {
     this.selectedPhoto = "";
     this.selectedPhotoName = "No file selected";
     this.isLoading = false;
+    this.isEdit = false;
   }
 
   selectAvatar(avatar: string): void {

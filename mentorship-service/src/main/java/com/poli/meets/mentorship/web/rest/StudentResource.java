@@ -2,6 +2,7 @@ package com.poli.meets.mentorship.web.rest;
 
 import com.poli.meets.mentorship.domain.Student;
 import com.poli.meets.mentorship.service.StudentService;
+import com.poli.meets.mentorship.service.dto.MentorDTO;
 import com.poli.meets.mentorship.service.dto.PagedResponse;
 import com.poli.meets.mentorship.service.dto.StudentDTO;
 
@@ -95,5 +96,10 @@ public class StudentResource {
         log.debug("REST request to delete Student : {}", id);
         studentService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/students/current-user")
+    public ResponseEntity<StudentDTO> getCurrentUser(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(studentService.findCurrentUser(token));
     }
 }

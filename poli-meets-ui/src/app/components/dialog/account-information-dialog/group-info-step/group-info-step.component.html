@@ -29,7 +29,16 @@
         <button mat-flat-button color="primary" (click)="prev.emit()">Previous
             Step</button>
 
-        <button mat-flat-button color="primary" (click)="next.emit()" [disabled]="!groupInfoForm.valid">Next
+        <button mat-flat-button color="primary" (click)="next.emit()" [disabled]="!groupInfoForm.valid"
+            *ngIf="!isEdit">Next
             Step</button>
+
+        <div *ngIf="isEdit">
+            <button mat-flat-button color="primary" (click)="next.emit()" [disabled]="!groupInfoForm.valid || isLoading || isEdit && !isFormChanged"
+                *ngIf="isEdit"><span *ngIf="!isLoading">Submit</span>
+                <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner></button>
+
+            <button mat-button color="primary" *ngIf="isEdit" mat-dialog-close="close">Close</button>
+        </div>
     </div>
 </div>

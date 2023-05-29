@@ -62,7 +62,7 @@ public class AuthController {
 
     @PutMapping("/change-password")
     public ResponseEntity<Boolean> chnagePassword(@RequestHeader("Authorization") String token,
-                                            ChangePasswordDTO changePasswordDTO) {
+                                            @RequestBody ChangePasswordDTO changePasswordDTO) {
         return ResponseEntity.ok(userUtilsService.changePassword(
                 jwtTokenUtil.extractUsername(token.substring(7)), changePasswordDTO));
     }

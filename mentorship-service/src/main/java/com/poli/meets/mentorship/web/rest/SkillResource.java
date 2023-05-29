@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.List;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
@@ -67,8 +68,8 @@ public class SkillResource {
 
 
     @GetMapping("/skills")
-    public ResponseEntity<PagedResponse<SkillDTO>> getAllSkills(Pageable pageable) {
-        return ResponseEntity.ok().body(PagedResponse.of(skillService.findAll(pageable)));
+    public ResponseEntity<List<SkillDTO>> getAllSkills() {
+        return ResponseEntity.ok().body(skillService.findAll());
     }
 
 

@@ -1,16 +1,29 @@
 package com.poli.meets.mentorship.service;
 
+import com.poli.meets.mentorship.client.AuthClient;
+import com.poli.meets.mentorship.domain.Student;
+import com.poli.meets.mentorship.domain.UniversityYear;
+import com.poli.meets.mentorship.domain.enumeration.Year;
+import com.poli.meets.mentorship.repository.StudentRepository;
 import com.poli.meets.mentorship.repository.UniversityClassRepository;
 import com.poli.meets.mentorship.domain.UniversityClass;
+import com.poli.meets.mentorship.repository.UniversityYearRepository;
 import com.poli.meets.mentorship.service.dto.UniversityClassDTO;
+import com.poli.meets.mentorship.service.dto.UniversityClassMentorshipDTO;
+import com.poli.meets.mentorship.service.mapper.StudentMapper;
 import com.poli.meets.mentorship.service.mapper.UniversityClassMapper;
 
+import com.poli.meets.mentorship.web.rest.errors.ForbiddenException;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,16 +33,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @Transactional
+@AllArgsConstructor
 public class UniversityClassService {
 
     private final UniversityClassRepository universityClassRepository;
 
     private final UniversityClassMapper universityClassMapper;
 
-    public UniversityClassService(UniversityClassRepository universityClassRepository, UniversityClassMapper universityClassMapper) {
-        this.universityClassRepository = universityClassRepository;
-        this.universityClassMapper = universityClassMapper;
-    }
+    private final StudentRepository studentRepository;
+
+    private final UniversityYearRepository universityYearRepository;
+
+    private final AuthClient authClient;
 
     /**
      * Save a universityClass.
@@ -79,5 +94,25 @@ public class UniversityClassService {
     public void delete(Long id) {
         log.debug("Request to delete UniversityClass : {}", id);
         universityClassRepository.deleteById(id);
+    }
+
+    public List<UniversityClassMentorshipDTO> findAllMentorship(String token) {
+        Student student =
+                studentRepository.findByStudentEmail(authClient.getCurrentUser(token).getBody())
+                .stream()
+                .findAny()
+                .orElseThrow(ForbiddenException::new);
+
+        List<Year> years =
+                Arrays.stream(Year.values())
+                        .filter(y -> y.compareTo(student.getUniversityYear().getYear()) < 0)
+                        .collect(Collectors.toList());
+
+        List<UniversityYear> universityYears =
+                universityYearRepository.findAllByFacultyAndYearIn(student.getUniversityYear().getFaculty(), years);
+
+        return universityClassRepository.findAllByUniversityYearIn(universityYears).stream()
+                .map(universityClassMapper::toMentorshipDto)
+                .collect(Collectors.toList());
     }
 }

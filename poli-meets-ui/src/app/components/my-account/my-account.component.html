@@ -3,25 +3,86 @@
         <div class="left-container">
             <div class="profile-photo">
                 <img [src]="profilePhotoUrl">
+
+                <div class="profile-photo-edit">
+                    <button mat-icon-button color="primary" (click)="openPhotoEditDialog()">
+                        <mat-icon>photo_camera</mat-icon>
+                    </button>
+                </div>
             </div>
 
-            <!-- <mat-card class="reset-password">
+            <mat-card class="reset-password">
                 <mat-card-content>
-                    <p>Reset password</p>
+                    <div class="header">
+                        <div>
+                            <p>Password Reset</p>
 
-                    <form [formGroup]="passwordForm">
+                            <p>Enter old password and then the new one</p>
+                        </div>
+
+                        <span>* required fields</span>
+                    </div>
+
+                    <form [formGroup]="passwordForm" (ngSubmit)="onPasswordChange()">
                         <div class="password-form-fields">
+                            <mat-label>Old password <span class="required">*</span></mat-label>
                             <mat-form-field appearance="fill">
-                                <input matInput formControlName="password" placeholder="Current Password">
+                                <input matInput formControlName="password" placeholder="Enter your current password"
+                                    [type]="getPasswordType()" (ngModelChange)="clearPasswordErrors()"
+                                    (focus)="clearPasswordErrors()">
+                                <mat-icon matTextPrefix>lock</mat-icon>
+                                <mat-icon color="primary"
+                                    *ngIf="passwordVisibility && passwordForm.controls['password'].value" matIconSuffix
+                                    (click)="toggleVisibilityPassword()">visibility</mat-icon>
+                                <mat-icon color="primary"
+                                    *ngIf="!passwordVisibility && passwordForm.controls['password'].value" matIconSuffix
+                                    (click)="toggleVisibilityPassword()">visibility_off</mat-icon>
                             </mat-form-field>
 
+                            <mat-label class="new-password-label">
+                                <span>New password <span class="required">*</span></span>
+                                <mat-icon class="info" [matTooltip]="getRepasswordInfo()">info</mat-icon>
+                            </mat-label>
                             <mat-form-field appearance="fill">
-                                <input matInput formControlName="rePassword" placeholder="New Password">
+                                <input matInput formControlName="repassword" placeholder="Enter a new password"
+                                    [type]="getRepasswordType()" (ngModelChange)="clearRepasswordErrors()"
+                                    (focus)="clearRepasswordErrors()">
+                                <mat-icon matTextPrefix>lock</mat-icon>
+                                <mat-icon color="primary"
+                                    *ngIf="repasswordVisibility && passwordForm.controls['repassword'].value"
+                                    matIconSuffix (click)="toggleVisibilityRepassword()">visibility</mat-icon>
+                                <mat-icon color="primary"
+                                    *ngIf="!repasswordVisibility && passwordForm.controls['repassword'].value"
+                                    matIconSuffix (click)="toggleVisibilityRepassword()">visibility_off</mat-icon>
                             </mat-form-field>
+
+                            <mat-error class="incorrect-form" *ngIf="errorPasswordMatch">
+                                New password must be different from current password.
+                            </mat-error>
+
+                            <mat-error class="incorrect-form" *ngIf="errorOldPassword">
+                                Old password does not match current password.
+                            </mat-error>
+
+                            <mat-error class="incorrect-form" *ngIf="errorNewPassword">
+                                {{getPasswordErrorMessage()}}
+                            </mat-error>
+
+                            <div class="password-buttons">
+                                <button class="password-change-button" mat-button color="primary" type="submit"
+                                    [disabled]="!passwordForm.valid || errorPasswordMatch || errorNewPassword">
+                                    SUBMIT
+                                </button>
+
+                                <button class="password-clear-button" mat-button color="primary" type="button"
+                                    (click)="clearPasswordForm()">
+                                    CLEAR
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </mat-card-content>
-            </mat-card> -->
+            </mat-card>
         </div>
 
         <div class="right-container">
@@ -42,7 +103,7 @@
                 </button>
             </div>
 
-            <button mat-button *ngIf="!isMentor" class="mentor-button">
+            <button mat-button *ngIf="!isMentor" class="mentor-button" (click)="startMentorship()">
                 BECOME A MENTOR
             </button>
 
@@ -108,7 +169,7 @@
                                     <span class="content">{{description}}</span>
 
                                     <div class="edit-button-container">
-                                        <button mat-icon-button color="primary">
+                                        <button mat-icon-button color="primary" (click)="startMentorship()">
                                             <mat-icon>edit</mat-icon>
                                         </button>
                                     </div>
@@ -127,12 +188,12 @@
                                 <div class="card-content">
                                     <mat-chip-set>
                                         <mat-chip *ngFor="let skill of skills">
-                                            {{skill}}
+                                            {{skill.name}}
                                         </mat-chip>
                                     </mat-chip-set>
 
                                     <div class="edit-button-container">
-                                        <button mat-icon-button color="primary">
+                                        <button mat-icon-button color="primary" (click)="startMentorship()">
                                             <mat-icon>edit</mat-icon>
                                         </button>
                                     </div>
@@ -151,12 +212,12 @@
                                 <div class="card-content">
                                     <mat-chip-set>
                                         <mat-chip *ngFor="let subject of subjects">
-                                            {{subject}}
+                                            {{subject.name}}
                                         </mat-chip>
                                     </mat-chip-set>
 
                                     <div class="edit-button-container">
-                                        <button mat-icon-button color="primary">
+                                        <button mat-icon-button color="primary" (click)="startMentorship()">
                                             <mat-icon>edit</mat-icon>
                                         </button>
                                     </div>
@@ -171,7 +232,7 @@
                 <span>You need to be a mentor to populate and access these sections.
                 </span>
 
-                <button mat-button color="warn" disableRipple="true">
+                <button mat-button color="warn" disableRipple="true" (click)="startMentorship()">
                     BECOME A MENTOR NOW
                 </button>
             </div>

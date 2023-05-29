@@ -4,6 +4,7 @@ import com.poli.meets.mentorship.domain.Mentor;
 import com.poli.meets.mentorship.service.MentorService;
 import com.poli.meets.mentorship.service.dto.MentorDTO;
 
+import com.poli.meets.mentorship.service.dto.MentorInfoDTO;
 import com.poli.meets.mentorship.service.dto.PagedResponse;
 
 import lombok.AllArgsConstructor;
@@ -84,5 +85,24 @@ public class MentorResource {
         log.debug("REST request to delete Mentor : {}", id);
         mentorService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/mentors/current-user")
+    public ResponseEntity<MentorInfoDTO> getCurrentMentor(@RequestHeader(
+            "Authorization") String token) {
+
+        return ResponseEntity.ok().body(mentorService.findCurrentMentor(token));
+    }
+
+    @PostMapping("/mentors/details")
+    public ResponseEntity<MentorDTO> createMentor(@RequestHeader("Authorization") String token,
+            @RequestBody MentorInfoDTO mentorInfoDTO) {
+        return ResponseEntity.ok().body(mentorService.save(token, mentorInfoDTO));
+    }
+
+    @PutMapping("/mentors/details")
+    public ResponseEntity<MentorDTO> updateMentor(@RequestHeader("Authorization") String token,
+                                                  @RequestBody MentorInfoDTO mentorInfoDTO) {
+        return ResponseEntity.ok().body(mentorService.update(token, mentorInfoDTO));
     }
 }

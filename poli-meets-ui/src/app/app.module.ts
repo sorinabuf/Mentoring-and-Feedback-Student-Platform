@@ -50,6 +50,7 @@ import { SubjectsComponent } from './components/feedback/give-feedback/subjects/
 import { FormComponent } from './components/feedback/give-feedback/form/form.component';
 import { AllSubjectsComponent } from './components/feedback/view-feedback/all-subjects/all-subjects.component';
 import { SubjectDetailsComponent } from './components/feedback/view-feedback/subject-details/subject-details.component';
+import { PhotoDialogComponent } from './components/dialog/photo-dialog/photo-dialog.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { SubjectDetailsComponent } from './components/feedback/view-feedback/sub
     FormComponent,
     AllSubjectsComponent,
     SubjectDetailsComponent,
+    PhotoDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -109,7 +111,8 @@ import { SubjectDetailsComponent } from './components/feedback/view-feedback/sub
   entryComponents: [
     ConfirmationDialogComponent,
     AccountInformationDialogComponent,
-    MentorDialogComponent
+    MentorDialogComponent,
+    PhotoDialogComponent
   ]
 })
 export class AppModule {

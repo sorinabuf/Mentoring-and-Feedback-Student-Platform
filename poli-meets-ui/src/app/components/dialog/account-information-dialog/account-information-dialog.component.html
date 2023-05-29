@@ -37,7 +37,7 @@
                     </div>
                 </div>
 
-                <div class="step" (click)="goToStep(4)" [ngClass]="{'disabled': !isStepAvailable(4)}">
+                <div class="step" (click)="goToStep(4)" [ngClass]="{'disabled': !isStepAvailable(4)}" *ngIf="!isEdit">
                     <div class="circle" [ngClass]="{'full': accountSetupStep == 4, 'empty' : accountSetupStep != 4}">
                         <span>4</span>
                     </div>
@@ -62,7 +62,8 @@
             </app-faculty-info-step>
 
             <app-group-info-step [@fadeAnimation] *ngSwitchCase="3" [groupInfoForm]="groupInfoForm" [cohorts]="cohorts"
-                (prev)="previousStep()" (next)="nextStep()">
+                [isEdit]="isEdit" (prev)="previousStep()" (next)="!isEdit ? nextStep() : onAccountInfoEdit()"
+                [isLoading]="isEdit ? isFormLoading : false" [isFormChanged]="isEdit ? isFormChanged : false">
             </app-group-info-step>
 
             <app-photo-step [@fadeAnimation] *ngSwitchCase="4" (prev)="previousStep()"

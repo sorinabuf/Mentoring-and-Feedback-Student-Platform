@@ -6,6 +6,7 @@ import com.poli.meets.mentorship.service.dto.PagedResponse;
 import com.poli.meets.mentorship.service.dto.UniversityClassDTO;
 
 
+import com.poli.meets.mentorship.service.dto.UniversityClassMentorshipDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,5 +85,11 @@ public class UniversityClassResource {
         log.debug("REST request to delete UniversityClass : {}", id);
         universityClassService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/university-classes/mentorship")
+    public ResponseEntity<List<UniversityClassMentorshipDTO>> getAllMentorshipUniversityClasses(@RequestHeader("Authorization") String token) {
+
+        return ResponseEntity.ok().body(universityClassService.findAllMentorship(token));
     }
 }

@@ -1,10 +1,13 @@
 package com.poli.meets.mentorship.service;
 
+import com.poli.meets.mentorship.client.AuthClient;
 import com.poli.meets.mentorship.repository.StudentRepository;
 import com.poli.meets.mentorship.domain.Student;
 import com.poli.meets.mentorship.service.dto.StudentDTO;
 import com.poli.meets.mentorship.service.mapper.StudentMapper;
 
+import com.poli.meets.mentorship.web.rest.errors.ForbiddenException;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,16 +23,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @Transactional
+@AllArgsConstructor
 public class StudentService {
 
     private final StudentRepository studentRepository;
 
     private final StudentMapper studentMapper;
 
-    public StudentService(StudentRepository studentRepository, StudentMapper studentMapper) {
-        this.studentRepository = studentRepository;
-        this.studentMapper = studentMapper;
-    }
+    private final AuthClient authClient;
 
     /**
      * Save a student.
@@ -79,5 +80,13 @@ public class StudentService {
     public void delete(Long id) {
         log.debug("Request to delete Student : {}", id);
         studentRepository.deleteById(id);
+    }
+
+    public StudentDTO findCurrentUser(String token) {
+        return studentRepository.findByStudentEmail(authClient.getCurrentUser(token).getBody())
+                .stream()
+                .findAny()
+                .map(studentMapper::toDto)
+                .orElseThrow(ForbiddenException::new);
     }
 }

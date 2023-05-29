@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent {
   @Input() transparent: boolean;
+  isDialogOpen: boolean;
 
   mentorshipMenuItems: string[] = ["Mentors", "Pending Requests", "Upcoming Meetings", "Edit Account"];
 
@@ -19,6 +20,7 @@ export class NavbarComponent {
 
   constructor(private dialog: MatDialog, private router: Router) {
     this.transparent = false;
+    this.isDialogOpen = false;
   }
 
   hasTransparentBackground(): boolean {
@@ -26,7 +28,7 @@ export class NavbarComponent {
       return false;
     }
 
-    if (window.scrollY > window.innerHeight / 2) {
+    if (window.scrollY > window.innerHeight / 2 || this.isDialogOpen) {
       return false;
     }
 
@@ -51,9 +53,13 @@ export class NavbarComponent {
       message: 'Are you sure you want to logout?'
     };
 
+    this.isDialogOpen = true;
+    
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
+      this.isDialogOpen = false;
+
       if (result === "yes") {
         console.log("Logout successful");
 

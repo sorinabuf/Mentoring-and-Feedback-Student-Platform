@@ -51,14 +51,20 @@
         </mat-tab>
     </mat-tab-group>
 
-    <div class="account-form-buttons">
-        <button mat-flat-button color="primary" (click)="prev.emit()">Previous
+    <div class="account-form-buttons" [ngClass]="{end : isEdit}">
+        <button mat-flat-button color="primary" (click)="prev.emit()" *ngIf="!isEdit">Previous
             Step</button>
 
-        <button mat-flat-button color="primary" [disabled]="!selectedPhoto&&!selectedAvatar"
-            (click)="onAccountInfoSubmit()" [disabled]="isLoading">
-            <span *ngIf="!isLoading">Submit</span>
-            <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
-        </button>
+        <div>
+            <button mat-flat-button color="primary" [disabled]="!selectedPhoto&&!selectedAvatar || isLoading"
+                (click)="onAccountInfoSubmit()">
+                <span *ngIf="!isLoading">Submit</span>
+                <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+            </button>
+
+            <button mat-button color="primary" *ngIf="isEdit" mat-dialog-close="close">
+                Close
+            </button>
+        </div>
     </div>
 </div>

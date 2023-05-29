@@ -10,7 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,10 +53,10 @@ public class SkillService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<SkillDTO> findAll(Pageable pageable) {
+    public List<SkillDTO> findAll() {
         log.debug("Request to get all Skills");
-        return skillRepository.findAll(pageable)
-            .map(skillMapper::toDto);
+        return skillRepository.findAll().stream()
+            .map(skillMapper::toDto).collect(Collectors.toList());
     }
 
 

@@ -81,7 +81,8 @@ public class UserUtilsService {
         User user = userRepository.findByUsername(username).orElseThrow(() ->
                 new ForbiddenException("Invalid token"));
 
-        if (!user.getPassword().equals(passwordEncoder.encode(changePasswordDTO.getOldPassword()))) {
+        if (!passwordEncoder.matches(changePasswordDTO.getOldPassword(),
+                user.getPassword())) {
             throw new ForbiddenException("Invalid old password");
         }
 

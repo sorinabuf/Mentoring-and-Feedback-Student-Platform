@@ -15,6 +15,7 @@ import { SubjectsComponent } from './components/feedback/give-feedback/subjects/
 import { FormComponent } from './components/feedback/give-feedback/form/form.component';
 import { AllSubjectsComponent } from './components/feedback/view-feedback/all-subjects/all-subjects.component';
 import { SubjectDetailsComponent } from './components/feedback/view-feedback/subject-details/subject-details.component';
+import { MentorInfoResolver } from './resolvers/mentor-info.resolver';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuardService] },
@@ -23,7 +24,8 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   {
     path: 'my-account', component: MyAccountComponent, canActivate: [AuthGuardService], resolve: {
-      student: UserResolver
+      student: UserResolver,
+      mentorInfo: MentorInfoResolver
     },
   },
   { path: 'feedback', redirectTo: 'feedback/me', pathMatch: 'full' },

@@ -53,4 +53,15 @@ export class AuthService {
       { responseType: 'text' }
     );
   }
+
+  public change_password(oldPassword: string, newPassword: string): Observable<any> {
+    return this.http.put(
+      environment.apiUrl + '/auth/api/change-password',
+      {
+        oldPassword: oldPassword,
+        newPassword: newPassword
+      },
+      httpOptions
+    );
+  }
 }

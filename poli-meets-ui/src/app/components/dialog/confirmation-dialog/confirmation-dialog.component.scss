@@ -12,12 +12,12 @@
     color: $font-color-light;
 }
 
+.dialog-confirmation-submessage {
+    padding: 24px 0 0 0;
+}
+
 .cdk-overlay-dark-backdrop {
     background: rgba(0, 0, 0, 0.32);
     backdrop-filter: blur(1.5px);
     -webkit-backdrop-filter: blur(1.5px);
-}
-
-.dialog-confirmation-submessage {
-    padding: 24px 0 0 0;
 }

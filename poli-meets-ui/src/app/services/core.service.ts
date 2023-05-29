@@ -34,10 +34,11 @@ export class CoreService {
     );
   }
 
-  public complete_account(name: string, surname: string, email: string, faculty_id: number, year: string, series: string, group_num: string, image: File): Observable<any> {
+  public complete_account(id: number, name: string, surname: string, email: string, faculty_id: number, year: string, series: string, group_num: string, image: File): Observable<any> {
     const formData = new FormData();
 
     const body = {
+      id: id,
       firstName: name,
       lastName: surname,
       groupNum: group_num,
@@ -62,6 +63,25 @@ export class CoreService {
       {
         headers: headers
       });
+  }
+
+  public update_account(id: number, name: string, surname: string, email: string, faculty_id: number, year: string, series: string, group_num: string): Observable<any> {
+    const body = {
+      id: id,
+      firstName: name,
+      lastName: surname,
+      groupNum: group_num,
+      studentEmail: email,
+      personalEmail: email,
+      universityYear: {
+        year: year,
+        series: series,
+        facultyId: faculty_id
+      }
+    }
+
+    return this.http.put(
+      environment.apiUrl + '/core/api/students', body);
   }
 
   public get_current_student(): Observable<any> {
