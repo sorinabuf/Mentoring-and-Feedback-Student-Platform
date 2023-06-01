@@ -1,0 +1,452 @@
+<div class="mentorship-container-padding">
+    <div class="mentorship-container">
+        <mat-card class="mentorship-action-card">
+            <div class="primary-content">
+                <p>{{upcomingMeetings.length}} upcoming meetings</p>
+            </div>
+
+            <div class="image-container">
+                <img mat-card-image src="assets/images/mentorship/mentorship-bg.png">
+            </div>
+
+            <div class="secondary-content">
+                <!-- TODO: add correct number and redirect to pending meetings page -->
+                <div class="left-section">
+                    <p>0 pending requests</p>
+                </div>
+                <!-- TODO: redirect to contact page when it will exist -->
+                <div class="right-section" routerLink="/home">
+                    <p>Get help</p>
+                </div>
+            </div>
+        </mat-card>
+
+        <div class="timeline-header" #timeline>
+            <span>Timeline</span>
+        </div>
+
+        <div class="tabs-container" *ngIf="isMentor">
+            <mat-tab-group class="tabs">
+                <mat-tab label="All">
+                    <div class="meetings">
+                        <div class="all-meetings">
+                            <div class="meeting-overview" *ngFor="let meeting of allMeetings">
+                                <div class="bookmark"
+                                    [ngClass]="{mentor: meeting.type == 'MENTOR', mentee: meeting.type == 'MENTEE', free: !meeting.type}">
+                                </div>
+
+                                <div class="info">
+                                    <div class="person">
+                                        <div class="profile-photo">
+                                            <img [src]="getImage(meeting)">
+                                        </div>
+                                        <span class="name">{{meeting.name}}</span>
+                                    </div>
+
+                                    <div class="email">
+                                        <a href="mailto:{{meeting.email}}">
+                                            <span class="email">{{meeting.email}}</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="datetime">
+                                        <span>{{getMeetingDate(meeting)}}</span>
+                                        <span>{{getMeetingTime(meeting)}}</span>
+                                    </div>
+
+                                    <div class="meeting-type">
+                                        <span>{{getMeetingType(meeting)}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <mat-tab label="Upcoming Meetings">
+                    <div class="meetings">
+                        <div class="filters">
+                            <span class="filter-tag">Filter by:</span>
+
+                            <mat-chip-listbox>
+                                <mat-chip-option *ngFor="let filter of filterChips" [value]="filter.type"
+                                    (selectionChange)="filterUpcomingMeetings($event)">{{filter.value}}</mat-chip-option>
+                            </mat-chip-listbox>
+                        </div>
+
+                        <div class="meetings-inner upcomingmeeting">
+                            <div class="column1" *ngIf="filteredMeetings.length">
+                                <div class="upcomingmeeting-cards">
+                                    <mat-card class="meeting-card" *ngFor="let meeting of upcomingMeetingsFirstColumn">
+                                        <div class="header">
+                                            <div class="inner-header">
+                                                <span>{{getMeetingType(meeting)}}</span>
+                                                <mat-icon matTooltip="Delete meeting"
+                                                    (click)="openDeleteUpcomingMeetingDialog(meeting)">delete_outline</mat-icon>
+                                            </div>
+                                        </div>
+
+                                        <div class="meeting-container-padding">
+                                            <div class="meeting-container">
+                                                <div class="heading">
+                                                    <div class="date">
+                                                        <span>{{getMeetingDay(meeting.meetingSlot)}}
+                                                        </span>
+                                                        <span>{{getMeetingMonth(meeting.meetingSlot)}}</span>
+                                                    </div>
+
+                                                    <div class="info">
+                                                        <span>{{getMeetingParticipantName(meeting)}}</span>
+                                                        <span
+                                                            *ngIf="getMeetingMinute(meeting.meetingSlot) == 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}0
+                                                        </span>
+                                                        <span
+                                                            *ngIf="getMeetingMinute(meeting.meetingSlot) != 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="subject">
+                                                    <mat-icon>center_focus_strong</mat-icon>
+                                                    <span>
+                                                        {{getMeetingSubject(meeting)}}
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="footer" *ngIf="!isMeetingPanelOpen[meeting.id]">
+                                            <div class="inner-footer" (click)="toggleMeetingPanel(meeting)">
+                                                <mat-icon color="primary">keyboard_arrow_down</mat-icon>
+                                            </div>
+                                        </div>
+
+                                        <div class="meeting-container-padding"
+                                            [hidden]="!isMeetingPanelOpen[meeting.id]"
+                                            [@slideInOut]="isMeetingPanelOpen[meeting.id] ? 'in' : 'out'">
+                                            <div class="meeting-container">
+                                                <mat-divider></mat-divider>
+
+                                                <div class="description">
+                                                    <div class="content">
+                                                        <span>Meeting description
+                                                            ({{getDescriptionOwner(meeting)}})</span>
+                                                        <span>{{meeting.description}}</span>
+                                                        <a href="mailto:{{getMeetingParticipantEmail(meeting)}}">
+                                                            <span
+                                                                class="email">{{getMeetingParticipantEmail(meeting)}}</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="footer" *ngIf="isMeetingPanelOpen[meeting.id]">
+                                            <div class="inner-footer" (click)="toggleMeetingPanel(meeting)">
+                                                <mat-icon color="primary">keyboard_arrow_up</mat-icon>
+                                            </div>
+                                        </div>
+                                    </mat-card>
+                                </div>
+                            </div>
+
+                            <div class="column2" *ngIf="filteredMeetings.length">
+                                <div class="upcomingmeeting-cards">
+                                    <mat-card class="meeting-card" *ngFor="let meeting of upcomingMeetingsSecondColumn">
+                                        <div class="header">
+                                            <div class="inner-header">
+                                                <span>{{getMeetingType(meeting)}}</span>
+                                                <mat-icon matTooltip="Delete meeting"
+                                                    (click)="openDeleteUpcomingMeetingDialog(meeting)">delete_outline</mat-icon>
+                                            </div>
+                                        </div>
+
+                                        <div class="meeting-container-padding">
+                                            <div class="meeting-container">
+                                                <div class="heading">
+                                                    <div class="date">
+                                                        <span>{{getMeetingDay(meeting.meetingSlot)}}
+                                                        </span>
+                                                        <span>{{getMeetingMonth(meeting.meetingSlot)}}</span>
+                                                    </div>
+
+                                                    <div class="info">
+                                                        <span>{{getMeetingParticipantName(meeting)}}</span>
+                                                        <span
+                                                            *ngIf="getMeetingMinute(meeting.meetingSlot) == 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}0
+                                                        </span>
+                                                        <span
+                                                            *ngIf="getMeetingMinute(meeting.meetingSlot) != 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="subject">
+                                                    <mat-icon>center_focus_strong</mat-icon>
+                                                    <span>
+                                                        {{getMeetingSubject(meeting)}}
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="footer" *ngIf="!isMeetingPanelOpen[meeting.id]">
+                                            <div class="inner-footer" (click)="toggleMeetingPanel(meeting)">
+                                                <mat-icon color="primary">keyboard_arrow_down</mat-icon>
+                                            </div>
+                                        </div>
+
+                                        <div class="meeting-container-padding"
+                                            [hidden]="!isMeetingPanelOpen[meeting.id]">
+                                            <div class="meeting-container"
+                                                [@slideInOut]="isMeetingPanelOpen[meeting.id] ? 'in' : 'out'">
+                                                <mat-divider></mat-divider>
+
+                                                <div class="description">
+                                                    <div class="content">
+                                                        <span>Meeting description
+                                                            ({{getDescriptionOwner(meeting)}})</span>
+                                                        <span>{{meeting.description}}</span>
+                                                        <a href="mailto:{{getMeetingParticipantEmail(meeting)}}">
+                                                            <span
+                                                                class="email">{{getMeetingParticipantEmail(meeting)}}</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="footer" *ngIf="isMeetingPanelOpen[meeting.id]">
+                                            <div class="inner-footer" (click)="toggleMeetingPanel(meeting)">
+                                                <mat-icon color="primary">keyboard_arrow_up</mat-icon>
+                                            </div>
+                                        </div>
+                                    </mat-card>
+                                </div>
+                            </div>
+
+                            <div class="no-results" *ngIf="!filteredMeetings.length">
+                                <span>No meeting slots</span>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <mat-tab label="Free Slots">
+                    <div class="meetings">
+                        <div class="meetings-inner">
+                            <div class="cards">
+                                <div class="add-card" (click)="openAddFreeSlotDialog()">
+                                    <mat-icon>add</mat-icon>
+                                    <span>Add Booking Slot</span>
+                                </div>
+
+                                <mat-card class="meeting-card" *ngFor="let slot of freeSlots">
+                                    <div class="header">
+                                        <div class="inner-header free-slot-meeting">
+                                            <span>Meeting with Mentee</span>
+                                            <mat-icon matTooltip="Delete booking slot"
+                                                (click)="openDeleteFreeSlotDialog(slot)">delete_outline</mat-icon>
+                                        </div>
+                                    </div>
+
+                                    <div class="meeting-container-padding free-slot-meeting">
+                                        <div class="meeting-container">
+                                            <div class="heading">
+                                                <div class="date free-slot-meeting">
+                                                    <span>{{getMeetingDay(slot)}}
+                                                    </span>
+                                                    <span>{{getMeetingMonth(slot)}}</span>
+                                                </div>
+
+                                                <div class="info">
+                                                    <span>Open For Booking</span>
+                                                    <span
+                                                        *ngIf="getMeetingMinute(slot) == 0">{{getMeetingHour(slot)}}:{{getMeetingMinute(slot)}}0
+                                                    </span>
+                                                    <span
+                                                        *ngIf="getMeetingMinute(slot) != 0">{{getMeetingHour(slot)}}:{{getMeetingMinute(slot)}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-card>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+
+        <mat-divider *ngIf="!isMentor"></mat-divider>
+
+        <div class="tabs-container student" *ngIf="!isMentor">
+            <div class="tabs">
+                <div class="meetings">
+                    <div class="meetings-inner upcomingmeeting">
+                        <div class="column1" *ngIf="filteredMeetings.length">
+                            <div class="upcomingmeeting-cards">
+                                <mat-card class="meeting-card" *ngFor="let meeting of upcomingMeetingsFirstColumn">
+                                    <div class="header">
+                                        <div class="inner-header">
+                                            <span>{{getMeetingType(meeting)}}</span>
+                                            <mat-icon matTooltip="Delete meeting"
+                                                (click)="openDeleteUpcomingMeetingDialog(meeting)">delete_outline</mat-icon>
+                                        </div>
+                                    </div>
+
+                                    <div class="meeting-container-padding">
+                                        <div class="meeting-container">
+                                            <div class="heading">
+                                                <div class="date">
+                                                    <span>{{getMeetingDay(meeting.meetingSlot)}}
+                                                    </span>
+                                                    <span>{{getMeetingMonth(meeting.meetingSlot)}}</span>
+                                                </div>
+
+                                                <div class="info">
+                                                    <span>{{getMeetingParticipantName(meeting)}}</span>
+                                                    <span
+                                                        *ngIf="getMeetingMinute(meeting.meetingSlot) == 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}0
+                                                    </span>
+                                                    <span
+                                                        *ngIf="getMeetingMinute(meeting.meetingSlot) != 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="subject">
+                                                <mat-icon>center_focus_strong</mat-icon>
+                                                <span>
+                                                    {{getMeetingSubject(meeting)}}
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="footer" *ngIf="!isMeetingPanelOpen[meeting.id]">
+                                        <div class="inner-footer" (click)="toggleMeetingPanel(meeting)">
+                                            <mat-icon color="primary">keyboard_arrow_down</mat-icon>
+                                        </div>
+                                    </div>
+
+                                    <div class="meeting-container-padding" [hidden]="!isMeetingPanelOpen[meeting.id]"
+                                        [@slideInOut]="isMeetingPanelOpen[meeting.id] ? 'in' : 'out'">
+                                        <div class="meeting-container">
+                                            <mat-divider></mat-divider>
+
+                                            <div class="description">
+                                                <div class="content">
+                                                    <span>Meeting description
+                                                        ({{getDescriptionOwner(meeting)}})</span>
+                                                    <span>{{meeting.description}}</span>
+                                                    <a href="mailto:{{getMeetingParticipantEmail(meeting)}}">
+                                                        <span
+                                                            class="email">{{getMeetingParticipantEmail(meeting)}}</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="footer" *ngIf="isMeetingPanelOpen[meeting.id]">
+                                        <div class="inner-footer" (click)="toggleMeetingPanel(meeting)">
+                                            <mat-icon color="primary">keyboard_arrow_up</mat-icon>
+                                        </div>
+                                    </div>
+                                </mat-card>
+                            </div>
+                        </div>
+
+                        <div class="column2" *ngIf="filteredMeetings.length">
+                            <div class="upcomingmeeting-cards">
+                                <mat-card class="meeting-card" *ngFor="let meeting of upcomingMeetingsSecondColumn">
+                                    <div class="header">
+                                        <div class="inner-header">
+                                            <span>{{getMeetingType(meeting)}}</span>
+                                            <mat-icon matTooltip="Delete meeting"
+                                                (click)="openDeleteUpcomingMeetingDialog(meeting)">delete_outline</mat-icon>
+                                        </div>
+                                    </div>
+
+                                    <div class="meeting-container-padding">
+                                        <div class="meeting-container">
+                                            <div class="heading">
+                                                <div class="date">
+                                                    <span>{{getMeetingDay(meeting.meetingSlot)}}
+                                                    </span>
+                                                    <span>{{getMeetingMonth(meeting.meetingSlot)}}</span>
+                                                </div>
+
+                                                <div class="info">
+                                                    <span>{{getMeetingParticipantName(meeting)}}</span>
+                                                    <span
+                                                        *ngIf="getMeetingMinute(meeting.meetingSlot) == 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}0
+                                                    </span>
+                                                    <span
+                                                        *ngIf="getMeetingMinute(meeting.meetingSlot) != 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="subject">
+                                                <mat-icon>center_focus_strong</mat-icon>
+                                                <span>
+                                                    {{getMeetingSubject(meeting)}}
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="footer" *ngIf="!isMeetingPanelOpen[meeting.id]">
+                                        <div class="inner-footer" (click)="toggleMeetingPanel(meeting)">
+                                            <mat-icon color="primary">keyboard_arrow_down</mat-icon>
+                                        </div>
+                                    </div>
+
+                                    <div class="meeting-container-padding" [hidden]="!isMeetingPanelOpen[meeting.id]">
+                                        <div class="meeting-container"
+                                            [@slideInOut]="isMeetingPanelOpen[meeting.id] ? 'in' : 'out'">
+                                            <mat-divider></mat-divider>
+
+                                            <div class="description">
+                                                <div class="content">
+                                                    <span>Meeting description
+                                                        ({{getDescriptionOwner(meeting)}})</span>
+                                                    <span>{{meeting.description}}</span>
+                                                    <a href="mailto:{{getMeetingParticipantEmail(meeting)}}">
+                                                        <span
+                                                            class="email">{{getMeetingParticipantEmail(meeting)}}</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="footer" *ngIf="isMeetingPanelOpen[meeting.id]">
+                                        <div class="inner-footer" (click)="toggleMeetingPanel(meeting)">
+                                            <mat-icon color="primary">keyboard_arrow_up</mat-icon>
+                                        </div>
+                                    </div>
+                                </mat-card>
+                            </div>
+                        </div>
+
+                        <div class="no-results" *ngIf="!filteredMeetings.length">
+                            <span>No meeting slots</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="scroll-up" *ngIf="displayScrollButton()" (click)="scrollToTimelineSection()">
+    <mat-icon>arrow_upward</mat-icon>
+</div>

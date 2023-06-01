@@ -17,4 +17,6 @@ import java.util.List;
 public interface UniversityYearRepository extends JpaRepository<UniversityYear, Long>, JpaSpecificationExecutor<UniversityYear> {
     List<UniversityYear> findAllByFacultyAndYearIn(Faculty faculty,
                                                    List<Year> years);
+
+    List<UniversityYear> findAllByYearAndFacultyIdAndSeries(Year year, Long faculty_id, String series);
 }

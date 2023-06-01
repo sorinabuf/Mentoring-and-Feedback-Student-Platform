@@ -1,9 +1,11 @@
 package com.poli.meets.mentorship.web.rest;
 
 import com.poli.meets.mentorship.domain.MeetingRequest;
+import com.poli.meets.mentorship.service.dto.MeetingDTO;
 import com.poli.meets.mentorship.service.dto.MeetingRequestDTO;
 import com.poli.meets.mentorship.service.MeetingRequestService;
 
+import com.poli.meets.mentorship.service.dto.MeetingSlotDTO;
 import com.poli.meets.mentorship.service.dto.PagedResponse;
 import com.poli.meets.mentorship.web.rest.errors.BadRequestException;
 import lombok.AllArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -94,6 +97,24 @@ public class MeetingRequestResource {
     public ResponseEntity<Void> deleteMeetingRequest(@PathVariable Long id) {
         log.debug("REST request to delete MeetingRequest : {}", id);
         meetingRequestService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/meeting-requests/current-user/mentor")
+    public ResponseEntity<List<MeetingDTO>> getAllUpcomingMeetingSlots(
+            @RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok().body(meetingRequestService.findAllUpcomingMeetings(token));
+    }
+
+    @GetMapping("/meeting-requests/current-user/student")
+    public ResponseEntity<List<MeetingDTO>> getStudentUpcomingMeetingSlots(
+            @RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok().body(meetingRequestService.findStudentUpcomingMeetings(token));
+    }
+
+    @DeleteMapping("/meeting-requests")
+    public ResponseEntity<Void> deleteMeetingRequest(@RequestBody MeetingDTO meetingDTO) {
+        meetingRequestService.deleteUpcomingMeeting(meetingDTO);
         return ResponseEntity.noContent().build();
     }
 }

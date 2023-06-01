@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MtxDatetimepickerModule } from '@ng-matero/extensions/datetimepicker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -51,6 +52,9 @@ import { FormComponent } from './components/feedback/give-feedback/form/form.com
 import { AllSubjectsComponent } from './components/feedback/view-feedback/all-subjects/all-subjects.component';
 import { SubjectDetailsComponent } from './components/feedback/view-feedback/subject-details/subject-details.component';
 import { PhotoDialogComponent } from './components/dialog/photo-dialog/photo-dialog.component';
+import { UpcomingMeetingsComponent } from './components/mentorship/upcoming-meetings/upcoming-meetings.component';
+import { MtxNativeDatetimeModule } from '@ng-matero/extensions/core';
+import { FreeSlotComponent } from './components/dialog/free-slot/free-slot.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +81,8 @@ import { PhotoDialogComponent } from './components/dialog/photo-dialog/photo-dia
     AllSubjectsComponent,
     SubjectDetailsComponent,
     PhotoDialogComponent,
+    UpcomingMeetingsComponent,
+    FreeSlotComponent,
   ],
   imports: [
     BrowserModule,
@@ -101,7 +107,9 @@ import { PhotoDialogComponent } from './components/dialog/photo-dialog/photo-dia
     MatSelectModule,
     MatTabsModule,
     MatChipsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MtxDatetimepickerModule,
+    MtxNativeDatetimeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
@@ -112,7 +120,8 @@ import { PhotoDialogComponent } from './components/dialog/photo-dialog/photo-dia
     ConfirmationDialogComponent,
     AccountInformationDialogComponent,
     MentorDialogComponent,
-    PhotoDialogComponent
+    PhotoDialogComponent,
+    FreeSlotComponent
   ]
 })
 export class AppModule {

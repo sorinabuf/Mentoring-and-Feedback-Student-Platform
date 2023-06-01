@@ -16,6 +16,7 @@ import { FormComponent } from './components/feedback/give-feedback/form/form.com
 import { AllSubjectsComponent } from './components/feedback/view-feedback/all-subjects/all-subjects.component';
 import { SubjectDetailsComponent } from './components/feedback/view-feedback/subject-details/subject-details.component';
 import { MentorInfoResolver } from './resolvers/mentor-info.resolver';
+import { UpcomingMeetingsComponent } from './components/mentorship/upcoming-meetings/upcoming-meetings.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuardService] },
@@ -24,6 +25,13 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   {
     path: 'my-account', component: MyAccountComponent, canActivate: [AuthGuardService], resolve: {
+      student: UserResolver,
+      mentorInfo: MentorInfoResolver
+    },
+  },
+  {
+    path: 'mentorship/upcoming-meetings', component: UpcomingMeetingsComponent,
+    canActivate: [AuthGuardService], resolve: {
       student: UserResolver,
       mentorInfo: MentorInfoResolver
     },

@@ -1,11 +1,17 @@
 package com.poli.meets.mentorship.service;
 
 import com.poli.meets.mentorship.client.AuthClient;
+import com.poli.meets.mentorship.domain.UniversityYear;
 import com.poli.meets.mentorship.repository.StudentRepository;
 import com.poli.meets.mentorship.domain.Student;
+import com.poli.meets.mentorship.repository.UniversityYearRepository;
 import com.poli.meets.mentorship.service.dto.StudentDTO;
+import com.poli.meets.mentorship.service.dto.StudentPostDTO;
+import com.poli.meets.mentorship.service.dto.UniversityYearPostDTO;
 import com.poli.meets.mentorship.service.mapper.StudentMapper;
 
+import com.poli.meets.mentorship.service.util.ImageUtility;
+import com.poli.meets.mentorship.web.rest.errors.BadRequestException;
 import com.poli.meets.mentorship.web.rest.errors.ForbiddenException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,9 +19,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Service Implementation for managing {@link Student}.
@@ -28,20 +36,22 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
 
+    private final UniversityYearRepository universityYearRepository;
+
     private final StudentMapper studentMapper;
 
     private final AuthClient authClient;
 
-    /**
-     * Save a student.
-     *
-     * @param studentDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public StudentDTO save(StudentDTO studentDTO) {
-        log.debug("Request to save Student : {}", studentDTO);
-        Student student = studentMapper.toEntity(studentDTO);
+    public StudentDTO save(StudentPostDTO studentPostDTO, Optional<MultipartFile> imageOptional, String token) throws IOException {
+        log.debug("Request to save Student : {}", studentPostDTO);
+        Student student = studentMapper.toEntity(studentPostDTO);
+
+        if (imageOptional.isPresent()) {
+            student.setImage(ImageUtility.compressImage(imageOptional.get().getBytes()));
+        }
+
         student = studentRepository.save(student);
+
         return studentMapper.toDto(student);
     }
 

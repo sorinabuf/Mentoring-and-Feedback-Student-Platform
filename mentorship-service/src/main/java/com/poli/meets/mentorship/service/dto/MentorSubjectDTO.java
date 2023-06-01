@@ -16,7 +16,7 @@ public class MentorSubjectDTO implements Serializable {
     private Long id;
 
 
-    private Long universityClassId;
+    private UniversityClassDTO universityClass;
 
     private Long mentorId;
 }

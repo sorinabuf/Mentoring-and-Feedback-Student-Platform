@@ -33,6 +33,9 @@
     <include file="config/liquibase/changelog/20230517121500_added_entity_constraints_MeetingSlot.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230517121600_added_entity_constraints_MeetingRequest.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230527000000_added_semester_field_UniversityClass.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230530000000_added_field_university_class_MeetingRequest.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230531000000_added_field_mentor_subject_MeetingRequest.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230531082500_added_field_image_Subject.xml" relativeToChangelogFile="false"/>
 
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->

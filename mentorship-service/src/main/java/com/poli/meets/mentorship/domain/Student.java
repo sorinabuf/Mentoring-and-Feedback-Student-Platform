@@ -45,6 +45,9 @@ public class Student {
     @Column(name = "personal_email")
     private String personalEmail;
 
+    @Column(name = "image")
+    private byte[] image;
+
     @OneToMany(mappedBy = "student")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Mentor> mentors = new HashSet<>();

@@ -13,11 +13,9 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {UniversityClassMapper.class, MentorMapper.class})
 public interface MentorSubjectMapper extends EntityMapper<MentorSubjectDTO, MentorSubject> {
 
-    @Mapping(source = "universityClass.id", target = "universityClassId")
     @Mapping(source = "mentor.id", target = "mentorId")
     MentorSubjectDTO toDto(MentorSubject mentorSubject);
 
-    @Mapping(source = "universityClassId", target = "universityClass")
     @Mapping(source = "mentorId", target = "mentor")
     MentorSubject toEntity(MentorSubjectDTO mentorSubjectDTO);
 

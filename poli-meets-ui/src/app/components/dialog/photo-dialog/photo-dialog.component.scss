@@ -1,7 +1,7 @@
-.mat-mdc-dialog-content {
+.mat-mdc-dialog-content.mdc-dialog__content.photo-dialog {
     max-height: 85vh;
     max-width: 50vw;
-    padding: 32px 40px !important;
+    padding: 32px 40px;
 }
 
 .cdk-overlay-dark-backdrop {

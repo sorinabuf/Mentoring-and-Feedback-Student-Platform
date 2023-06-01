@@ -13,7 +13,6 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {StudentMapper.class})
 public interface MentorMapper extends EntityMapper<MentorDTO, Mentor> {
 
-    @Mapping(source = "student.id", target = "studentId")
     MentorDTO toDto(Mentor mentor);
 
     @Mapping(target = "mentorSubjects", ignore = true)
@@ -22,7 +21,6 @@ public interface MentorMapper extends EntityMapper<MentorDTO, Mentor> {
     @Mapping(target = "removeMentorSkills", ignore = true)
     @Mapping(target = "meetingSlots", ignore = true)
     @Mapping(target = "removeMeetingSlots", ignore = true)
-    @Mapping(source = "studentId", target = "student")
     Mentor toEntity(MentorDTO mentorDTO);
 
     default Mentor fromId(Long id) {

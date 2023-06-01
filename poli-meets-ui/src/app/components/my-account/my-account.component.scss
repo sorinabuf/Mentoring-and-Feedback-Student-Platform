@@ -323,3 +323,10 @@
     padding-left: 0;
     padding-right: 0;
 }
+
+.mentor-dialog {
+    .mat-mdc-dialog-container {
+        max-width: 50vw;
+        min-width: 40vw;
+    }
+}
