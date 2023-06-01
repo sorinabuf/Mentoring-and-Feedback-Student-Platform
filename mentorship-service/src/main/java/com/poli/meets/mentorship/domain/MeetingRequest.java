@@ -1,6 +1,7 @@
 package com.poli.meets.mentorship.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.poli.meets.mentorship.domain.enumeration.MeetingRequestStatus;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -34,7 +35,8 @@ public class MeetingRequest {
     private String description;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private MeetingRequestStatus status;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "meetingRequests", allowSetters = true)
@@ -43,6 +45,10 @@ public class MeetingRequest {
     @ManyToOne
     @JsonIgnoreProperties(value = "meetingRequests", allowSetters = true)
     private Student student;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "meetingRequests", allowSetters = true)
+    private MentorSubject mentorSubject;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -56,7 +62,7 @@ public class MeetingRequest {
         return this;
     }
 
-    public MeetingRequest status(String status) {
+    public MeetingRequest status(MeetingRequestStatus status) {
         this.status = status;
         return this;
     }

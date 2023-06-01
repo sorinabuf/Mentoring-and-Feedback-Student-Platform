@@ -1,0 +1,26 @@
+<mat-dialog-content class=free-slot>
+    <div class="dialog-header">
+        <p>Add Booking Slot</p>
+
+        <p>IMPORTANT: Once submitted, the slot will be open for booking to all students.</p>
+    </div>
+
+    <div class="dialog-content">
+        <div class="date-field">
+            <mat-label>Select a date and time</mat-label>
+
+            <mat-form-field>
+                <mtx-datetimepicker #datetimePicker></mtx-datetimepicker>
+                <input [mtxDatetimepicker]="datetimePicker" [min]="getCurrentDate()" [formControl]="datetime" matInput placeholder="MM/DD/YYYY, HH:MM --">
+                <mtx-datetimepicker-toggle [for]="datetimePicker" matSuffix>
+                </mtx-datetimepicker-toggle>
+            </mat-form-field>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button color="primary" cdkFocusInitial
+        [disabled]="!datetime.valid" (click)="onFreeSlotSubmit()">SUBMIT</button>
+    <button mat-button color="primary" mat-dialog-close="close">CLOSE</button>
+</mat-dialog-actions>

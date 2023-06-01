@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MtxDatetimepickerModule } from '@ng-matero/extensions/datetimepicker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -54,6 +55,9 @@ import { PhotoDialogComponent } from './components/dialog/photo-dialog/photo-dia
 import { MatRadioModule } from "@angular/material/radio";
 import {FeedbackDialogComponent} from "./components/dialog/feedback-dialog/feedback-dialog.component";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { UpcomingMeetingsComponent } from './components/mentorship/upcoming-meetings/upcoming-meetings.component';
+import { MtxNativeDatetimeModule } from '@ng-matero/extensions/core';
+import { FreeSlotComponent } from './components/dialog/free-slot/free-slot.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +85,8 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     SubjectDetailsComponent,
     PhotoDialogComponent,
     FeedbackDialogComponent
+    UpcomingMeetingsComponent,
+    FreeSlotComponent,
   ],
   imports: [
     BrowserModule,
@@ -108,6 +114,8 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     MatProgressBarModule,
     MatRadioModule,
     MatButtonToggleModule
+    MtxDatetimepickerModule,
+    MtxNativeDatetimeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
@@ -118,7 +126,8 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     ConfirmationDialogComponent,
     AccountInformationDialogComponent,
     MentorDialogComponent,
-    PhotoDialogComponent
+    PhotoDialogComponent,
+    FreeSlotComponent
   ]
 })
 export class AppModule {

@@ -205,6 +205,7 @@ export class MyAccountComponent {
       skills: this.skills,
       subjects: this.subjects
     }
+    dialogConfig.panelClass = "mentor-dialog";
 
     const dialogRef = this.dialog.open(MentorDialogComponent, dialogConfig);
 

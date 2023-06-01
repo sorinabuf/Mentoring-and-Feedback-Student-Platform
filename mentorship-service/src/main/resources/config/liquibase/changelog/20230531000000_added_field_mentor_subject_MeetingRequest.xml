@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <!--
+        Added the entity MeetingRequest.
+    -->
+    <changeSet id="20230531000000-1" author="sorinabuf">
+        <dropColumn tableName="meeting_request">
+            <column name="university_class_id"/>
+        </dropColumn>
+
+        <addColumn tableName="meeting_request">
+            <column name="mentor_subject_id"
+                    type="bigint"/>
+        </addColumn>
+
+        <addForeignKeyConstraint baseColumnNames="mentor_subject_id"
+                                 baseTableName="meeting_request"
+                                 constraintName="fk_meeting_request_mentor_subject"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mentor_subject"/>
+    </changeSet>
+
+</databaseChangeLog>

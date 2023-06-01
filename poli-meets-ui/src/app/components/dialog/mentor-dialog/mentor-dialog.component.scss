@@ -2,17 +2,9 @@
 @import "../../../../text_form_field";
 @import "../../../../theme_variables";
 
-.mat-mdc-dialog-container {
-    max-width: 50vw;
-    min-width: 40vw;
-}
-
-.mat-mdc-dialog-content {
-    max-height: 85vh;
-}
-
 .mat-mdc-dialog-content.mdc-dialog__content.mentor-dialog {
     padding: 0;
+    max-height: 85vh;
 }
 
 .dialog-header {

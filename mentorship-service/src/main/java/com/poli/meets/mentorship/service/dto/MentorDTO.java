@@ -18,5 +18,5 @@ public class MentorDTO implements Serializable {
     private String description;
 
 
-    private Long studentId;
+    private StudentDTO student;
 }

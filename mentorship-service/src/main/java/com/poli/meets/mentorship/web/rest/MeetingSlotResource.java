@@ -4,6 +4,7 @@ import com.poli.meets.mentorship.domain.MeetingSlot;
 import com.poli.meets.mentorship.service.dto.MeetingSlotDTO;
 import com.poli.meets.mentorship.service.MeetingSlotService;
 
+import com.poli.meets.mentorship.service.dto.MeetingSlotPostDTO;
 import com.poli.meets.mentorship.service.dto.PagedResponse;
 import lombok.AllArgsConstructor;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
@@ -84,5 +86,18 @@ public class MeetingSlotResource {
         log.debug("REST request to delete MeetingSlot : {}", id);
         meetingSlotService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/meeting-slots/current-user/free")
+    public ResponseEntity<List<MeetingSlotDTO>> getAllMeetingSlots(
+            @RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok().body(meetingSlotService.findFreeSlots(token));
+    }
+
+    @PostMapping("/meeting-slots/current-user")
+    public ResponseEntity<MeetingSlotDTO> createMeetingSlot(
+            @RequestHeader("Authorization") String token,
+            @RequestBody MeetingSlotPostDTO meetingSlotDTO) {
+        return ResponseEntity.ok().body(meetingSlotService.save(token, meetingSlotDTO));
     }
 }
