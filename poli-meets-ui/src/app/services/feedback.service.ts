@@ -50,4 +50,10 @@ export class FeedbackService {
     );
   }
 
+  public getFeedbackFaculty(): Observable<any> {
+    return this.http.get(
+        environment.apiUrl + '/feedback/api/faculties/me/university-classes',
+    );
+  }
+
 }

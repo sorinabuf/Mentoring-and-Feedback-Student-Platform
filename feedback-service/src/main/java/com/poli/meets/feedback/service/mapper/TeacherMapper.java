@@ -13,9 +13,6 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {})
 public interface TeacherMapper extends EntityMapper<TeacherDTO, Teacher> {
 
-
-    @Mapping(target = "universityClasses", ignore = true)
-    @Mapping(target = "removeUniversityClasses", ignore = true)
     Teacher toEntity(TeacherDTO teacherDTO);
 
     default Teacher fromId(Long id) {

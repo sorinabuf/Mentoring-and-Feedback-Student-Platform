@@ -15,4 +15,6 @@ import java.util.List;
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
     List<Feedback> findAllByUniversityClassId(Long universityClassId);
+
+    List<Feedback> findAllByStudentIdAndUniversityClassId(Long studentId, Long universityClassId);
 }

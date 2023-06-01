@@ -38,10 +38,6 @@ public class Teacher {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany(mappedBy = "teacher")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<UniversityClass> universityClasses = new HashSet<>();
-
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Teacher id(Long id) {
@@ -59,21 +55,5 @@ public class Teacher {
         return this;
     }
 
-    public Teacher universityClasses(Set<UniversityClass> universityClasses) {
-        this.universityClasses = universityClasses;
-        return this;
-    }
-
-    public Teacher addUniversityClasses(UniversityClass universityClass) {
-        this.universityClasses.add(universityClass);
-        universityClass.setTeacher(this);
-        return this;
-    }
-
-    public Teacher removeUniversityClasses(UniversityClass universityClass) {
-        this.universityClasses.remove(universityClass);
-        universityClass.setTeacher(null);
-        return this;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 }

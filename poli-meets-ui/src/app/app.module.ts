@@ -84,7 +84,7 @@ import { FreeSlotComponent } from './components/dialog/free-slot/free-slot.compo
     AllSubjectsComponent,
     SubjectDetailsComponent,
     PhotoDialogComponent,
-    FeedbackDialogComponent
+    FeedbackDialogComponent,
     UpcomingMeetingsComponent,
     FreeSlotComponent,
   ],
@@ -113,7 +113,7 @@ import { FreeSlotComponent } from './components/dialog/free-slot/free-slot.compo
     MatChipsModule,
     MatProgressBarModule,
     MatRadioModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
     MtxDatetimepickerModule,
     MtxNativeDatetimeModule
   ],

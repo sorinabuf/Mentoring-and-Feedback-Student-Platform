@@ -19,10 +19,6 @@ public interface UniversityYearMapper extends EntityMapper<UniversityYearDTO, Un
 
     FeedbackUniversityYearDTO toFeedbackDto(UniversityYear universityYear);
 
-    @Mapping(target = "universityClasses", ignore = true)
-    @Mapping(target = "removeUniversityClasses", ignore = true)
-    @Mapping(target = "students", ignore = true)
-    @Mapping(target = "removeStudents", ignore = true)
     @Mapping(source = "facultyId", target = "faculty")
     UniversityYear toEntity(UniversityYearDTO universityYearDTO);
 

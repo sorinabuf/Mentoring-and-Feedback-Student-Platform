@@ -34,7 +34,7 @@ export class SubjectsComponent {
           case "FIRST_SEMESTER":
               return Semester.FIRST_SEMESTER;
           case "SECOND_SEMESTER":
-              return Semester.FIRST_SEMESTER;
+              return Semester.SECOND_SEMESTER;
           default:
               return "N/A"
       }

@@ -108,11 +108,10 @@ public class FacultyService {
     public FeedbackFacultyDTO getFeedbackFaculty(String token) {
         Student student = studentService.getCurrentUser(token);
 
-        FeedbackFacultyDTO feedbackFacultyDTO = new FeedbackFacultyDTO();
 
         Faculty currentUserFaculty = student.getUniversityYear().getFaculty();
 
-        facultyMapper.toFeedbackDto(currentUserFaculty);
+        FeedbackFacultyDTO feedbackFacultyDTO = facultyMapper.toFeedbackDto(currentUserFaculty);
 
         List<FeedbackUniversityYearDTO> feedbackUniversityYearDTOS =
                 universityYearRepository.findAllByFaculty_Id(currentUserFaculty.getId())

@@ -19,8 +19,6 @@ public interface FacultyMapper extends EntityMapper<FacultyDTO, Faculty> {
     @Mapping(target = "removeUniversityYears", ignore = true)
     Faculty toEntity(FacultyDTO facultyDTO);
 
-    @Mapping(target = "universityYears", ignore = true)
-    @Mapping(target = "removeUniversityYears", ignore = true)
     FeedbackFacultyDTO toFeedbackDto(Faculty facultyDTO);
 
     default Faculty fromId(Long id) {

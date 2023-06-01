@@ -23,10 +23,6 @@ public interface UniversityClassMapper extends EntityMapper<UniversityClassDTO, 
 
     FeedbackUniversityClassDTO toFeedbackDto(UniversityClass universityClass);
 
-    @Mapping(target = "teachingAssistants", ignore = true)
-    @Mapping(target = "removeTeachingAssistants", ignore = true)
-    @Mapping(target = "feedbacks", ignore = true)
-    @Mapping(target = "removeFeedbacks", ignore = true)
     @Mapping(source = "teacherId", target = "teacher")
     @Mapping(source = "universityYearId", target = "universityYear")
     UniversityClass toEntity(UniversityClassDTO universityClassDTO);

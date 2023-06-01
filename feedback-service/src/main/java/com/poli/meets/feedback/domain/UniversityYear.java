@@ -41,14 +41,6 @@ public class UniversityYear {
     @Column(name = "series")
     private String series;
 
-    @OneToMany(mappedBy = "universityYear")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<UniversityClass> universityClasses = new HashSet<>();
-
-    @OneToMany(mappedBy = "universityYear")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Student> students = new HashSet<>();
-
     @ManyToOne
     @JsonIgnoreProperties(value = "universityYears", allowSetters = true)
     private Faculty faculty;
@@ -70,39 +62,6 @@ public class UniversityYear {
         return this;
     }
 
-    public UniversityYear universityClasses(Set<UniversityClass> universityClasses) {
-        this.universityClasses = universityClasses;
-        return this;
-    }
-
-    public UniversityYear addUniversityClasses(UniversityClass universityClass) {
-        this.universityClasses.add(universityClass);
-        universityClass.setUniversityYear(this);
-        return this;
-    }
-
-    public UniversityYear removeUniversityClasses(UniversityClass universityClass) {
-        this.universityClasses.remove(universityClass);
-        universityClass.setUniversityYear(null);
-        return this;
-    }
-
-    public UniversityYear students(Set<Student> students) {
-        this.students = students;
-        return this;
-    }
-
-    public UniversityYear addStudents(Student student) {
-        this.students.add(student);
-        student.setUniversityYear(this);
-        return this;
-    }
-
-    public UniversityYear removeStudents(Student student) {
-        this.students.remove(student);
-        student.setUniversityYear(null);
-        return this;
-    }
 
     public UniversityYear faculty(Faculty faculty) {
         this.faculty = faculty;

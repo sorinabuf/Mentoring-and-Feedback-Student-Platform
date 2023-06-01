@@ -10,6 +10,7 @@ import com.poli.meets.feedback.domain.Feedback;
 import com.poli.meets.feedback.repository.FeedbackRepository;
 
 import com.poli.meets.feedback.util.MathUtil;
+import com.poli.meets.feedback.web.rest.errors.ForbiddenException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +50,11 @@ public class FeedbackService {
         log.debug("Request to save Feedback : {}", feedbackPostDTO);
 
         Student student = studentService.getCurrentUser(token);
+
+        if (feedbackRepository.findAllByStudentIdAndUniversityClassId(student.getId(), feedbackPostDTO.getUniversityClassId())
+                .stream().findAny().isPresent()) {
+            throw new ForbiddenException();
+        }
 
         Feedback feedback = feedbackMapper.toEntity(feedbackPostDTO);
         feedback.setStudent(student);
