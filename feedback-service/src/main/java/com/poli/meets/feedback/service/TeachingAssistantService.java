@@ -51,11 +51,17 @@ public class TeachingAssistantService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<TeachingAssistantDTO> findAll() {
+    public List<TeachingAssistantDTO> findAll(Optional<Long> universityClassId) {
         log.debug("Request to get all TeachingAssistants");
-        return teachingAssistantRepository.findAll().stream()
-            .map(teachingAssistantMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+
+        return universityClassId.map(id -> teachingAssistantRepository.findAllByUniversityClass(id)
+                    .stream()
+                    .map(teachingAssistantMapper::toDto)
+                    .collect(Collectors.toCollection(LinkedList::new)))
+                .orElseGet(() -> teachingAssistantRepository.findAll().stream()
+                    .map(teachingAssistantMapper::toDto)
+                    .collect(Collectors.toCollection(LinkedList::new)));
+
     }
 
 

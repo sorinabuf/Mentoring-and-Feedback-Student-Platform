@@ -71,10 +71,10 @@ public class UniversityClassService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<UniversityClassDTO> findOne(Long id) {
+    public Optional<SubjectDTO> findOne(Long id) {
         log.debug("Request to get UniversityClass : {}", id);
         return universityClassRepository.findById(id)
-            .map(universityClassMapper::toDto);
+            .map(universityClassMapper::toSubjectDto);
     }
 
     /**
@@ -93,22 +93,12 @@ public class UniversityClassService {
 
         FeedbackSubjectsDTO feedbackSubjectsDTO = new FeedbackSubjectsDTO();
 
-        feedbackSubjectsDTO.setSubmittedSubjects(universityClassRepository
+        Set<SubjectDTO> submittedSubjects = universityClassRepository
                 .findAllSubmittedSubjects(student.getId()).stream()
                 .map(universityClassMapper::toSubjectDto)
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toSet());
 
-        Set<SubjectDTO> previousYearsSubjects = universityClassRepository
-                .findAllByUniversityYear_YearIn(Arrays.stream(Year.values())
-                        .filter(year -> year.compareTo(student.getUniversityYear().getYear()) < 0)
-                        .collect(Collectors.toList()))
-                .stream()
-                .map(universityClassMapper::toSubjectDto)
-                .sorted(Comparator.comparing(SubjectDTO::getYear).thenComparing(SubjectDTO::getSemester))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-
-
-        feedbackSubjectsDTO.setPreviousSubjects(previousYearsSubjects);
+        feedbackSubjectsDTO.setSubmittedSubjects(submittedSubjects);
 
         Set<SubjectDTO> activeSubjects = universityClassRepository
                 .findAllByUniversityYearId(student.getUniversityYear().getId()).stream()
@@ -116,9 +106,9 @@ public class UniversityClassService {
                 .sorted(Comparator.comparing(SubjectDTO::getSemester))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
-        feedbackSubjectsDTO.setActiveSubjects(activeSubjects);
+        activeSubjects.removeAll(submittedSubjects);
 
-        feedbackSubjectsDTO.setUnavailableSubjects(new HashSet<>());
+        feedbackSubjectsDTO.setActiveSubjects(activeSubjects);
 
         return feedbackSubjectsDTO;
     }

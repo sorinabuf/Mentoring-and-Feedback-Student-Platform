@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600");
+@import "../../../../../font_colors";
+@import "../../../../../theme_variables";
+
+.subjects-container-padding {
+  padding-top: 64px; // dimensiunea navbar-ului
+
+  .subjects-container {
+    min-height: calc(100vh - 96px); // minus dimensiunea navbar-ului
+    padding: 32px 0 0 0;
+    width: 100%;
+    background-color: #d7e4f1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+}
+
+.feedback-form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 50%;
+}
+
+.field-card {
+  margin: 16px;
+}
+
+.field-question {
+  font-size: medium;
+  padding-bottom: 32px;
+  padding-top: 24px;
+  font-family: "Montserrat";
+  display: flex;
+  flex-direction: row;
+}
+
+.required {
+  font-size: large;
+  margin-left: 5px;
+}
+
+.mat-mdc-card-content {
+  padding-left: 32px;
+  max-width: 100%;
+}
+
+.mat-mdc-card-header {
+  background-color: #002d55 !important;
+  height: 20%;
+}
+
+
+.mat-mdc-card-title {
+  font-size: xx-large;
+  padding-bottom: 32px;
+  padding-top: 32px;
+  font-family: "Montserrat";
+}
+
+.mat-mdc-card {
+  border-width: 1.5px !important;
+  border-color: grey !important;
+  width: 100%;
+}
+
+.section {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+
+  .info {
+    font-size: medium;
+    line-height: 24px;
+    margin: 0;
+
+    span {
+      font-weight: 600;
+    }
+  }
+}
+
+.mat-mdc-select-value {
+  margin-bottom: 32px;
+}
+
+.select-field {
+  min-width: 35%;
+}
+
+.textarea-field {
+  min-width: 98.5%
+
+}
+
+.submit-button {
+  margin: 16px;
+}
+
+
+.description-margin {
+  padding-bottom: 16px;
+}
+
+.radio-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.card-footer {
+  background-color: #f5f5f5;
+  max-width: 100%;
+}
+
+.note {
+  color: darkred;
+  font-size: small;
+  font-style: italic;
+  font-family: "Montserrat";
+  margin-bottom: 16px;
+  max-width: 100%;
+
+}

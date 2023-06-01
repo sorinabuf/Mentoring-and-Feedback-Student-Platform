@@ -2,6 +2,7 @@ package com.poli.meets.feedback.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poli.meets.feedback.domain.enumeration.Grade;
+import com.poli.meets.feedback.domain.enumeration.GradeDifficulty;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -61,7 +62,7 @@ public class Feedback {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "grade_difficulty")
-    private Grade gradeDifficulty;
+    private GradeDifficulty gradeDifficulty;
 
     @Column(name = "feedback_difficutly")
     private String feedbackDifficutly;
@@ -132,7 +133,7 @@ public class Feedback {
         return this;
     }
 
-    public Feedback gradeDifficulty(Grade gradeDifficulty) {
+    public Feedback gradeDifficulty(GradeDifficulty gradeDifficulty) {
         this.gradeDifficulty = gradeDifficulty;
         return this;
     }

@@ -5,6 +5,7 @@ import com.poli.meets.feedback.domain.Faculty;
 import com.poli.meets.feedback.service.dto.FacultyDTO;
 import com.poli.meets.feedback.domain.*;
 
+import com.poli.meets.feedback.service.dto.FeedbackFacultyDTO;
 import org.mapstruct.*;
 
 /**
@@ -17,6 +18,10 @@ public interface FacultyMapper extends EntityMapper<FacultyDTO, Faculty> {
     @Mapping(target = "universityYears", ignore = true)
     @Mapping(target = "removeUniversityYears", ignore = true)
     Faculty toEntity(FacultyDTO facultyDTO);
+
+    @Mapping(target = "universityYears", ignore = true)
+    @Mapping(target = "removeUniversityYears", ignore = true)
+    FeedbackFacultyDTO toFeedbackDto(Faculty facultyDTO);
 
     default Faculty fromId(Long id) {
         if (id == null) {

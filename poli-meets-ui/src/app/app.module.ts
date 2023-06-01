@@ -51,6 +51,9 @@ import { FormComponent } from './components/feedback/give-feedback/form/form.com
 import { AllSubjectsComponent } from './components/feedback/view-feedback/all-subjects/all-subjects.component';
 import { SubjectDetailsComponent } from './components/feedback/view-feedback/subject-details/subject-details.component';
 import { PhotoDialogComponent } from './components/dialog/photo-dialog/photo-dialog.component';
+import { MatRadioModule } from "@angular/material/radio";
+import {FeedbackDialogComponent} from "./components/dialog/feedback-dialog/feedback-dialog.component";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
@@ -77,6 +80,7 @@ import { PhotoDialogComponent } from './components/dialog/photo-dialog/photo-dia
     AllSubjectsComponent,
     SubjectDetailsComponent,
     PhotoDialogComponent,
+    FeedbackDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -101,7 +105,9 @@ import { PhotoDialogComponent } from './components/dialog/photo-dialog/photo-dia
     MatSelectModule,
     MatTabsModule,
     MatChipsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatRadioModule,
+    MatButtonToggleModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },

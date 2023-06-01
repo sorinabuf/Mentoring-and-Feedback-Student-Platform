@@ -1,1 +1,43 @@
-<p>all-subjects works!</p>
+<div class="feedback-container-padding">
+    <div class="feedback-container">
+        <mat-card class="feedback-action-card">
+
+            <img mat-card-image src="assets/images/feedback/feedback-bg.png">
+
+            <div class="secondary-content">
+                <div class="left-section">
+                    <p>Automatic Control and Computer Science</p>
+                    <p>Computer and Information Technology </p>
+                </div>
+                <!-- TODO: redirect to contact page when it will exist -->
+                <div class="right-section" routerLink="/home">
+                    <p>Get help</p>
+                </div>
+            </div>
+        </mat-card>
+
+        <mat-tab-group animationDuration="1000ms">
+            <mat-tab label="I">
+                <p class="choose-series">
+<!--                    <mat-button-toggle-group class = "toggle-buttons" appearance="legacy" name="fontStyle" aria-label="Font Style">-->
+<!--                        <mat-button-toggle class="toggle-button" value="bold">Bold</mat-button-toggle>-->
+<!--                        <mat-button-toggle class="toggle-button" value="italic">Italic</mat-button-toggle>-->
+<!--                        <mat-button-toggle class="toggle-button" value="underline">Underline</mat-button-toggle>-->
+<!--                    </mat-button-toggle-group>-->
+                    Choose series:
+                    <mat-button-toggle-group >
+                        <mat-button-toggle value="summer">Summer</mat-button-toggle>
+                        <mat-button-toggle value="winter">
+                            Winter
+                        </mat-button-toggle>
+                        <mat-button-toggle value="mansoon">Mansoon</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </p>
+            </mat-tab>
+            <mat-tab label="II">
+
+            </mat-tab>
+        </mat-tab-group>
+
+    </div>
+</div>

@@ -3,6 +3,7 @@ package com.poli.meets.feedback.service.mapper;
 
 import com.poli.meets.feedback.domain.UniversityClass;
 import com.poli.meets.feedback.domain.*;
+import com.poli.meets.feedback.service.dto.FeedbackUniversityClassDTO;
 import com.poli.meets.feedback.service.dto.SubjectDTO;
 import com.poli.meets.feedback.service.dto.UniversityClassDTO;
 
@@ -19,6 +20,8 @@ public interface UniversityClassMapper extends EntityMapper<UniversityClassDTO, 
     UniversityClassDTO toDto(UniversityClass universityClass);
 
     SubjectDTO toSubjectDto(UniversityClass universityClass);
+
+    FeedbackUniversityClassDTO toFeedbackDto(UniversityClass universityClass);
 
     @Mapping(target = "teachingAssistants", ignore = true)
     @Mapping(target = "removeTeachingAssistants", ignore = true)

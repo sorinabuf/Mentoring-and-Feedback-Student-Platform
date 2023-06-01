@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +73,21 @@ public class UniversityYearResource {
     public List<UniversityYearDTO> getAllUniversityYears() {
         log.debug("REST request to get all UniversityYears");
         return universityYearService.findAll();
+    }
+
+    @GetMapping("/next-university-year/days")
+    public ResponseEntity<Long> getDaysUntilNextUniversityYear() {
+        log.debug("REST request to get all UniversityYears");
+
+        LocalDateTime now = LocalDateTime.now();
+
+        int year = now.getMonthValue() >= 10 ? now.getYear() + 1 : now.getYear();
+
+        long daysBetween = Duration
+                .between(LocalDateTime.now(), LocalDateTime.of(year, Month.OCTOBER, 1, 0, 0 , 0))
+                .toDays();
+
+        return ResponseEntity.ok(daysBetween);
     }
 
 

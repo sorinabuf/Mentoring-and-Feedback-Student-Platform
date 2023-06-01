@@ -3,6 +3,7 @@ package com.poli.meets.feedback.web.rest;
 import com.poli.meets.feedback.domain.Faculty;
 import com.poli.meets.feedback.service.dto.FacultyDTO;
 import com.poli.meets.feedback.service.FacultyService;
+import com.poli.meets.feedback.service.dto.FeedbackFacultyDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -82,4 +83,11 @@ public class FacultyResource {
         facultyService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/faculties/me/university-classes")
+    public ResponseEntity<FeedbackFacultyDTO> getFeedbackFacultyDetails(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(facultyService.getFeedbackFaculty(token));
+    }
+
+
 }

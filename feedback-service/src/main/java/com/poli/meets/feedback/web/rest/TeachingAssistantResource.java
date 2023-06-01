@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,10 +64,11 @@ public class TeachingAssistantResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of teachingAssistants in body.
      */
+
     @GetMapping("/teaching-assistants")
-    public List<TeachingAssistantDTO> getAllTeachingAssistants() {
+    public List<TeachingAssistantDTO> getAllTeachingAssistants(@RequestParam(value = "universityClassId", required = false) Optional<Long> universityClassId) {
         log.debug("REST request to get all TeachingAssistants");
-        return teachingAssistantService.findAll();
+        return teachingAssistantService.findAll(universityClassId);
     }
 
 

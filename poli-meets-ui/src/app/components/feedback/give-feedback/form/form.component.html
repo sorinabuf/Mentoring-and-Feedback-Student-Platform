@@ -1,1 +1,214 @@
-<p>form works!</p>
+<div class="subjects-container-padding">
+    <div class="subjects-container">
+
+        <form class="feedback-form" [formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off">
+
+            <mat-card class="field-card" >
+                <mat-card-header> </mat-card-header>
+
+                <mat-card-content>
+                    <mat-card-title> {{universityClass?.name}}</mat-card-title>
+
+
+                    <div class="section">
+                        <mat-icon>school</mat-icon>
+                        <p class="info"><span>Teacher</span><br>{{getTeacherFullName(universityClass?.teacher)}}</p>
+                    </div>
+
+                    <div class="description-margin">
+                        <mat-card-subtitle>
+                            {{universityClass?.description}}
+                        </mat-card-subtitle>
+                    </div>
+
+                    <mat-card-footer class="card-footer">
+                        <p class="note"> Note: Please provide as many details as you can in the text area in order for your colleagues to learn
+                            from you experience with this subject. Do not forget that your opinion can be a valuable advice for others! </p>
+                    </mat-card-footer>
+
+                </mat-card-content>
+
+            </mat-card>
+
+            <mat-card class="field-card" >
+                <mat-card-content>
+                    <div class="field-question">
+                        Select you laboratory/seminary teaching assistant:
+                    </div>
+
+                    <mat-form-field class="select-field">
+                        <mat-label>Select</mat-label>
+                        <mat-select >
+                            <mat-option *ngFor="let ta of teachingAssistants" [value]="ta.value">
+                                {{ ta.label }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="field-card" >
+                <mat-card-content>
+
+                    <div class="field-question">
+                        Do you believe the content of the course is relevant to the subject?
+                        <mat-error class="required" *ngIf="form.get('gradeCourse')?.hasError('required')">*</mat-error>
+                    </div>
+
+                    <mat-radio-group  formControlName="gradeCourse" class="radio-options">
+                        <div  *ngFor="let option of options">
+                            <mat-radio-button  [value]="option.value">
+                                {{ option.label }}
+                            </mat-radio-button>
+                        </div>
+                    </mat-radio-group>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="field-card" >
+                <mat-card-content>
+                    <div class="field-question">
+                        Please give us some more details on the relevance of the course.
+                    </div>
+
+                    <mat-form-field class="textarea-field">
+                        <mat-label>Write your legacy</mat-label>
+                      <textarea formControlName="feedbackCourse" cdkTextareaAutosize
+                                #autosize="cdkTextareaAutosize" maxlength="2000" matInput></textarea>
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="field-card" >
+                <mat-card-content>
+                    <div class="field-question">
+                        Do you believe the content covered in the laboratory/seminary has helped you understand the subject?
+                        <mat-error class="required" *ngIf="form.get('gradeLaboratory')?.hasError('required')">*</mat-error>
+                    </div>
+
+                    <mat-radio-group formControlName="gradeLaboratory" class="radio-options">
+                        <div  *ngFor="let option of options">
+                            <mat-radio-button  [value]="option.value">
+                                {{ option.label }}
+                              </mat-radio-button>
+                        </div>
+                    </mat-radio-group>
+
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="field-card" >
+                <mat-card-content>
+                    <div class="field-question">
+                        Please give us some more details on the relevance of the laboratory/seminary.
+                    </div>
+
+                    <mat-form-field class="textarea-field">
+                        <mat-label>Write your legacy</mat-label>
+                        <textarea formControlName="feedbackLaboratory" cdkTextareaAutosize
+                                  #autosize="cdkTextareaAutosize" maxlength="2000" matInput></textarea>
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="field-card" >
+                <mat-card-content>
+                    <div class="field-question">
+                        Do you consider the projects/homework to be useful in understanding the subject?
+                        <mat-error class="required" *ngIf="form.get('gradeHomework')?.hasError('required')">*</mat-error>
+                    </div>
+
+                    <mat-radio-group formControlName="gradeHomework" class="radio-options">
+                        <div  *ngFor="let option of options">
+                            <mat-radio-button  [value]="option.value">
+                                {{ option.label }}
+                            </mat-radio-button>
+                        </div>
+                    </mat-radio-group>
+
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="field-card" >
+                <mat-card-content>
+                    <div class="field-question">
+                        Please give us some more details on the workload during the semester for this subject.
+                    </div>
+
+                    <mat-form-field class="textarea-field">
+                        <mat-label>Write your legacy</mat-label>
+                        <textarea formControlName="feedbackDuringSemester" cdkTextareaAutosize
+                                  #autosize="cdkTextareaAutosize" maxlength="2000" matInput></textarea>
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="field-card" >
+                <mat-card-content>
+                    <div class="field-question">
+                        Do you consider the exam accurately reflected the course material and learning objectives?
+                        <mat-error class="required" *ngIf="form.get('gradeExam')?.hasError('required')">*</mat-error>
+                    </div>
+
+                    <mat-radio-group formControlName="gradeExam" class="radio-options">
+                        <div  *ngFor="let option of options">
+                            <mat-radio-button  [value]="option.value">
+                                {{ option.label }}
+                            </mat-radio-button>
+                        </div>
+                    </mat-radio-group>
+
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="field-card" >
+                <mat-card-content>
+                    <div class="field-question">
+                        Please give us some more details on how was your exam experience for this subject.
+                    </div>
+
+                    <mat-form-field class="textarea-field">
+                        <mat-label>Write your legacy</mat-label>
+                        <textarea formControlName="feedbackExam" cdkTextareaAutosize
+                                  #autosize="cdkTextareaAutosize" maxlength="2000" matInput></textarea>                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="field-card" >
+                <mat-card-content>
+                    <div class="field-question">
+                        How would you rate the overall subject difficulty?
+                        <mat-error class="required" *ngIf="form.get('gradeDifficulty')?.hasError('required')">*</mat-error>
+                    </div>
+
+                    <mat-radio-group formControlName="gradeDifficulty" class="radio-options">
+                        <div  *ngFor="let option of optionsDifficulty">
+                            <mat-radio-button  [value]="option.value">
+                                {{ option.label }}
+                            </mat-radio-button>
+                        </div>
+                    </mat-radio-group>
+
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="field-card" >
+                <mat-card-content>
+                    <div class="field-question">
+                        Please explain the key factors of why the subject was difficult or easy.
+                    </div>
+
+                    <mat-form-field class="textarea-field">
+                        <mat-label>Write your legacy</mat-label>
+                        <textarea formControlName="feedbackDifficulty" cdkTextareaAutosize
+                                  #autosize="cdkTextareaAutosize" maxlength="2000" matInput></textarea>                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+
+
+            <button (click)="openFeedbackDialog()" class="submit-button" mat-raised-button color="primary" type="submit">SUBMIT FEEDBACK</button>
+        </form>
+
+
+    </div>
+</div>
