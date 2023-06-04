@@ -12,7 +12,7 @@ import { FeedbackService } from 'src/app/services/feedback.service';
 })
 export class MyFeedbackComponent {
   numDaysTillYearEnd : number;
-  numSubjectsForFeedback: number;
+  numSubmittedSubjectsForFeedback: number;
   numAvailableSubjectsForFeedback: number;
   faculty: string | undefined;
   specialty: string | undefined;
@@ -22,7 +22,7 @@ export class MyFeedbackComponent {
   constructor(private activatedRoute: ActivatedRoute, private feedbackService: FeedbackService) { 
     // TODO: use feedback service to fetch the numbers
     this.numDaysTillYearEnd = 0;
-    this.numSubjectsForFeedback = 0;
+    this.numSubmittedSubjectsForFeedback = 0;
     this.numAvailableSubjectsForFeedback = 0;
   }
 
@@ -37,7 +37,16 @@ export class MyFeedbackComponent {
       } else {
         this.studyCycle = "License";
       }
-    })
+    });
+
+    this.feedbackService.getDaysUntilNextYear().subscribe((numDaysTillYearEnd) => {
+      this.numDaysTillYearEnd = numDaysTillYearEnd;
+    });
+
+    this.feedbackService.countFeedbackLeft().subscribe((response) => {
+      this.numSubmittedSubjectsForFeedback = response.countSubmitted;
+      this.numAvailableSubjectsForFeedback = response.countActive;
+    });
 
     AOS.init();
   }

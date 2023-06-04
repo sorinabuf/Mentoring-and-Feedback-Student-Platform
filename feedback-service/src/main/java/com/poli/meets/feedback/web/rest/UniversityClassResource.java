@@ -1,10 +1,14 @@
 package com.poli.meets.feedback.web.rest;
 
 import com.poli.meets.feedback.domain.UniversityClass;
+import com.poli.meets.feedback.service.FeedbackService;
+import com.poli.meets.feedback.service.dto.FeedbackSubjectDetailsDTO;
 import com.poli.meets.feedback.service.dto.FeedbackSubjectsDTO;
+import com.poli.meets.feedback.service.dto.SubjectDTO;
 import com.poli.meets.feedback.service.dto.UniversityClassDTO;
 import com.poli.meets.feedback.service.UniversityClassService;
 
+import com.poli.meets.feedback.web.rest.errors.BadRequestException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UniversityClassResource {
 
     private final UniversityClassService universityClassService;
+
+    private final FeedbackService feedbackService;
 
 
     /**
@@ -71,6 +77,13 @@ public class UniversityClassResource {
         return universityClassService.findAll();
     }
 
+    @GetMapping("/university-classes/{id}")
+    public ResponseEntity<SubjectDTO> getAllUniversityClass(@PathVariable Long id) {
+        log.debug("REST request to get all UniversityClasses");
+        return ResponseEntity.ok(universityClassService.findOne(id)
+                .orElseThrow(BadRequestException::new));
+    }
+
     /**
      * {@code DELETE  /university-classes/:id} : delete the "id" universityClass.
      *
@@ -87,6 +100,11 @@ public class UniversityClassResource {
     @GetMapping("/university-classes/me")
     public ResponseEntity<FeedbackSubjectsDTO> getAllUniversityClassesForCurrentUser(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(universityClassService.findAllFeedbackSubjects(token));
+    }
+
+    @GetMapping("/university-classes/{id}/feedback-details")
+    public ResponseEntity<FeedbackSubjectDetailsDTO> getUniversityClassFeedbackDetails(@PathVariable Long id) {
+        return ResponseEntity.ok(feedbackService.getUniversityClassFeedbackDetails(id));
     }
 
 }

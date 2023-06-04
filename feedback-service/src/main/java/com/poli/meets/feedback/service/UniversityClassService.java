@@ -1,21 +1,20 @@
 package com.poli.meets.feedback.service;
 
-import com.poli.meets.feedback.client.AuthClient;
 import com.poli.meets.feedback.domain.Student;
-import com.poli.meets.feedback.domain.enumeration.Year;
+import com.poli.meets.feedback.repository.FeedbackRepository;
 import com.poli.meets.feedback.repository.UniversityClassRepository;
+import com.poli.meets.feedback.service.dto.FeedbackSubjectDetailsDTO;
 import com.poli.meets.feedback.service.dto.FeedbackSubjectsDTO;
 import com.poli.meets.feedback.service.dto.SubjectDTO;
 import com.poli.meets.feedback.service.dto.UniversityClassDTO;
 import com.poli.meets.feedback.service.mapper.UniversityClassMapper;
 import com.poli.meets.feedback.domain.UniversityClass;
 
+import com.poli.meets.feedback.web.rest.errors.BadRequestException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -71,10 +70,10 @@ public class UniversityClassService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<UniversityClassDTO> findOne(Long id) {
+    public Optional<SubjectDTO> findOne(Long id) {
         log.debug("Request to get UniversityClass : {}", id);
         return universityClassRepository.findById(id)
-            .map(universityClassMapper::toDto);
+            .map(universityClassMapper::toSubjectDto);
     }
 
     /**
@@ -93,22 +92,12 @@ public class UniversityClassService {
 
         FeedbackSubjectsDTO feedbackSubjectsDTO = new FeedbackSubjectsDTO();
 
-        feedbackSubjectsDTO.setSubmittedSubjects(universityClassRepository
+        Set<SubjectDTO> submittedSubjects = universityClassRepository
                 .findAllSubmittedSubjects(student.getId()).stream()
                 .map(universityClassMapper::toSubjectDto)
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toSet());
 
-        Set<SubjectDTO> previousYearsSubjects = universityClassRepository
-                .findAllByUniversityYear_YearIn(Arrays.stream(Year.values())
-                        .filter(year -> year.compareTo(student.getUniversityYear().getYear()) < 0)
-                        .collect(Collectors.toList()))
-                .stream()
-                .map(universityClassMapper::toSubjectDto)
-                .sorted(Comparator.comparing(SubjectDTO::getYear).thenComparing(SubjectDTO::getSemester))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-
-
-        feedbackSubjectsDTO.setPreviousSubjects(previousYearsSubjects);
+        feedbackSubjectsDTO.setSubmittedSubjects(submittedSubjects);
 
         Set<SubjectDTO> activeSubjects = universityClassRepository
                 .findAllByUniversityYearId(student.getUniversityYear().getId()).stream()
@@ -116,10 +105,11 @@ public class UniversityClassService {
                 .sorted(Comparator.comparing(SubjectDTO::getSemester))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
-        feedbackSubjectsDTO.setActiveSubjects(activeSubjects);
+        activeSubjects.removeAll(submittedSubjects);
 
-        feedbackSubjectsDTO.setUnavailableSubjects(new HashSet<>());
+        feedbackSubjectsDTO.setActiveSubjects(activeSubjects);
 
         return feedbackSubjectsDTO;
     }
+
 }

@@ -19,7 +19,7 @@
                             </div>
 
                             <div class="redirect">
-                                <div class="clickable-content" routerLink="/feedback/subjects">
+                                <div class="clickable-content" routerLink="/feedback/me/subjects/{{subject.id}}/form">
                                     <span>Give feedback</span>
                                     <mat-icon>open_in_new</mat-icon>
                                 </div>
@@ -43,13 +43,6 @@
                             <div class="section">
                                 <mat-icon>school</mat-icon>
                                 <p class="info"><span>Teacher</span><br>{{getTeacherFullName(subject.teacher)}}</p>
-                            </div>
-
-                            <div class="redirect">
-                                <div class="clickable-content" routerLink="/feedback/subjects">
-                                    <span>Give feedback</span>
-                                    <mat-icon>open_in_new</mat-icon>
-                                </div>
                             </div>
                         </mat-card-content>
 

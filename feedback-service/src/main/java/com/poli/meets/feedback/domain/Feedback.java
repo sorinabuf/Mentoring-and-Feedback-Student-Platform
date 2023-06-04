@@ -2,6 +2,7 @@ package com.poli.meets.feedback.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poli.meets.feedback.domain.enumeration.Grade;
+import com.poli.meets.feedback.domain.enumeration.GradeDifficulty;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -10,6 +11,8 @@ import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
+import java.time.LocalDateTime;
 
 /**
  * A Feedback.
@@ -61,10 +64,10 @@ public class Feedback {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "grade_difficulty")
-    private Grade gradeDifficulty;
+    private GradeDifficulty gradeDifficulty;
 
-    @Column(name = "feedback_difficutly")
-    private String feedbackDifficutly;
+    @Column(name = "feedback_difficulty")
+    private String feedbackDifficulty;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "grade_relevance")
@@ -72,6 +75,9 @@ public class Feedback {
 
     @Column(name = "feedback_relevance")
     private String feedbackRelevance;
+
+    @Column(name = "feedback_date")
+    private LocalDateTime feedbackDate;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "feedbacks", allowSetters = true)
@@ -132,13 +138,13 @@ public class Feedback {
         return this;
     }
 
-    public Feedback gradeDifficulty(Grade gradeDifficulty) {
+    public Feedback gradeDifficulty(GradeDifficulty gradeDifficulty) {
         this.gradeDifficulty = gradeDifficulty;
         return this;
     }
 
-    public Feedback feedbackDifficutly(String feedbackDifficutly) {
-        this.feedbackDifficutly = feedbackDifficutly;
+    public Feedback feedbackDifficutly(String feedbackDiffculty) {
+        this.feedbackDifficulty = feedbackDiffculty;
         return this;
     }
 

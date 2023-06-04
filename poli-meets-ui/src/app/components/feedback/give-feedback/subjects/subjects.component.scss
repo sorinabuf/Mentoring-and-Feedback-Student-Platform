@@ -43,6 +43,8 @@
 
 .mat-mdc-card-header {
   background-color: #002d55 !important;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
 }
 
 
@@ -62,7 +64,8 @@
 .mat-mdc-card {
   border-width: 1px !important;
   border-color: #002d55 !important;
-  width: 40%;
+  width: 30%;
+  border-radius: 16px 16px 16px 16px !important;
 }
 
 

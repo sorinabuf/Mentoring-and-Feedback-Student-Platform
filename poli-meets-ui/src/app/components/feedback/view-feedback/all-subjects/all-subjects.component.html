@@ -1,1 +1,72 @@
-<p>all-subjects works!</p>
+<div class="feedback-container-padding">
+    <div class="feedback-container">
+        <mat-card class="feedback-action-card">
+
+            <img mat-card-image src="assets/images/feedback/feedback-bg.png">
+
+            <div class="secondary-content">
+                <div class="left-section">
+                    <p>{{feedbackFaculty?.name}}</p>
+                    <p>{{feedbackFaculty?.domain}} </p>
+                </div>
+                <!-- TODO: redirect to contact page when it will exist -->
+                <div class="right-section" routerLink="/home">
+                    <p>Get help</p>
+                </div>
+            </div>
+        </mat-card>
+
+        <mat-tab-group animationDuration="1000ms">
+            <mat-tab *ngFor="let year of getYears()" label="{{getYearValue(year)}}">
+                <p class="choose-series">
+                    Choose series:
+                    <mat-button-toggle-group [(ngModel)]="seriesButton" >
+                        <mat-button-toggle *ngFor="let series of getSeries(year)" value="{{series}}">
+                            {{series}}
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </p>
+
+                <div class="subject-cards">
+                    <mat-card class="subject-card" *ngFor="let subject of getUniversityClasses(year, seriesButton)">
+                        <mat-card-header  >
+                            <mat-card-subtitle > {{getSemesterValue(subject.semester)}}
+                            </mat-card-subtitle>
+                        </mat-card-header>
+
+                        <mat-card-content>
+                            <div class="stars-section">
+                                <div class="star"  *ngFor="let star of [].constructor(getGradeRounded(subject.gradeOverall));">
+                                    <mat-icon>
+                                        star
+                                    </mat-icon>
+                                </div>
+
+                                <div class="star"  *ngFor="let star of [].constructor(5 - (getGradeRounded(subject.gradeOverall)))">
+                                    <mat-icon>
+                                        star_border
+                                    </mat-icon>
+                                </div>
+
+                                <div class="grade-text" >
+                                    {{getGradeWithOneDecimal(subject.gradeOverall)}} / 5.0
+                                </div>
+                            </div>
+
+                            <mat-card-title> {{subject.name}}</mat-card-title>
+
+                            <div class="redirect">
+                                <div class="clickable-content" routerLink="/feedback/subjects/{{subject.id}}/details">
+                                    <span>View subject feedback</span>
+                                    <mat-icon>open_in_new</mat-icon>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </mat-tab>
+
+        </mat-tab-group>
+
+    </div>
+</div>

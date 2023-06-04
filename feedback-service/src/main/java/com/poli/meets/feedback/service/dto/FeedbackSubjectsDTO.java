@@ -9,10 +9,5 @@ public class FeedbackSubjectsDTO {
 
     private Set<SubjectDTO> activeSubjects;
 
-    private Set<SubjectDTO> previousSubjects;
-
     private Set<SubjectDTO> submittedSubjects;
-
-    private Set<SubjectDTO> unavailableSubjects;
-
 }

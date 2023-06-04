@@ -1,1 +1,159 @@
-<p>subject-details works!</p>
+<div class="feedback-container-padding">
+    <div class="feedback-container">
+
+        <div class="overall-cards">
+            <mat-card class="subject-card" >
+                <mat-card-content class="subject-card-content">
+                    <mat-card-title class="mat-mdc-card-title-subject"> {{feedbackSubjectDetails.name}}</mat-card-title>
+
+                    <div class="teacher-section">
+                        <mat-icon>school</mat-icon>
+                        <p class="info"><span>Teacher</span><br>{{getTeacherFullName(feedbackSubjectDetails.teacher)}}</p>
+                    </div>
+
+                    <div class="description-margin">
+                        <mat-card-subtitle>
+                            Description goes here
+                        </mat-card-subtitle>
+                    </div>
+
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="overall-rating-card" >
+
+                <mat-card-content class="overall-rating-card-content">
+                    <mat-card-title class="mat-mdc-card-title-rating-overall"> Overall Rating </mat-card-title>
+
+                    <div class="grade-section">
+                        <div class="actual-grade"> {{getGradeWithOneDecimal(feedbackSubjectDetails.gradeOverall)}} </div>
+                        <div class="max-grade"> /5 </div>
+                    </div>
+
+                    <div class="stars-section">
+                        <div class="star" *ngFor="let star of [].constructor(getGradeRounded(feedbackSubjectDetails.gradeOverall));">
+                            <mat-icon>
+                                star
+                            </mat-icon>
+                        </div>
+
+                        <div class="star" *ngFor="let star of [].constructor(5 - getGradeRounded(feedbackSubjectDetails.gradeOverall))">
+                            <mat-icon>
+                                star_border
+                            </mat-icon>
+                        </div>
+                    </div>
+
+                    <div class="number-feedbacks">
+                        {{feedbackSubjectDetails.countFeedbacks}} feedbacks
+                    </div>
+
+                </mat-card-content>
+            </mat-card>
+
+        </div>
+
+        <mat-tab-group animationDuration="1000ms">
+            <mat-tab *ngFor="let category of feedbackSubjectDetails.feedbackCategories" label="{{category.categoryName}}">
+                <div class="feedback-stats">
+                    <mat-card class="specific-rating-card" >
+                        <mat-card-content class="specific-rating-card-content">
+                            <mat-card-title class="mat-mdc-card-title-rating-specific"> {{category.categoryName}} Rating </mat-card-title>
+
+                            <div class="grade-section-specific">
+                                <div class="actual-grade"> {{getGradeWithOneDecimal(category.gradeCategory)}} </div>
+                                <div class="max-grade"> /5 </div>
+                            </div>
+
+                            <div class="stars-section">
+                                <div class="star"  *ngFor="let star of [].constructor(getGradeRounded(category.gradeCategory));">
+                                    <mat-icon>
+                                        star
+                                    </mat-icon>
+                                </div>
+
+                                <div class="star"  *ngFor="let star of [].constructor(5 - getGradeRounded(category.gradeCategory))">
+                                    <mat-icon>
+                                        star_border
+                                    </mat-icon>
+                                </div>
+                            </div>
+
+                            <div class="number-feedbacks">
+                                {{feedbackSubjectDetails.countFeedbacks}} feedbacks
+                            </div>
+
+                        </mat-card-content>
+                    </mat-card>
+
+                    <mat-card class="specific-rating-card" >
+                        <mat-card-content class="specific-rating-card-content">
+                            <mat-card-title class="mat-mdc-card-title-rating-specific"> Rating breakdown </mat-card-title>
+
+                            <div class="stars-section-breakdown">
+                                <div class="grade-star-bar"  *ngFor="let star of category.ratingBreakdown">
+                                    <div class="grade" >
+                                        {{star.grade}}
+                                    </div>
+                                    <mat-icon class="star-icon">
+                                        star
+                                    </mat-icon>
+
+                                    <mat-progress-bar class= "bar" mode="determinate"
+                                                      value="{{getPercentageFeedbacks(star.numberGrades, feedbackSubjectDetails.countFeedbacks)}}">
+                                    </mat-progress-bar>
+
+                                    <div class="number-reviews" >
+                                        {{star.numberGrades}}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+
+                <mat-card class="review-section" >
+                    <mat-card-content class="review-section-content">
+                        <mat-card-title class="review-section-title"> Reviews Section </mat-card-title>
+                    </mat-card-content>
+                </mat-card>
+
+                <div class="comment-section" *ngFor="let comment of category.feedbackComments">
+                    <mat-card class="comment-card-person" >
+                        <mat-card-content class="comment-card-content">
+                            <div class="header">
+                                <div class="comment-grade">
+                                    <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 75px;"> person </span>
+
+                                    <div class="comment-date-stars">
+                                        <div class="stars-section">
+                                            <div class="star"  *ngFor="let star of [].constructor(3);">
+                                                <mat-icon>
+                                                    star
+                                                </mat-icon>
+                                            </div>
+                                            <div class="star"  *ngFor="let star of [].constructor(5 - 3)">
+                                                <mat-icon>
+                                                    star_border
+                                                </mat-icon>
+                                            </div>
+                                        </div>
+                                        <div class="date"> {{comment.feedbackDate}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+
+                    <mat-card class="comment-card-text">
+                        <p class="comment-text"> {{comment.comment}}</p>
+                    </mat-card>
+                </div>
+
+            </mat-tab>
+        </mat-tab-group>
+
+    </div>
+</div>

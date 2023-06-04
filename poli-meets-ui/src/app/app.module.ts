@@ -23,7 +23,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatRadioModule } from '@angular/material/radio';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MtxDatetimepickerModule } from '@ng-matero/extensions/datetimepicker';
 
@@ -54,6 +53,9 @@ import { FormComponent } from './components/feedback/give-feedback/form/form.com
 import { AllSubjectsComponent } from './components/feedback/view-feedback/all-subjects/all-subjects.component';
 import { SubjectDetailsComponent } from './components/feedback/view-feedback/subject-details/subject-details.component';
 import { PhotoDialogComponent } from './components/dialog/photo-dialog/photo-dialog.component';
+import { MatRadioModule } from "@angular/material/radio";
+import {FeedbackDialogComponent} from "./components/dialog/feedback-dialog/feedback-dialog.component";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import { UpcomingMeetingsComponent } from './components/mentorship/upcoming-meetings/upcoming-meetings.component';
 import { MtxNativeDatetimeModule } from '@ng-matero/extensions/core';
 import { FreeSlotComponent } from './components/dialog/free-slot/free-slot.component';
@@ -87,12 +89,14 @@ import { PendingRequestsComponent } from './components/mentorship/pending-reques
     AllSubjectsComponent,
     SubjectDetailsComponent,
     PhotoDialogComponent,
+    FeedbackDialogComponent,
     UpcomingMeetingsComponent,
     FreeSlotComponent,
     MentorsComponent,
     MentorFiltersDialogComponent,
     BookMeetingDialogComponent,
     PendingRequestsComponent,
+    SubjectDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -118,6 +122,8 @@ import { PendingRequestsComponent } from './components/mentorship/pending-reques
     MatTabsModule,
     MatChipsModule,
     MatProgressBarModule,
+    MatRadioModule,
+    MatButtonToggleModule,
     MtxDatetimepickerModule,
     MtxNativeDatetimeModule,
     MatRadioModule,

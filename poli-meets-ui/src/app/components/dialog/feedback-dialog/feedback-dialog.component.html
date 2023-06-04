@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>{{dialogTitle}}</h2>
+
+<mat-dialog-content>
+    {{dialogMessage}}
+
+    <p *ngIf="dialogSubMessage" [innerHTML]="dialogSubMessage" class="dialog-confirmation-submessage"></p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button color="primary" mat-dialog-close="no" cdkFocusInitial>Close</button>
+</mat-dialog-actions>

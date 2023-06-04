@@ -47,13 +47,6 @@ public class UniversityClass {
     @Column(name = "semester")
     private Semester semester;
 
-    @OneToMany(mappedBy = "universityClass")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<TeachingAssistantUniversityClass> teachingAssistants = new HashSet<>();
-
-    @OneToMany(mappedBy = "universityClass")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Feedback> feedbacks = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = "universityClasses", allowSetters = true)
@@ -87,40 +80,6 @@ public class UniversityClass {
 
     public UniversityClass semester(Semester semester) {
         this.semester = semester;
-        return this;
-    }
-
-    public UniversityClass teachingAssistants(Set<TeachingAssistantUniversityClass> teachingAssistantUniversityClasses) {
-        this.teachingAssistants = teachingAssistantUniversityClasses;
-        return this;
-    }
-
-    public UniversityClass addTeachingAssistants(TeachingAssistantUniversityClass teachingAssistantUniversityClass) {
-        this.teachingAssistants.add(teachingAssistantUniversityClass);
-        teachingAssistantUniversityClass.setUniversityClass(this);
-        return this;
-    }
-
-    public UniversityClass removeTeachingAssistants(TeachingAssistantUniversityClass teachingAssistantUniversityClass) {
-        this.teachingAssistants.remove(teachingAssistantUniversityClass);
-        teachingAssistantUniversityClass.setUniversityClass(null);
-        return this;
-    }
-
-    public UniversityClass feedbacks(Set<Feedback> feedbacks) {
-        this.feedbacks = feedbacks;
-        return this;
-    }
-
-    public UniversityClass addFeedbacks(Feedback feedback) {
-        this.feedbacks.add(feedback);
-        feedback.setUniversityClass(this);
-        return this;
-    }
-
-    public UniversityClass removeFeedbacks(Feedback feedback) {
-        this.feedbacks.remove(feedback);
-        feedback.setUniversityClass(null);
         return this;
     }
 

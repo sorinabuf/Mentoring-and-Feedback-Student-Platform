@@ -71,5 +71,18 @@
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
+    <changeSet id="20230603000000" author="cosmin.culea">
+        <addColumn tableName="feedback">
+            <column name="feedback_date" type="datetime"> </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet  author="20230603000000-1"  id="cosmin.culea">
+        <renameColumn newColumnName="feedback_difficulty"
+                       oldColumnName="feedback_difficutly"
+                       tableName="feedback"/>
+    </changeSet>
+
+
 
 </databaseChangeLog>
