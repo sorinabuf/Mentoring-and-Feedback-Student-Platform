@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,14 +50,14 @@ public class SkillService {
     /**
      * Get all the skills.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
     public List<SkillDTO> findAll() {
         log.debug("Request to get all Skills");
-        return skillRepository.findAll().stream()
-            .map(skillMapper::toDto).collect(Collectors.toList());
+         return skillRepository.findAll().stream()
+                .map(skillMapper::toDto).sorted(Comparator.comparing(SkillDTO::getName))
+                 .collect(Collectors.toList());
     }
 
 

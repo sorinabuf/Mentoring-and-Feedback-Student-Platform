@@ -1,6 +1,7 @@
 package com.poli.meets.mentorship.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.poli.meets.mentorship.domain.enumeration.MeetingSlotStatus;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -38,7 +39,8 @@ public class MeetingSlot {
     private Instant date;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private MeetingSlotStatus status;
 
     @OneToMany(mappedBy = "meetingSlot")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -60,7 +62,7 @@ public class MeetingSlot {
         return this;
     }
 
-    public MeetingSlot status(String status) {
+    public MeetingSlot status(MeetingSlotStatus status) {
         this.status = status;
         return this;
     }

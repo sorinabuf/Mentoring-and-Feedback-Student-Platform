@@ -1,0 +1,137 @@
+<div class="mentorship-container-padding">
+    <div class="mentorship-container">
+        <div class="mentors-header" #mentors>
+            <div class="column1">
+                <span class="title-text">Mentors</span>
+
+                <mat-form-field appearance="fill" class="search">
+                    <input matInput placeholder="Search mentor by name" [(ngModel)]="searchName"
+                        (keyup.enter)="onSearch()">
+                    <div matSuffix class="icons">
+                        <mat-icon *ngIf="searchName" (click)="clearSearch()">close</mat-icon>
+                        <mat-icon (click)="onSearch()">search</mat-icon>
+                    </div>
+                </mat-form-field>
+            </div>
+
+            <div class="filters-button" (click)="openFiltersDialog()">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filters</span>
+            </div>
+        </div>
+
+        <div class="active-filters-section" *ngIf="hasActiveFilters()">
+            <div class="active-filters-text">
+                <span>Active Filters</span>
+                <button mat-button (click)="resetFilters()">CLEAR FILTERS</button>
+            </div>
+
+            <div class="active-filters">
+                <div class="active-filter" *ngIf="filters['availability']">
+                    <span>{{filters['availability']}}</span>
+                    <div class="icon" (click)="deleteAvailabilityFilter()"><mat-icon>cancel</mat-icon></div>
+                </div>
+
+                <div class="active-filter" *ngFor="let skillId of filters['skills']">
+                    <span>{{getSkillById(skillId)}}</span>
+                    <div class="icon" (click)="deleteSkillFilter(skillId)"><mat-icon>cancel</mat-icon></div>
+                </div>
+
+                <div class="active-filter" *ngFor="let subjectId of filters['subjects']">
+                    <span>{{getSubjectById(subjectId)}}</span>
+                    <div class="icon" (click)="deleteSubjectFilter(subjectId)"><mat-icon>cancel</mat-icon></div>
+                </div>
+            </div>
+        </div>
+
+        <mat-divider class="sections-divider"></mat-divider>
+
+        <div class="mentors-cards">
+            <div class="mentors-cards-inner">
+                <div class="mentor-card" *ngFor="let mentor of filteredMentors">
+                    <div class="profile">
+                        <div class="profile-photo">
+                            <img [src]="getImage(mentor)">
+                        </div>
+
+                        <a href="mailto:{{getMentorMail(mentor)}}">
+                            <mat-icon class="mail">mail</mat-icon>
+                        </a>
+
+                        <span>{{getMentorName(mentor)}}</span>
+
+                        <div class="cohort">
+                            <mat-icon>location_on</mat-icon>
+                            {{getMentorStudentInfo(mentor)}}
+                        </div>
+                    </div>
+
+                    <div class="footer">
+                        <div class="main-info">
+                            <div class="badges">
+                                <div class="column">
+                                    <mat-icon>settings</mat-icon>
+                                    {{getMentorNumBookingSlots(mentor)}} Booking Slots
+                                </div>
+
+                                <div class="vertical-divider"></div>
+
+                                <div class="column">
+                                    <mat-icon>bookmark</mat-icon>
+                                    {{getMentorNumSubjects(mentor)}} Subjects
+                                </div>
+                            </div>
+
+                            <div class="description">
+                                {{mentor.description}}
+                            </div>
+
+                            <div>
+                                <div class="buttons">
+                                    <button mat-flat-button color="primary" class="book-meeting" (click)="openBookingMeetingDialog(mentor);">REQUEST MEETING
+                                    </button>
+                                </div>
+
+                                <div class="details" (click)="toggleShowDetails(mentor)">
+                                    <span>More details</span>
+                                    <mat-icon>keyboard_arrow_up</mat-icon>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="more-details" [ngClass]="{'visible' : showDetails[mentor.id]}">
+                            <div class="details" (click)="toggleShowDetails(mentor)">
+                                <span>Back</span>
+                                <mat-icon>keyboard_arrow_down</mat-icon>
+                            </div>
+
+                            <div class="section">
+                                <span>Skills</span>
+
+                                <div class="list">
+                                    <div class="info" *ngFor="let skill of mentor.skills">
+                                        {{skill.name}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <span>Subjects</span>
+
+                                <div class="list">
+                                    <div class="info" *ngFor="let subject of mentor.subjects">
+                                        {{subject.name}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="scroll-up" *ngIf="displayScrollButton()" (click)="scrollToMentorsSection()">
+    <mat-icon>arrow_upward</mat-icon>
+</div>

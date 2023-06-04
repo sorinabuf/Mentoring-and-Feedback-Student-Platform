@@ -1,0 +1,84 @@
+@import "../../../../font_colors";
+@import "../../../../text_form_field";
+@import "../../../../theme_variables";
+
+.mat-mdc-dialog-content.mdc-dialog__content.booking-meeting-dialog {
+    padding: 0;
+    max-height: 85vh;
+    max-width: 50vw;
+}
+
+.dialog-header {
+    background-color: $primary;
+    padding: 32px 40px;
+
+    p {
+        margin: 0;
+        color: #f5f5f5;
+        font-weight: 400;
+        font-size: small;
+        padding: 0 0 24px 0;
+    }
+
+    p:first-of-type {
+        font-size: x-large;
+        font-weight: 600;
+        padding: 8px 0 16px 0;
+    }
+
+
+    span {
+        font-weight: 500;
+        font-size: x-small;
+        color: $warn;
+    }
+}
+
+.dialog-content {
+    padding: 24px 32px;
+
+    p {
+        margin: 0;
+        font-size: small;
+        font-weight: 400;
+        color: $font-color-light;
+    }
+
+    .book-meeting-fields {
+        display: flex;
+        flex-direction: column;
+
+        mat-label {
+            font-size: smaller;
+            font-weight: 500;
+            color: $font-color-light;
+            padding: 8px;
+            line-height: normal;
+
+            span {
+                font-weight: 500;
+                font-size: x-small;
+                color: $warn;
+            }
+        }
+    }
+}
+
+.cdk-overlay-dark-backdrop {
+    background: rgba(0, 0, 0, 0.32);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+}
+
+.mdc-text-field--invalid .mdc-text-field__input {
+    caret-color: inherit;
+}
+
+.mat-mdc-form-field .mat-mdc-select.mat-mdc-select-invalid .mat-mdc-select-arrow {
+    color: inherit;
+}
+
+.mat-mdc-dialog-actions.mat-mdc-dialog-actions-align-end,
+.mat-mdc-dialog-actions[align=end] {
+    gap: 16px;
+}

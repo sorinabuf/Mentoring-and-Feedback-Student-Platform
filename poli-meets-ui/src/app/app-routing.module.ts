@@ -10,13 +10,14 @@ import { NoAuthGuardService } from './services/no-auth-guard.service';
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { MyFeedbackComponent } from './components/feedback/give-feedback/my-feedback/my-feedback.component';
 import { UserResolver } from './resolvers/user.resolver';
-import { NavbarComponent } from './components/nav/navbar/navbar.component';
 import { SubjectsComponent } from './components/feedback/give-feedback/subjects/subjects.component';
 import { FormComponent } from './components/feedback/give-feedback/form/form.component';
 import { AllSubjectsComponent } from './components/feedback/view-feedback/all-subjects/all-subjects.component';
 import { SubjectDetailsComponent } from './components/feedback/view-feedback/subject-details/subject-details.component';
 import { MentorInfoResolver } from './resolvers/mentor-info.resolver';
 import { UpcomingMeetingsComponent } from './components/mentorship/upcoming-meetings/upcoming-meetings.component';
+import { MentorsComponent } from './components/mentorship/mentors/mentors.component';
+import { PendingRequestsComponent } from './components/mentorship/pending-requests/pending-requests.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuardService] },
@@ -29,10 +30,21 @@ export const routes: Routes = [
       mentorInfo: MentorInfoResolver
     },
   },
+  { path: 'mentorship', redirectTo: 'mentorship/upcoming-meetings', pathMatch: 'full' },
   {
     path: 'mentorship/upcoming-meetings', component: UpcomingMeetingsComponent,
     canActivate: [AuthGuardService], resolve: {
       student: UserResolver,
+      mentorInfo: MentorInfoResolver
+    },
+  },
+  {
+    path: 'mentorship/mentors', component: MentorsComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'mentorship/pending-requests', component: PendingRequestsComponent,
+    canActivate: [AuthGuardService], resolve: {
       mentorInfo: MentorInfoResolver
     },
   },

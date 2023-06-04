@@ -21,7 +21,7 @@
             </div>
         </mat-card>
 
-        <div class="timeline-header" #timeline>
+        <div class="title-header" #timeline>
             <span>Timeline</span>
         </div>
 
@@ -58,6 +58,10 @@
                                         <span>{{getMeetingType(meeting)}}</span>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="no-results" *ngIf="!allMeetings.length">
+                                <span>No meeting slots</span>
                             </div>
                         </div>
                     </div>
@@ -97,11 +101,8 @@
 
                                                     <div class="info">
                                                         <span>{{getMeetingParticipantName(meeting)}}</span>
-                                                        <span
-                                                            *ngIf="getMeetingMinute(meeting.meetingSlot) == 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}0
-                                                        </span>
-                                                        <span
-                                                            *ngIf="getMeetingMinute(meeting.meetingSlot) != 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}
+                                                        <span>
+                                                            {{getMeetingTime(meeting.meetingSlot)}}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -126,7 +127,7 @@
                                             [hidden]="!isMeetingPanelOpen[meeting.id]"
                                             [@slideInOut]="isMeetingPanelOpen[meeting.id] ? 'in' : 'out'">
                                             <div class="meeting-container">
-                                                <mat-divider></mat-divider>
+                                                <mat-divider class="timeline-divider"></mat-divider>
 
                                                 <div class="description">
                                                     <div class="content">
@@ -173,11 +174,8 @@
 
                                                     <div class="info">
                                                         <span>{{getMeetingParticipantName(meeting)}}</span>
-                                                        <span
-                                                            *ngIf="getMeetingMinute(meeting.meetingSlot) == 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}0
-                                                        </span>
-                                                        <span
-                                                            *ngIf="getMeetingMinute(meeting.meetingSlot) != 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}
+                                                        <span>
+                                                            {{getMeetingTime(meeting.meetingSlot)}}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -263,11 +261,8 @@
 
                                                 <div class="info">
                                                     <span>Open For Booking</span>
-                                                    <span
-                                                        *ngIf="getMeetingMinute(slot) == 0">{{getMeetingHour(slot)}}:{{getMeetingMinute(slot)}}0
-                                                    </span>
-                                                    <span
-                                                        *ngIf="getMeetingMinute(slot) != 0">{{getMeetingHour(slot)}}:{{getMeetingMinute(slot)}}
+                                                    <span>
+                                                        {{getMeetingTime(slot)}}
                                                     </span>
                                                 </div>
                                             </div>
@@ -309,11 +304,8 @@
 
                                                 <div class="info">
                                                     <span>{{getMeetingParticipantName(meeting)}}</span>
-                                                    <span
-                                                        *ngIf="getMeetingMinute(meeting.meetingSlot) == 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}0
-                                                    </span>
-                                                    <span
-                                                        *ngIf="getMeetingMinute(meeting.meetingSlot) != 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}
+                                                    <span>
+                                                        {{getMeetingTime(meeting.meetingSlot)}}
                                                     </span>
                                                 </div>
                                             </div>
@@ -384,11 +376,8 @@
 
                                                 <div class="info">
                                                     <span>{{getMeetingParticipantName(meeting)}}</span>
-                                                    <span
-                                                        *ngIf="getMeetingMinute(meeting.meetingSlot) == 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}0
-                                                    </span>
-                                                    <span
-                                                        *ngIf="getMeetingMinute(meeting.meetingSlot) != 0">{{getMeetingHour(meeting.meetingSlot)}}:{{getMeetingMinute(meeting.meetingSlot)}}
+                                                    <span>
+                                                        {{getMeetingTime(meeting.meetingSlot)}}
                                                     </span>
                                                 </div>
                                             </div>

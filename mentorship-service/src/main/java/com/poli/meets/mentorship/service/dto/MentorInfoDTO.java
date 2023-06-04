@@ -16,4 +16,6 @@ public class MentorInfoDTO implements Serializable {
     private List<UniversityClassDTO> subjects;
 
     private List<SkillDTO> skills;
+
+    private StudentDTO student;
 }

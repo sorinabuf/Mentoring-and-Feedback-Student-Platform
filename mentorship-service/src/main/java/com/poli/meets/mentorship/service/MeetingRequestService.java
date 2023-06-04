@@ -2,28 +2,21 @@ package com.poli.meets.mentorship.service;
 
 import com.poli.meets.mentorship.client.AuthClient;
 import com.poli.meets.mentorship.client.MailClient;
-import com.poli.meets.mentorship.domain.MeetingSlot;
-import com.poli.meets.mentorship.domain.Mentor;
-import com.poli.meets.mentorship.domain.Student;
+import com.poli.meets.mentorship.domain.*;
 import com.poli.meets.mentorship.domain.enumeration.MeetingRequestStatus;
+import com.poli.meets.mentorship.domain.enumeration.MeetingSlotStatus;
 import com.poli.meets.mentorship.domain.enumeration.MeetingType;
-import com.poli.meets.mentorship.repository.MeetingRequestRepository;
-import com.poli.meets.mentorship.repository.MeetingSlotRepository;
-import com.poli.meets.mentorship.repository.MentorRepository;
-import com.poli.meets.mentorship.repository.StudentRepository;
+import com.poli.meets.mentorship.repository.*;
 import com.poli.meets.mentorship.service.dto.EmailDTO;
 import com.poli.meets.mentorship.service.dto.MeetingDTO;
 import com.poli.meets.mentorship.service.dto.MeetingRequestDTO;
-import com.poli.meets.mentorship.service.dto.MeetingSlotDTO;
 import com.poli.meets.mentorship.service.mapper.MeetingRequestMapper;
-import com.poli.meets.mentorship.domain.MeetingRequest;
 
 import com.poli.meets.mentorship.service.mapper.MeetingSlotMapper;
 import com.poli.meets.mentorship.service.mapper.StudentMapper;
 import com.poli.meets.mentorship.web.rest.errors.BadRequestException;
 import com.poli.meets.mentorship.web.rest.errors.ForbiddenException;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -54,6 +47,8 @@ public class MeetingRequestService {
     private final MeetingSlotRepository meetingSlotRepository;
 
     private final MentorRepository mentorRepository;
+
+    private final MentorSubjectRepository mentorSubjectRepository;
 
     private final MeetingRequestMapper meetingRequestMapper;
 
@@ -117,7 +112,8 @@ public class MeetingRequestService {
         meetingRequestRepository.deleteById(id);
     }
 
-    public List<MeetingDTO> findAllUpcomingMeetings(String token) {
+    public List<MeetingDTO> findAllMeetings(String token,
+                                            MeetingRequestStatus meetingRequestStatus) {
         Student student =
                 studentRepository.findByStudentEmail(authClient.getCurrentUser(token).getBody())
                         .stream()
@@ -129,11 +125,12 @@ public class MeetingRequestService {
                         .findAny()
                         .orElseThrow(BadRequestException::new);
 
-        List<MeetingDTO> meetingRequestsMentors = getMentorMeetings(student);
+        List<MeetingDTO> meetingRequestsMentors = getMentorMeetings(student,
+                meetingRequestStatus);
 
         List<MeetingDTO> meetingRequestsMentees =
                 meetingRequestRepository.findByStatusAndMeetingSlot_DateAfterAndMeetingSlot_Mentor_Id
-                                (MeetingRequestStatus.APPROVED, Instant.now(), mentor.getId()).stream()
+                                (meetingRequestStatus, Instant.now(), mentor.getId()).stream()
                         .map(meetingRequestMapper::toMeetingDto)
                         .collect(Collectors.toList());
 
@@ -146,33 +143,35 @@ public class MeetingRequestService {
             meetingDTO.setMentor(studentMapper.toDto(meetingMentor.getStudent()));
         }
 
-        List<MeetingDTO> allUpcomingMeetings = new ArrayList<>();
-        allUpcomingMeetings.addAll(meetingRequestsMentors);
-        allUpcomingMeetings.addAll(meetingRequestsMentees);
+        List<MeetingDTO> allMeetings = new ArrayList<>();
+        allMeetings.addAll(meetingRequestsMentors);
+        allMeetings.addAll(meetingRequestsMentees);
 
-        allUpcomingMeetings.sort(Comparator.comparing(a -> a.getMeetingSlot().getDate()));
+        allMeetings.sort(Comparator.comparing(a -> a.getMeetingSlot().getDate()));
 
-        return allUpcomingMeetings;
+        return allMeetings;
     }
 
-    public List<MeetingDTO> findStudentUpcomingMeetings(String token) {
+    public List<MeetingDTO> findStudentMeetings(String token,
+                                                MeetingRequestStatus meetingRequestStatus) {
         Student student =
                 studentRepository.findByStudentEmail(authClient.getCurrentUser(token).getBody())
                         .stream()
                         .findAny()
                         .orElseThrow(ForbiddenException::new);
 
-        getMentorMeetings(student);
-        List<MeetingDTO> meetingRequestsMentors = getMentorMeetings(student);
+        List<MeetingDTO> meetingRequestsMentors = getMentorMeetings(student,
+                meetingRequestStatus);
         meetingRequestsMentors.sort(Comparator.comparing(a -> a.getMeetingSlot().getDate()));
 
         return meetingRequestsMentors;
     }
 
-    private List<MeetingDTO> getMentorMeetings(Student student) {
+    private List<MeetingDTO> getMentorMeetings(Student student,
+                                               MeetingRequestStatus meetingRequestStatus) {
         List<MeetingDTO> meetingRequestsMentors =
                 meetingRequestRepository.findByStudentIdAndStatusAndMeetingSlot_DateAfter
-                                (student.getId(), MeetingRequestStatus.APPROVED, Instant.now()).stream()
+                                (student.getId(), meetingRequestStatus, Instant.now()).stream()
                         .map(meetingRequestMapper::toMeetingDto)
                         .collect(Collectors.toList());
 
@@ -188,41 +187,171 @@ public class MeetingRequestService {
         return meetingRequestsMentors;
     }
 
-    public void deleteUpcomingMeeting(MeetingDTO meetingDTO) {
+    public void deleteMeeting(MeetingDTO meetingDTO, MeetingRequestStatus meetingRequestStatus) {
         meetingRequestRepository.deleteById(meetingDTO.getId());
 
         MeetingSlot meetingSlot =
                 meetingSlotMapper.toEntity(meetingDTO.getMeetingSlot());
-        meetingSlot.setStatus("open");
+        meetingSlot.setStatus(MeetingSlotStatus.OPEN);
+        meetingSlotRepository.save(meetingSlot);
+
+        if (meetingRequestStatus == MeetingRequestStatus.APPROVED) {
+            EmailDTO emailDTO = new EmailDTO();
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofPattern(DATE_PATTERN_FORMAT)
+                            .withZone(ZoneId.systemDefault());
+            Instant date = meetingDTO.getMeetingSlot().getDate();
+            String url = "http://localhost:4200";
+
+            emailDTO.setTo(meetingDTO.getStudent().getPersonalEmail());
+            emailDTO.setSubject("[PoliMeets] Upcoming meeting status update");
+            emailDTO.setBody("Hello " + meetingDTO.getStudent().getFirstName() +
+                    ",<br><br>" + "The meeting from <b>" + formatter.format(date) +
+                    "</b> with <b>" + meetingDTO.getMentor().getFirstName() + ' ' +
+                    meetingDTO.getMentor().getLastName() +
+                    "</b> has been canceled by one of the participants." +
+                    "<br><br>You can plan other meetings by visiting us at " + url);
+
+            mailClient.sendEmail(emailDTO);
+
+            emailDTO.setTo(meetingDTO.getMentor().getPersonalEmail());
+            emailDTO.setBody("Hello " + meetingDTO.getMentor().getFirstName() +
+                    ",<br><br>" + "The meeting from <b>" + formatter.format(date) +
+                    "</b> with <b>" + meetingDTO.getStudent().getFirstName() + ' ' +
+                    meetingDTO.getStudent().getLastName() +
+                    "</b> has been canceled by one of the participants." +
+                    "<br><br>You can plan other meetings by visiting us at " + url);
+
+            mailClient.sendEmail(emailDTO);
+        } else if (meetingRequestStatus == MeetingRequestStatus.PENDING) {
+            EmailDTO emailDTO = new EmailDTO();
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofPattern(DATE_PATTERN_FORMAT)
+                            .withZone(ZoneId.systemDefault());
+            Instant date = meetingSlot.getDate();
+            String url = "http://localhost:4200";
+
+            emailDTO.setTo(meetingDTO.getStudent().getPersonalEmail());
+            emailDTO.setSubject("[PoliMeets] Pending meeting status update");
+            emailDTO.setBody("Hello " + meetingDTO.getStudent().getFirstName() +
+                    ",<br><br>" + "The meeting requested for <b>"
+                    + formatter.format(date) + "</b> with <b>" +
+                    meetingDTO.getMentor().getFirstName() + ' '
+                    + meetingDTO.getMentor().getLastName() +
+                    "</b> has been declined by one of the participants" +
+                    ".<br><br>You can plan other " +
+                    "meetings by visiting us at " + url);
+
+            mailClient.sendEmail(emailDTO);
+        }
+    }
+
+    public MeetingRequestDTO saveStudentRequest(String token,
+                                                MeetingRequestDTO meetingRequestDTO) {
+        Student student =
+                studentRepository.findByStudentEmail(authClient.getCurrentUser(token).getBody())
+                        .stream()
+                        .findAny()
+                        .orElseThrow(ForbiddenException::new);
+
+        MeetingRequest meetingRequest = meetingRequestMapper.toEntity(meetingRequestDTO);
+        meetingRequest.setStudent(student);
+
+        MeetingSlot meetingSlot =
+                meetingSlotRepository.findById(meetingRequestDTO.getMeetingSlotId())
+                        .stream()
+                        .findAny()
+                        .orElseThrow(ForbiddenException::new);
+
+        MentorSubject mentorSubject =
+                mentorSubjectRepository.findByMentorIdAndUniversityClass_Id(
+                        meetingSlot.getMentor().getId(),
+                        meetingRequestDTO.getMentorSubjectId())
+                        .stream()
+                        .findAny()
+                        .orElseThrow(ForbiddenException::new);
+
+        meetingRequest.setMentorSubject(mentorSubject);
+        meetingRequest = meetingRequestRepository.save(meetingRequest);
+
+        meetingSlot.setStatus(MeetingSlotStatus.CLOSED);
         meetingSlotRepository.save(meetingSlot);
 
         EmailDTO emailDTO = new EmailDTO();
         DateTimeFormatter formatter =
                 DateTimeFormatter.ofPattern(DATE_PATTERN_FORMAT)
-                .withZone(ZoneId.systemDefault());
-        Instant date = meetingDTO.getMeetingSlot().getDate();
+                        .withZone(ZoneId.systemDefault());
+        Instant date = meetingSlot.getDate();
         String url = "http://localhost:4200";
 
-        emailDTO.setTo(meetingDTO.getStudent().getPersonalEmail());
-        emailDTO.setSubject("[PoliMeets] Upcoming meeting status update");
-        emailDTO.setBody("Hello " + meetingDTO.getStudent().getFirstName() +
-                ",<br><br>" + "The meeting from <b>" + formatter.format(date) +
-                "</b> with <b>" + meetingDTO.getMentor().getFirstName() + ' ' +
-                meetingDTO.getMentor().getLastName() +
-                "</b> has been canceled by one of the participants." +
-                "<br><br>You can plan other meetings by visiting us at " + url);
+        emailDTO.setTo(student.getPersonalEmail());
+        emailDTO.setSubject("[PoliMeets] Pending meeting request");
+        emailDTO.setBody("Hello " + student.getFirstName() +
+                ",<br><br>" + "You issued a meeting request for <b>"
+                + formatter.format(date) + "</b> with <b>" +
+                meetingSlot.getMentor().getStudent().getFirstName() + ' ' +
+                meetingSlot.getMentor().getStudent().getLastName() + "</b>. " +
+                "You will receive a status update email once your request is " +
+                "confirmed or rejected. <br><br>You can plan other meetings " +
+                "by visiting us at " + url);
 
         mailClient.sendEmail(emailDTO);
 
-        emailDTO.setTo(meetingDTO.getMentor().getPersonalEmail());
-        emailDTO.setBody("Hello " + meetingDTO.getMentor().getFirstName() +
-                ",<br><br>" + "The meeting from <b>" + formatter.format(date) +
-                "</b> with <b>" + meetingDTO.getStudent().getFirstName() + ' ' +
-                meetingDTO.getStudent().getLastName() +
-                "</b> has been canceled by one of the participants." +
-                "<br><br>You can plan other meetings by visiting us at " + url);
+        emailDTO.setTo(meetingSlot.getMentor().getStudent().getPersonalEmail());
+        emailDTO.setBody("Hello " + meetingSlot.getMentor().getStudent().getFirstName() +
+                ",<br><br>" + "Your meeting slot from <b>"
+                + formatter.format(date) + "</b> has been requested by <b> " +
+                student.getFirstName() + ' ' + student.getLastName() + "</b>." +
+                "<br><br>You can review your pending meetings by logging into" +
+                " your personal PoliMeets account at " + url);
 
         mailClient.sendEmail(emailDTO);
+
+        return meetingRequestMapper.toDto(meetingRequest);
+    }
+
+    public void approveMeeting(MeetingDTO meetingDTO) {
+        Optional<MeetingRequest> meetingRequestOptional =
+                meetingRequestRepository.findById(meetingDTO.getId());
+
+        if (meetingRequestOptional.isPresent()) {
+            MeetingRequest meetingRequest = meetingRequestOptional.get();
+            meetingRequest.setStatus(MeetingRequestStatus.APPROVED);
+            meetingRequest = meetingRequestRepository.save(meetingRequest);
+
+            Student student = meetingRequest.getStudent();
+            Student mentor =
+                    meetingRequest.getMeetingSlot().getMentor().getStudent();
+            MeetingSlot meetingSlot = meetingRequest.getMeetingSlot();
+
+            EmailDTO emailDTO = new EmailDTO();
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofPattern(DATE_PATTERN_FORMAT)
+                            .withZone(ZoneId.systemDefault());
+            Instant date = meetingSlot.getDate();
+            String url = "http://localhost:4200";
+
+            emailDTO.setTo(student.getPersonalEmail());
+            emailDTO.setSubject("[PoliMeets] Pending meeting status update");
+            emailDTO.setBody("Hello " + student.getFirstName() +
+                    ",<br><br>" + "The meeting requested for <b>"
+                    + formatter.format(date) + "</b> with <b>" +
+                    mentor.getFirstName() + ' ' + mentor.getLastName() +
+                    "</b> has been approved.<br><br>You can plan other " +
+                    "meetings by visiting us at " + url);
+
+            mailClient.sendEmail(emailDTO);
+
+            emailDTO.setTo(mentor.getPersonalEmail());
+            emailDTO.setBody("Hello " + mentor.getFirstName() +
+                    ",<br><br>" + "Your meeting slot from <b>"
+                    + formatter.format(date) + "</b> has been booked by <b> " +
+                    student.getFirstName() + ' ' + student.getLastName() + "</b>." +
+                    "<br><br>You can review your upcoming meetings by logging" +
+                    " into your personal PoliMeets account at " + url);
+
+            mailClient.sendEmail(emailDTO);
+        }
     }
 
     private static final String DATE_PATTERN_FORMAT = "dd.MM.yyyy HH:mm";

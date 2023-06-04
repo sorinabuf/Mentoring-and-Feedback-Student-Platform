@@ -1,0 +1,53 @@
+<mat-dialog-content class="booking-meeting-dialog">
+    <div class="dialog-header">
+        <p>Request Meeting</p>
+
+        <p>Choose one of the mentor's meeting times and a subject from the list below that you'd want to learn more
+            about. For a smoother experience, please provide a short description to your request.</p>
+
+        <p><b>IMPORTANT:</b> Requesting a meeting will not guarantee the booking until the meeting is confirmed by the
+            mentor. You will receive an email confirmation once the reservation is either confirmed or rejected.</p>
+
+        <span>* required fields</span>
+    </div>
+
+    <div class="dialog-content">
+        <form [formGroup]="bookMeetingForm">
+            <div class="book-meeting-fields">
+                <mat-label>Description <span>*</span>
+                </mat-label>
+                <mat-form-field appearance="fill">
+                    <textarea matInput formControlName="description" placeholder="Write your description"></textarea>
+                    <mat-hint align="end">{{descriptionLength}}/{{maxDescriptionLength}} maximum characters</mat-hint>
+                </mat-form-field>
+
+                <mat-label>Select a subject <span>*</span></mat-label>
+                <mat-form-field appearance="fill">
+                    <mat-select formControlName="subject" placeholder="Select subject">
+                        <mat-option *ngFor="let subject of subjects" [value]="subject.id">
+                            {{subject.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-label>Select a meeting time <span>*</span></mat-label>
+                <mat-form-field appearance="fill">
+                    <mat-select formControlName="meetingSlot" placeholder="Select meeting slot">
+                        <mat-option *ngFor="let meeting of meetings" [value]="meeting.id">
+                            {{getMeetingDate(meeting)}}, {{getMeetingTime(meeting)}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button color="primary" cdkFocusInitial [disabled]="!bookMeetingForm.valid"
+        (click)="onBookMeetingSubmit()">
+        <span *ngIf="!isLoading">SUBMIT</span>
+        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+    </button>
+    <button mat-button color="primary" mat-dialog-close>CLOSE</button>
+</mat-dialog-actions>

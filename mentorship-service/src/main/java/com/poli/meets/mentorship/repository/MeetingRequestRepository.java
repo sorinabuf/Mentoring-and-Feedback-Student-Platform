@@ -20,4 +20,12 @@ public interface MeetingRequestRepository extends JpaRepository<MeetingRequest, 
 
     List<MeetingRequest> findByStatusAndMeetingSlot_DateAfterAndMeetingSlot_Mentor_Id(
             MeetingRequestStatus status, Instant date, Long mentorId);
+
+    List<MeetingRequest> findByMentorSubject_Id(Long mentorSubjectId);
+
+    List<MeetingRequest> findByMeetingSlot_Mentor_Id(Long mentorId);
+
+    void deleteByMentorSubjectId(Long mentorSubjectId);
+
+    void deleteByMeetingSlot_Mentor_Id(Long mentorId);
 }

@@ -16,7 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-upcoming-meetings',
   templateUrl: './upcoming-meetings.component.html',
-  styleUrls: ['./upcoming-meetings.component.scss'],
+  styleUrls: ['./upcoming-meetings.component.scss', '../mentorship-header.scss'],
   encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('slideInOut', [
@@ -34,7 +34,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class UpcomingMeetingsComponent {
   @ViewChild('timeline') timeline!: ElementRef;
-  
+
   isMeetingPanelOpen: { [key: number]: boolean };
   freeSlots: MeetingSlot[];
   upcomingMeetings: Meeting[];
@@ -229,7 +229,7 @@ export class UpcomingMeetingsComponent {
   openAddFreeSlotDialog(): void {
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.disableClose = false;
+    dialogConfig.disableClose = true;
     dialogConfig.panelClass = "free-slot-dialog";
 
     const dialogRef = this.dialog.open(FreeSlotComponent, dialogConfig);
@@ -268,14 +268,6 @@ export class UpcomingMeetingsComponent {
     return this.monthNames[new Date(meetingSlot.date).getMonth()].slice(0, 3).toUpperCase();
   }
 
-  getMeetingHour(meetingSlot: MeetingSlot): number {
-    return new Date(meetingSlot.date).getHours();
-  }
-
-  getMeetingMinute(meetingSlot: MeetingSlot): number {
-    return new Date(meetingSlot.date).getMinutes();
-  }
-
   getMeetingSubject(meeting: Meeting): string {
     return meeting.mentorSubject.universityClass.name;
   }
@@ -310,15 +302,19 @@ export class UpcomingMeetingsComponent {
       + new Date(meeting.date).getFullYear();
   }
 
-  getMeetingTime(meeting: MentorSlot): string {
-    let time = new Date(meeting.date).getHours() + ':'
-      + new Date(meeting.date).getMinutes();
+  getMeetingTime(meeting: MentorSlot | MeetingSlot): string {
+    let minutes = new Date(meeting.date).getMinutes();
+    let time = new Date(meeting.date).getHours() + ':';
 
-    if (new Date(meeting.date).getMinutes()) {
-      return time;
+    if (minutes) {
+      if (minutes < 10) {
+        return time + '0' + minutes;
+      } else {
+        return time + minutes;
+      }
     }
 
-    return time + '0';
+    return time + '00';
   }
 
   getImage(meeting: MentorSlot): string {

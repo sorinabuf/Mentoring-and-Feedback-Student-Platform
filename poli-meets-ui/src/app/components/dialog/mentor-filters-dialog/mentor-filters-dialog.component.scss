@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800");
+@import "../../../../font_colors";
+@import "../../../../theme_variables";
+
+.mat-mdc-dialog-content.mdc-dialog__content.mentor-filters-dialog {
+    max-height: 75vh;
+    width: 70vw;
+}
+
+.mentor-filters-dialog {
+    .content {
+        padding: 16px;
+        font-family: 'Montserrat';
+
+        .mat-mdc-checkbox-ripple,
+        .mdc-checkbox__ripple {
+            display: none;
+        }
+
+        .mat-grid-tile-content {
+            justify-content: flex-start;
+        }
+
+        .title {
+            color: $font-color;
+            font-weight: 700;
+            font-size: large;
+        }
+
+        .subtitle {
+            color: $font-color-light;
+            font-weight: 500;
+            font-size: smaller;
+        }
+
+        .mat-divider {
+            width: 100%;
+            border-top-color: rgba(0, 29, 61, 0.2);
+            font-size: smaller;
+        }
+
+        .availability {
+            padding: 24px 0 24px 0;
+            display: flex;
+            flex-direction: column;
+
+            .listbox {
+                padding: 8px;
+            }
+
+            .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) .mdc-evolution-chip__text-label {
+                font-size: small;
+            }
+        }
+
+        .filter-with-checkbox {
+            padding: 16px 0 24px 0;
+            display: flex;
+            flex-direction: column;
+
+            .checkboxes {
+                padding: 8px;
+            }
+
+            .mat-grid-tile {
+                overflow: visible;
+            }
+        }
+    }
+}
+
+.mat-mdc-dialog-actions.mdc-dialog__actions.mentor-filters-actions {
+    justify-content: space-between;
+    padding: 16px;
+}
+
+.cdk-overlay-dark-backdrop {
+    background: rgba(0, 0, 0, 0.32);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+}

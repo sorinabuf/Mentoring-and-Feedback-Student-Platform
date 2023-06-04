@@ -1,6 +1,7 @@
 package com.poli.meets.mentorship.service.dto;
 
 import com.poli.meets.mentorship.domain.MeetingSlot;
+import com.poli.meets.mentorship.domain.enumeration.MeetingSlotStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,8 +19,7 @@ public class MeetingSlotDTO implements Serializable {
 
     private Instant date;
 
-    private String status;
-
+    private MeetingSlotStatus status;
 
     private Long mentorId;
 }
