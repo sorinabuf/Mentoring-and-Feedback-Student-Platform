@@ -5,7 +5,7 @@
     <span (mouseenter)="menuEnter()" (mouseleave)="menuLeave(menuTrigger)">
         <ng-template ngFor let-menuItem [ngForOf]="menuItems" let-menuItemIndex="index">
             <mat-divider *ngIf="menuItemIndex > 0"></mat-divider>
-            <button mat-menu-item>{{menuItem}}</button>
+            <button mat-menu-item [routerLink]="menuItem.route">{{menuItem.name}}</button>
         </ng-template>
     </span>
 </mat-menu>

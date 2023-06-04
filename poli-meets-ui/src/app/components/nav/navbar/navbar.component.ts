@@ -14,9 +14,18 @@ export class NavbarComponent {
   @Input() transparent: boolean;
   isDialogOpen: boolean;
 
-  mentorshipMenuItems: string[] = ["Mentors", "Pending Requests", "Upcoming Meetings", "Edit Account"];
+  mentorshipMenuItems = [
+      { name: "Mentors", route: "" },
+      { name: "Pending Requests", route: "" },
+      { name: "Upcoming Meetings", route: "" },
+      { name: "Edit Account", route: ""}
+    ];
 
-  feedbackMenuItems: string[] = ["Give feedback", "All feedback"];
+  feedbackMenuItems = [
+    { name: "Give Feedback", route: "/feedback/me" },
+    { name: "All Feedback", route: "/feedback/subjects" }
+  ];
+
 
   constructor(private dialog: MatDialog, private router: Router) {
     this.transparent = false;

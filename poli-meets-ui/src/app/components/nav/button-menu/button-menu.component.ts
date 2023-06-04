@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class ButtonMenuComponent {
   @Input() buttonName: string = "";
-  @Input() menuItems: string[] = [];
+  @Input() menuItems: {name: string, route: string}[] = [];
 
   isButtonHovered = false;
   isMenuOpen = false;
