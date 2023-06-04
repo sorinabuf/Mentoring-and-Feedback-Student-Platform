@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
@@ -104,5 +105,11 @@ public class MentorResource {
     public ResponseEntity<MentorDTO> updateMentor(@RequestHeader("Authorization") String token,
                                                   @RequestBody MentorInfoDTO mentorInfoDTO) {
         return ResponseEntity.ok().body(mentorService.update(token, mentorInfoDTO));
+    }
+
+    @GetMapping("/mentors/current-user/all")
+    public ResponseEntity<List<MentorInfoDTO>> getCurrentUserMentors(
+            @RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok().body(mentorService.findStudentMentors(token));
     }
 }

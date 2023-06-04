@@ -23,6 +23,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MtxDatetimepickerModule } from '@ng-matero/extensions/datetimepicker';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -55,6 +57,10 @@ import { PhotoDialogComponent } from './components/dialog/photo-dialog/photo-dia
 import { UpcomingMeetingsComponent } from './components/mentorship/upcoming-meetings/upcoming-meetings.component';
 import { MtxNativeDatetimeModule } from '@ng-matero/extensions/core';
 import { FreeSlotComponent } from './components/dialog/free-slot/free-slot.component';
+import { MentorsComponent } from './components/mentorship/mentors/mentors.component';
+import { MentorFiltersDialogComponent } from './components/dialog/mentor-filters-dialog/mentor-filters-dialog.component';
+import { BookMeetingDialogComponent } from './components/dialog/book-meeting-dialog/book-meeting-dialog.component';
+import { PendingRequestsComponent } from './components/mentorship/pending-requests/pending-requests.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +89,10 @@ import { FreeSlotComponent } from './components/dialog/free-slot/free-slot.compo
     PhotoDialogComponent,
     UpcomingMeetingsComponent,
     FreeSlotComponent,
+    MentorsComponent,
+    MentorFiltersDialogComponent,
+    BookMeetingDialogComponent,
+    PendingRequestsComponent,
   ],
   imports: [
     BrowserModule,
@@ -109,7 +119,9 @@ import { FreeSlotComponent } from './components/dialog/free-slot/free-slot.compo
     MatChipsModule,
     MatProgressBarModule,
     MtxDatetimepickerModule,
-    MtxNativeDatetimeModule
+    MtxNativeDatetimeModule,
+    MatRadioModule,
+    MatGridListModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
@@ -121,7 +133,9 @@ import { FreeSlotComponent } from './components/dialog/free-slot/free-slot.compo
     AccountInformationDialogComponent,
     MentorDialogComponent,
     PhotoDialogComponent,
-    FreeSlotComponent
+    FreeSlotComponent,
+    MentorFiltersDialogComponent,
+    BookMeetingDialogComponent
   ]
 })
 export class AppModule {

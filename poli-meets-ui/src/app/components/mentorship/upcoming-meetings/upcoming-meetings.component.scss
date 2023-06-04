@@ -3,85 +3,8 @@
 @import "../../../../theme_variables";
 
 .mentorship-container-padding {
-    padding-top: 64px; // dimensiunea navbar-ului
 
     .mentorship-container {
-        min-height: calc(100vh - 64px); // minus dimensiunea navbar-ului
-        width: 100%;
-        background-color: white;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        .mentorship-action-card {
-            margin-top: 64px;
-            width: 75%;
-            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-
-            .primary-content {
-                height: 100px;
-                width: 100%;
-                display: flex;
-                align-items: center;
-
-                p {
-                    font-family: "Montserrat";
-                    font-size: xx-large;
-                    font-weight: 500;
-                    color: $font-color;
-                    padding: 0 36px;
-                }
-            }
-
-            .secondary-content {
-                display: flex;
-                height: 100px;
-                width: 100%;
-
-                p {
-                    margin: 0;
-                    color: white;
-                    font-family: "Montserrat";
-                }
-
-                .left-section {
-                    background-color: $font-color-light;
-                    width: 70%;
-                    padding-top: 24px;
-                    cursor: pointer;
-
-                    p {
-                        font-size: x-large;
-                        font-weight: 600;
-                        padding: 4px 36px;
-                    }
-                }
-
-                .right-section {
-                    cursor: pointer;
-                    background-color: $primary;
-                    width: 30%;
-                    padding-top: 24px;
-
-                    p {
-                        font-size: x-large;
-                        font-weight: 600;
-                        padding: 0 36px;
-                    }
-                }
-            }
-
-            .image-container {
-                width: 100%;
-                display: flex;
-                justify-content: center;
-
-                img {
-                    margin: -30px 0 0 0;
-                    width: 90%;
-                }
-            }
-        }
 
         .meeting-container-padding {
             padding: 16px 32px;
@@ -113,7 +36,7 @@
             font-weight: 500;
             font-size: x-large;
             line-height: normal;
-            
+
             mat-icon {
                 font-size: 36px;
                 height: auto;
@@ -291,55 +214,7 @@
     }
 }
 
-.timeline-header {
-    width: 100%;
-    padding-top: 64px;
-    display: flex;
-    justify-content: center;
-
-    span {
-        font-family: 'Montserrat';
-        font-size: 40px;
-        color: $font-color;
-        font-weight: 800;
-    }
-}
-
-.tabs-container {
-    width: 75%;
-    padding: 64px 0;
-    display: flex;
-
-    &.student {
-        padding: 0 0 64px 0;
-    }
-}
-
-.mat-divider {
-    width: 400px;
-    margin: 24px 0 0 0;
-    border-top-width: 2px;
-}
-
-.tabs {
-    width: 100%;
-}
-
-.mat-mdc-tab-label-container {
-    flex-grow: 0;
-}
-
-.mat-mdc-tab-header {
-    justify-content: center;
-    margin: 0 20%;
-    border-bottom: 1px solid rgba(0, 29, 61, 0.2);
-}
-
 .meetings {
-    padding: 32px 16px 16px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 64px;
 
     .filters {
         display: flex;
@@ -351,122 +226,6 @@
             font-size: medium;
             font-weight: 500;
         }
-    }
-}
-
-.all-meetings {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.meeting-overview {
-    width: 100%;
-    height: 60px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 4px;
-    border-radius: 16px;
-    display: flex;
-
-    &:hover {
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 8px;
-    }
-
-    transition: box-shadow 100ms ease;
-
-    .info {
-        width: 100%;
-        padding: 0 32px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .bookmark {
-        width: 25%;
-        width: 10px;
-        height: 100%;
-        border-radius: 16px 0 0 16px;
-
-        &.mentor {
-            background-color: #377AB8;
-        }
-
-        &.mentee {
-            background-color: $accent;
-        }
-
-        &.free {
-            background-color: $font-color-light;
-        }
-    }
-
-    .person {
-        width: 20%;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-
-        .profile-photo {
-            border-radius: 50%;
-            height: 40px;
-            width: 40px;
-            background-color: #377AB8;
-            overflow: hidden;
-            background-color: #f5f5f5;
-
-            img {
-                height: 40px;
-                width: 40px;
-                object-fit: cover;
-            }
-        }
-
-        .name {
-            color: $font-color;
-            font-weight: 700;
-        }
-    }
-
-    span {
-        font-family: 'Montserrat';
-        font-size: smaller;
-    }
-
-    .email {
-        width: 30%;
-        display: flex;
-        justify-content: center;
-
-        a {
-            text-decoration: none;
-            display: flex;
-            justify-content: center;
-
-            .email {
-                font-weight: 500;
-                font-size: smaller;
-                color: #377AB8;
-            }
-        }
-    }
-
-    .datetime {
-        width: 30%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-        color: $font-color-light;
-        font-weight: 600;
-    }
-
-    .meeting-type {
-        width: 20%;
-        display: flex;
-        justify-content: flex-end;
-        color: $font-color;
-        font-weight: 600;
     }
 }
 
@@ -531,20 +290,4 @@
     .mat-mdc-dialog-container {
         max-width: 30vw;
     }
-}
-
-.scroll-up {
-    cursor: pointer;
-    position: fixed;
-    right: 100px;
-    bottom: 50px;
-    z-index: 1000;
-    background-color: #f5f5f5;
-    color: $font-color-light;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }

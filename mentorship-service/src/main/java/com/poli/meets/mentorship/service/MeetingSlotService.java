@@ -3,6 +3,7 @@ package com.poli.meets.mentorship.service;
 import com.poli.meets.mentorship.client.AuthClient;
 import com.poli.meets.mentorship.domain.Mentor;
 import com.poli.meets.mentorship.domain.Student;
+import com.poli.meets.mentorship.domain.enumeration.MeetingSlotStatus;
 import com.poli.meets.mentorship.repository.MeetingSlotRepository;
 import com.poli.meets.mentorship.repository.MentorRepository;
 import com.poli.meets.mentorship.repository.StudentRepository;
@@ -110,7 +111,18 @@ public class MeetingSlotService {
 
         List<MeetingSlot> meetingSlots =
                 meetingSlotRepository.findByMentorIdAndStatusAndDateAfter(
-                mentor.getId(), "open", Instant.now());
+                mentor.getId(), MeetingSlotStatus.OPEN, Instant.now());
+
+        meetingSlots.sort(Comparator.comparing(MeetingSlot::getDate));
+
+        return meetingSlots.stream().map(meetingSlotMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<MeetingSlotDTO> findFreeSlots(Long mentorId) {
+        List<MeetingSlot> meetingSlots =
+                meetingSlotRepository.findByMentorIdAndStatusAndDateAfter(
+                        mentorId, MeetingSlotStatus.OPEN, Instant.now());
 
         meetingSlots.sort(Comparator.comparing(MeetingSlot::getDate));
 
@@ -133,7 +145,7 @@ public class MeetingSlotService {
 
         MeetingSlot meetingSlot = new MeetingSlot();
         meetingSlot.setDate(meetingSlotDTO.getDate());
-        meetingSlot.setStatus("open");
+        meetingSlot.setStatus(MeetingSlotStatus.OPEN);
         meetingSlot.setMentor(mentor);
 
         meetingSlot = meetingSlotRepository.save(meetingSlot);

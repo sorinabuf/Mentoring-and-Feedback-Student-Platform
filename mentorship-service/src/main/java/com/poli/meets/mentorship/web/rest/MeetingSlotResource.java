@@ -89,9 +89,15 @@ public class MeetingSlotResource {
     }
 
     @GetMapping("/meeting-slots/current-user/free")
-    public ResponseEntity<List<MeetingSlotDTO>> getAllMeetingSlots(
+    public ResponseEntity<List<MeetingSlotDTO>> getAllMeetingSlotsForCurrentMentor(
             @RequestHeader("Authorization") String token) {
         return ResponseEntity.ok().body(meetingSlotService.findFreeSlots(token));
+    }
+
+    @GetMapping("/meeting-slots/{id}")
+    public ResponseEntity<List<MeetingSlotDTO>> getAllMeetingSlotsForMentor(
+            @PathVariable Long id) {
+        return ResponseEntity.ok().body(meetingSlotService.findFreeSlots(id));
     }
 
     @PostMapping("/meeting-slots/current-user")

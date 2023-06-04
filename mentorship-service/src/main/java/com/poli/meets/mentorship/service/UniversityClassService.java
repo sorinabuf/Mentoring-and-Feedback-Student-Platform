@@ -8,6 +8,7 @@ import com.poli.meets.mentorship.repository.StudentRepository;
 import com.poli.meets.mentorship.repository.UniversityClassRepository;
 import com.poli.meets.mentorship.domain.UniversityClass;
 import com.poli.meets.mentorship.repository.UniversityYearRepository;
+import com.poli.meets.mentorship.service.dto.SkillDTO;
 import com.poli.meets.mentorship.service.dto.UniversityClassDTO;
 import com.poli.meets.mentorship.service.dto.UniversityClassMentorshipDTO;
 import com.poli.meets.mentorship.service.mapper.StudentMapper;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -113,6 +115,28 @@ public class UniversityClassService {
 
         return universityClassRepository.findAllByUniversityYearIn(universityYears).stream()
                 .map(universityClassMapper::toMentorshipDto)
+                .sorted(Comparator.comparing(UniversityClassMentorshipDTO::getName))
+                .collect(Collectors.toList());
+    }
+
+    public List<UniversityClassDTO> findAllMentors(String token) {
+        Student student =
+                studentRepository.findByStudentEmail(authClient.getCurrentUser(token).getBody())
+                        .stream()
+                        .findAny()
+                        .orElseThrow(ForbiddenException::new);
+
+        List<Year> years =
+                Arrays.stream(Year.values())
+                        .filter(y -> y.compareTo(student.getUniversityYear().getYear()) <= 0)
+                        .collect(Collectors.toList());
+
+        List<UniversityYear> universityYears =
+                universityYearRepository.findAllByFacultyAndYearIn(student.getUniversityYear().getFaculty(), years);
+
+        return universityClassRepository.findAllByUniversityYearIn(universityYears).stream()
+                .map(universityClassMapper::toDto)
+                .sorted(Comparator.comparing(UniversityClassDTO::getName))
                 .collect(Collectors.toList());
     }
 }

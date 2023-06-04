@@ -23,6 +23,7 @@
     "@ng-matero/extensions": "^15.5.0",
     "@types/aos": "^3.0.4",
     "aos": "^2.3.4",
+    "ngx-image-compress": "^15.1.5",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"

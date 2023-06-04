@@ -92,4 +92,10 @@ public class UniversityClassResource {
 
         return ResponseEntity.ok().body(universityClassService.findAllMentorship(token));
     }
+
+    @GetMapping("/university-classes/mentors")
+    public ResponseEntity<List<UniversityClassDTO>> getAllMentorsUniversityClasses(@RequestHeader("Authorization") String token) {
+
+        return ResponseEntity.ok().body(universityClassService.findAllMentors(token));
+    }
 }

@@ -5,6 +5,7 @@ import com.poli.meets.mentorship.domain.MeetingSlot;
 import com.poli.meets.mentorship.domain.Mentor;
 import com.poli.meets.mentorship.domain.Student;
 import com.poli.meets.mentorship.domain.enumeration.MeetingRequestStatus;
+import com.poli.meets.mentorship.domain.enumeration.MeetingSlotStatus;
 import com.poli.meets.mentorship.domain.enumeration.MeetingType;
 import com.poli.meets.mentorship.repository.MeetingRequestRepository;
 import com.poli.meets.mentorship.repository.MeetingSlotRepository;
@@ -106,7 +107,7 @@ public class MentorSlotService {
 
         List<MeetingSlotDTO> meetingSlots =
                 meetingSlotRepository.findByMentorIdAndStatusAndDateAfter(
-                        mentor.getId(), "open", Instant.now()).stream()
+                        mentor.getId(), MeetingSlotStatus.OPEN, Instant.now()).stream()
                         .map(meetingSlotMapper::toDto)
                         .collect(Collectors.toList());
 

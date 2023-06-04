@@ -9,6 +9,8 @@ import { Skill } from '../models/skill.model';
 import { MeetingSlot } from '../models/meeting-slot.model';
 import { Meeting } from '../models/meeting.model';
 import { MentorSlot } from '../models/mentor-slot.model';
+import { UniversityClass } from '../models/university-class.model';
+import { MeetingRequest } from '../models/meeting-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +22,12 @@ export class MentorshipService {
   public get_current_mentor(): Observable<MentorInfo> {
     return this.http.get<MentorInfo>(
       environment.apiUrl + '/mentorship/api/mentors/current-user'
+    );
+  }
+
+  public get_all_mentors(): Observable<MentorInfo[]> {
+    return this.http.get<MentorInfo[]>(
+      environment.apiUrl + '/mentorship/api/mentors/current-user/all'
     );
   }
 
@@ -49,6 +57,12 @@ export class MentorshipService {
     );
   }
 
+  public get_mentor_filter_subjects(): Observable<UniversityClass[]> {
+    return this.http.get<UniversityClass[]>(
+      environment.apiUrl + '/mentorship/api/university-classes/mentors'
+    );
+  }
+
   public get_skills(): Observable<Skill[]> {
     return this.http.get<Skill[]>(
       environment.apiUrl + '/mentorship/api/skills'
@@ -58,6 +72,12 @@ export class MentorshipService {
   public get_meeting_free_slots(): Observable<MeetingSlot[]> {
     return this.http.get<MeetingSlot[]>(
       environment.apiUrl + '/mentorship/api/meeting-slots/current-user/free'
+    );
+  }
+
+  public get_mentor_free_slots(id: number): Observable<MeetingSlot[]> {
+    return this.http.get<MeetingSlot[]>(
+      environment.apiUrl + '/mentorship/api/meeting-slots/' + id
     );
   }
 
@@ -78,13 +98,25 @@ export class MentorshipService {
 
   public get_all_upcoming_meetings(): Observable<Meeting[]> {
     return this.http.get<Meeting[]>(
-      environment.apiUrl + '/mentorship/api/meeting-requests/current-user/mentor'
+      environment.apiUrl + '/mentorship/api/meeting-requests/current-user/mentor/approved'
+    );
+  }
+
+  public get_all_pending_meetings(): Observable<Meeting[]> {
+    return this.http.get<Meeting[]>(
+      environment.apiUrl + '/mentorship/api/meeting-requests/current-user/mentor/pending'
     );
   }
 
   public get_student_upcoming_meetings(): Observable<Meeting[]> {
     return this.http.get<Meeting[]>(
-      environment.apiUrl + '/mentorship/api/meeting-requests/current-user/student'
+      environment.apiUrl + '/mentorship/api/meeting-requests/current-user/student/approved'
+    );
+  }
+
+  public get_student_pending_meetings(): Observable<Meeting[]> {
+    return this.http.get<Meeting[]>(
+      environment.apiUrl + '/mentorship/api/meeting-requests/current-user/student/pending'
     );
   }
 
@@ -101,8 +133,34 @@ export class MentorshipService {
     };
 
     return this.http.delete(
-      environment.apiUrl + '/mentorship/api/meeting-requests',
+      environment.apiUrl + '/mentorship/api/meeting-requests/approved',
       httpOptions
+    );
+  }
+
+  public delete_pending_meeting(meeting: Meeting): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      body: meeting
+    };
+
+    return this.http.delete(
+      environment.apiUrl + '/mentorship/api/meeting-requests/pending',
+      httpOptions
+    );
+  }
+
+  public update_pending_meeting(meeting: Meeting): Observable<any> {
+    return this.http.put(
+      environment.apiUrl + '/mentorship/api/meeting-requests/pending',
+      meeting
+    );
+  }
+
+  public add_meeting_request(meeting: MeetingRequest): Observable<any> {
+    return this.http.post(
+      environment.apiUrl + '/mentorship/api/meeting-requests/current-user',
+      meeting
     );
   }
 }

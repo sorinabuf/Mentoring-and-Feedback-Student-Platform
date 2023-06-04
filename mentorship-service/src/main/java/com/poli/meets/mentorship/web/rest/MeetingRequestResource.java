@@ -1,6 +1,7 @@
 package com.poli.meets.mentorship.web.rest;
 
 import com.poli.meets.mentorship.domain.MeetingRequest;
+import com.poli.meets.mentorship.domain.enumeration.MeetingRequestStatus;
 import com.poli.meets.mentorship.service.dto.MeetingDTO;
 import com.poli.meets.mentorship.service.dto.MeetingRequestDTO;
 import com.poli.meets.mentorship.service.MeetingRequestService;
@@ -100,21 +101,59 @@ public class MeetingRequestResource {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/meeting-requests/current-user/mentor")
+    @GetMapping("/meeting-requests/current-user/mentor/approved")
     public ResponseEntity<List<MeetingDTO>> getAllUpcomingMeetingSlots(
             @RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok().body(meetingRequestService.findAllUpcomingMeetings(token));
+        return ResponseEntity.ok().body(meetingRequestService
+                .findAllMeetings(token, MeetingRequestStatus.APPROVED));
     }
 
-    @GetMapping("/meeting-requests/current-user/student")
+    @GetMapping("/meeting-requests/current-user/mentor/pending")
+    public ResponseEntity<List<MeetingDTO>> getAllPendingMeetingSlots(
+            @RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok().body(meetingRequestService
+                .findAllMeetings(token, MeetingRequestStatus.PENDING));
+    }
+
+    @GetMapping("/meeting-requests/current-user/student/approved")
     public ResponseEntity<List<MeetingDTO>> getStudentUpcomingMeetingSlots(
             @RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok().body(meetingRequestService.findStudentUpcomingMeetings(token));
+        return ResponseEntity.ok().body(meetingRequestService.findStudentMeetings(token,
+                MeetingRequestStatus.APPROVED));
     }
 
-    @DeleteMapping("/meeting-requests")
-    public ResponseEntity<Void> deleteMeetingRequest(@RequestBody MeetingDTO meetingDTO) {
-        meetingRequestService.deleteUpcomingMeeting(meetingDTO);
+    @GetMapping("/meeting-requests/current-user/student/pending")
+    public ResponseEntity<List<MeetingDTO>> getStudentPendingMeetingSlots(
+            @RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok().body(meetingRequestService.findStudentMeetings(token,
+                MeetingRequestStatus.PENDING));
+    }
+
+    @DeleteMapping("/meeting-requests/approved")
+    public ResponseEntity<Void> deleteUpcomingMeetingRequest(@RequestBody MeetingDTO meetingDTO) {
+        meetingRequestService.deleteMeeting(meetingDTO,
+                MeetingRequestStatus.APPROVED);
         return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/meeting-requests/pending")
+    public ResponseEntity<Void> deletePendingMeetingRequest(@RequestBody MeetingDTO meetingDTO) {
+        meetingRequestService.deleteMeeting(meetingDTO,
+                MeetingRequestStatus.PENDING);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/meeting-requests/pending")
+    public ResponseEntity<Void> updatePendingMeeting(@RequestBody MeetingDTO meetingDTO) {
+        meetingRequestService.approveMeeting(meetingDTO);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/meeting-requests/current-user")
+    public ResponseEntity<MeetingRequestDTO> createMeetingRequest(
+            @RequestHeader("Authorization") String token,
+            @RequestBody MeetingRequestDTO meetingRequestDTO) {
+        return ResponseEntity.ok().body(
+                meetingRequestService.saveStudentRequest(token, meetingRequestDTO));
     }
 }

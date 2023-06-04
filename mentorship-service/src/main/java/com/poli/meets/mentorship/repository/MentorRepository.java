@@ -14,4 +14,6 @@ import java.util.List;
 @Repository
 public interface MentorRepository extends JpaRepository<Mentor, Long>, JpaSpecificationExecutor<Mentor> {
     List<Mentor> findByStudentId(Long studentId);
+
+    List<Mentor> findByStudent_UniversityYear_Faculty_Id(Long facultyId);
 }

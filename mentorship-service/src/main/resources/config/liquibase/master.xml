@@ -36,6 +36,7 @@
     <include file="config/liquibase/changelog/20230530000000_added_field_university_class_MeetingRequest.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230531000000_added_field_mentor_subject_MeetingRequest.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230531082500_added_field_image_Subject.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230603164500_added_field_group_num_Student.xml" relativeToChangelogFile="false"/>
 
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->

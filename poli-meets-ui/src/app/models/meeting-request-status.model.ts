@@ -1,3 +1,4 @@
 export enum MeetingRequestStatus {
-    APPROVED, PENDING
+    APPROVED = "APPROVED",
+    PENDING = "PENDING"
 }

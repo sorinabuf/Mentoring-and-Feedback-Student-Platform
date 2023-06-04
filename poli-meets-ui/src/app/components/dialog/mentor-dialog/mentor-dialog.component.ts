@@ -128,7 +128,7 @@ export class MentorDialogComponent {
     let mentorInfo = new MentorInfo(this.mentorId,
       this.mentorInfoForm.controls['description'].value,
       this.skills.filter(skill => selected_skill_ids.includes(skill.id)),
-      this.subjects.filter(subject => selected_subject_ids.includes(subject.id))
+      this.subjects.filter(subject => selected_subject_ids.includes(subject.id)), undefined
     );
 
     if (!this.isMentor) {

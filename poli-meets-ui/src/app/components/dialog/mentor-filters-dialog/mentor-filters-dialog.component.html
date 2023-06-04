@@ -1,0 +1,56 @@
+<mat-dialog-content class="mentor-filters-dialog">
+    <div class="content">
+        <span class="title">Filters</span>
+
+        <div class="availability">
+            <span class="subtitle">Availability</span>
+
+            <div class="listbox">
+                <mat-chip-listbox>
+                    <mat-chip-option *ngFor="let availability of availabilities" [value]="availability"
+                        (selectionChange)="availabilityChanged($event, availability)" [selected]="isAvailabilitySelected(availability)">{{availability}}</mat-chip-option>
+                </mat-chip-listbox>
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="filter-with-checkbox">
+            <span class="subtitle">Skills</span>
+
+            <div class="checkboxes">
+                <mat-grid-list cols="4" rowHeight="30px">
+                    <mat-grid-tile *ngFor="let skill of skills">
+                        <mat-checkbox color="primary" [disabled]="disableSkill(skill.id)" [checked]="isSkillChecked(skill.id)"
+                            (change)="skillCheck($event, skill.id)">
+                            {{skill.name}}
+                        </mat-checkbox>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="filter-with-checkbox">
+            <span class="subtitle">Subjects</span>
+
+            <div class="checkboxes">
+                <mat-grid-list cols="4" rowHeight="30px">
+                    <mat-grid-tile *ngFor="let subject of subjects">
+                        <mat-checkbox color="primary" [disabled]="disableSubject(subject.id)" [checked]="isSubjectChecked(subject.id)"
+                            (change)="subjectCheck($event, subject.id)">
+                            {{subject.name}}
+                        </mat-checkbox>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="mentor-filters-actions">
+    <button mat-button color="primary" [disabled]="!filterAvailability && !filterSkillsIds.size &&!filterSubjectsIds.size" (click)="resetFilters()">Clear Filters</button>
+    <button mat-flat-button color="primary" [mat-dialog-close]="getFilters()">Apply Filters
+    </button>
+</mat-dialog-actions>

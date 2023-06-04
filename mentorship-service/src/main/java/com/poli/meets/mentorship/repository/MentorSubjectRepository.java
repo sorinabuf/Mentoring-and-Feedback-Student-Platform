@@ -15,5 +15,11 @@ import java.util.List;
 public interface MentorSubjectRepository extends JpaRepository<MentorSubject, Long>, JpaSpecificationExecutor<MentorSubject> {
     List<MentorSubject> findByMentorId(Long mentorId);
 
+    List<MentorSubject> findByMentorIdAndUniversityClass_Id(Long mentorId,
+                                                            Long universityClassId);
+
     void deleteByMentorId(Long mentorId);
+
+    void deleteByMentorIdAndUniversityClass_Id(Long mentorId,
+                                               Long universityClassId);
 }

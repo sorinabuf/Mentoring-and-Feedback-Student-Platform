@@ -23,7 +23,9 @@ public class StudentDTO implements Serializable {
 
     private String personalEmail;
 
-    private Long universityYearId;
+    private String groupNum;
+
+    private UniversityYearDTO universityYear;
 
     private byte[] image;
 }
