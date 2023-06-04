@@ -20,7 +20,7 @@
       margin-bottom: 32px;
 
       img {
-        margin: -10px 36px 20px 36px;
+        margin: 0px 36px 20px 36px;
       }
 
       .primary-content {
@@ -145,6 +145,10 @@
 
 .subject-card {
   margin: 16px;
+  border-width: 1px !important;
+  border-color: #002d55 !important;
+  width: 30%;
+  border-radius: 16px 16px 16px 16px;
 }
 
 .mat-mdc-card-header {
@@ -167,12 +171,12 @@
   font-family: "Montserrat";
 }
 
-.mat-mdc-card {
-  border-width: 1px !important;
-  border-color: #002d55 !important;
-  width: 30%;
-  border-radius: 16px 16px 16px 16px;
-}
+//.mat-mdc-card-subject {
+//  border-width: 1px !important;
+//  border-color: #002d55 !important;
+//  width: 30%;
+//  border-radius: 16px 16px 16px 16px;
+//}
 
 .section {
   display: flex;

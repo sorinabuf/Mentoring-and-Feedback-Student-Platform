@@ -1,6 +1,8 @@
 package com.poli.meets.feedback.web.rest;
 
 import com.poli.meets.feedback.domain.UniversityClass;
+import com.poli.meets.feedback.service.FeedbackService;
+import com.poli.meets.feedback.service.dto.FeedbackSubjectDetailsDTO;
 import com.poli.meets.feedback.service.dto.FeedbackSubjectsDTO;
 import com.poli.meets.feedback.service.dto.SubjectDTO;
 import com.poli.meets.feedback.service.dto.UniversityClassDTO;
@@ -27,6 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UniversityClassResource {
 
     private final UniversityClassService universityClassService;
+
+    private final FeedbackService feedbackService;
 
 
     /**
@@ -96,6 +100,11 @@ public class UniversityClassResource {
     @GetMapping("/university-classes/me")
     public ResponseEntity<FeedbackSubjectsDTO> getAllUniversityClassesForCurrentUser(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(universityClassService.findAllFeedbackSubjects(token));
+    }
+
+    @GetMapping("/university-classes/{id}/feedback-details")
+    public ResponseEntity<FeedbackSubjectDetailsDTO> getUniversityClassFeedbackDetails(@PathVariable Long id) {
+        return ResponseEntity.ok(feedbackService.getUniversityClassFeedbackDetails(id));
     }
 
 }

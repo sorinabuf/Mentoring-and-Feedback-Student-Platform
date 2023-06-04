@@ -56,4 +56,9 @@ export class FeedbackService {
     );
   }
 
+  public getFeedbackSubjectDetails(id: number): Observable<any> {
+    return this.http.get(
+        environment.apiUrl + '/feedback/api/university-classes/' + id.toString() +'/feedback-details',
+    );
+  }
 }

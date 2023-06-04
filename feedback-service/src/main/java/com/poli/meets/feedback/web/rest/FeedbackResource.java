@@ -72,4 +72,5 @@ public class FeedbackResource {
     public ResponseEntity<FeedbackCountDTO> getFeedbackCount(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(feedbackService.getFeedbackCount(token));
     }
+
 }

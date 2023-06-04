@@ -12,6 +12,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  * A Feedback.
  */
@@ -64,8 +66,8 @@ public class Feedback {
     @Column(name = "grade_difficulty")
     private GradeDifficulty gradeDifficulty;
 
-    @Column(name = "feedback_difficutly")
-    private String feedbackDifficutly;
+    @Column(name = "feedback_difficulty")
+    private String feedbackDifficulty;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "grade_relevance")
@@ -73,6 +75,9 @@ public class Feedback {
 
     @Column(name = "feedback_relevance")
     private String feedbackRelevance;
+
+    @Column(name = "feedback_date")
+    private LocalDateTime feedbackDate;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "feedbacks", allowSetters = true)
@@ -138,8 +143,8 @@ public class Feedback {
         return this;
     }
 
-    public Feedback feedbackDifficutly(String feedbackDifficutly) {
-        this.feedbackDifficutly = feedbackDifficutly;
+    public Feedback feedbackDifficutly(String feedbackDiffculty) {
+        this.feedbackDifficulty = feedbackDiffculty;
         return this;
     }
 

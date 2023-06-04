@@ -35,7 +35,7 @@ public class FeedbackPostDTO implements Serializable {
 
     private GradeDifficulty gradeDifficulty;
 
-    private String feedbackDifficutly;
+    private String feedbackDifficulty;
 
     private Long universityClassId;
 

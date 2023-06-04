@@ -87,6 +87,7 @@ import { FreeSlotComponent } from './components/dialog/free-slot/free-slot.compo
     FeedbackDialogComponent,
     UpcomingMeetingsComponent,
     FreeSlotComponent,
+    SubjectDetailsComponent
   ],
   imports: [
     BrowserModule,

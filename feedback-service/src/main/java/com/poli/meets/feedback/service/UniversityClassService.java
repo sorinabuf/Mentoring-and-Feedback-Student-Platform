@@ -1,21 +1,20 @@
 package com.poli.meets.feedback.service;
 
-import com.poli.meets.feedback.client.AuthClient;
 import com.poli.meets.feedback.domain.Student;
-import com.poli.meets.feedback.domain.enumeration.Year;
+import com.poli.meets.feedback.repository.FeedbackRepository;
 import com.poli.meets.feedback.repository.UniversityClassRepository;
+import com.poli.meets.feedback.service.dto.FeedbackSubjectDetailsDTO;
 import com.poli.meets.feedback.service.dto.FeedbackSubjectsDTO;
 import com.poli.meets.feedback.service.dto.SubjectDTO;
 import com.poli.meets.feedback.service.dto.UniversityClassDTO;
 import com.poli.meets.feedback.service.mapper.UniversityClassMapper;
 import com.poli.meets.feedback.domain.UniversityClass;
 
+import com.poli.meets.feedback.web.rest.errors.BadRequestException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -112,4 +111,5 @@ public class UniversityClassService {
 
         return feedbackSubjectsDTO;
     }
+
 }
