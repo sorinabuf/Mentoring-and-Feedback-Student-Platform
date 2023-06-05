@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
+import poli.meets.coreservice.producer.Producer;
 import poli.meets.coreservice.service.StudentService;
 import poli.meets.coreservice.service.dto.StudentDTO;
 
@@ -31,6 +32,8 @@ public class StudentResource {
 
     private final StudentService studentService;
 
+    private final Producer producer;
+
 
     /**
      * {@code POST  /students} : Create a new student.
@@ -46,6 +49,8 @@ public class StudentResource {
         log.debug("REST request to save Student : {}", bodyData);
         StudentPostDTO studentPostDTO = new ObjectMapper().readValue(bodyData, StudentPostDTO.class);
         StudentDTO result = studentService.save(studentPostDTO, file, token);
+
+        producer.createOrUpdateStudent(result);
         return ResponseEntity.created(new URI("/api/students/" + result.getId()))
             .body(result);
     }
@@ -58,6 +63,8 @@ public class StudentResource {
 
         StudentPostDTO studentPostDTO = new ObjectMapper().readValue(bodyData, StudentPostDTO.class);
         StudentDTO result = studentService.save(studentPostDTO, file, token);
+
+        producer.createOrUpdateStudent(result);
         return ResponseEntity.ok().body(result);
     }
 

@@ -61,7 +61,7 @@ public class AuthController {
     }
 
     @PutMapping("/change-password")
-    public ResponseEntity<Boolean> chnagePassword(@RequestHeader("Authorization") String token,
+    public ResponseEntity<Boolean> changePassword(@RequestHeader("Authorization") String token,
                                             @RequestBody ChangePasswordDTO changePasswordDTO) {
         return ResponseEntity.ok(userUtilsService.changePassword(
                 jwtTokenUtil.extractUsername(token.substring(7)), changePasswordDTO));
@@ -86,6 +86,12 @@ public class AuthController {
     @GetMapping("/current-user")
     public ResponseEntity<String> getCurrentUser(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(jwtTokenUtil.extractUsername(token.substring(7)));
+    }
+
+    @GetMapping("/is-admin")
+    public ResponseEntity<Boolean> isCurrentUserAdmin(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(userUtilsService.isCurrentUserAdmin(
+                jwtTokenUtil.extractUsername(token.substring(7))));
     }
 
 }

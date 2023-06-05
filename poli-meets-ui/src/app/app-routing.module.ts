@@ -18,12 +18,15 @@ import { MentorInfoResolver } from './resolvers/mentor-info.resolver';
 import { UpcomingMeetingsComponent } from './components/mentorship/upcoming-meetings/upcoming-meetings.component';
 import { MentorsComponent } from './components/mentorship/mentors/mentors.component';
 import { PendingRequestsComponent } from './components/mentorship/pending-requests/pending-requests.component';
+import {AdminGuardService} from "./services/admin-guard.service";
+import {AdminComponent} from "./components/admin/admin.component";
 
 export const routes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuardService] },
   { path: 'login', component: LoginComponent, canActivate: [NoAuthGuardService] },
   { path: 'register', component: RegisterComponent, canActivate: [NoAuthGuardService] },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuardService] },
   {
     path: 'my-account', component: MyAccountComponent, canActivate: [AuthGuardService], resolve: {
       student: UserResolver,

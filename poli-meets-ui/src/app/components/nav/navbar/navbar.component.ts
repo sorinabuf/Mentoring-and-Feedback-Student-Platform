@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../dialog/confirmation-dialog/confirmation-dialog.component';
 import { localStorageKey } from '../../../helpers/constants';
 import { Router } from '@angular/router';
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 export class NavbarComponent {
   @Input() transparent: boolean;
   isDialogOpen: boolean;
+  isAdmin: boolean
 
   mentorshipMenuItems = [
       { name: "Mentors", route: "" },
@@ -27,9 +29,16 @@ export class NavbarComponent {
   ];
 
 
-  constructor(private dialog: MatDialog, private router: Router) {
+  constructor(private dialog: MatDialog, private router: Router, private authService: AuthService) {
     this.transparent = false;
     this.isDialogOpen = false;
+    this.isAdmin = false;
+  }
+
+  ngOnInit() {
+    this.authService.isAdminUser().subscribe((isAdmin) => {
+      this.isAdmin = isAdmin;
+    });
   }
 
   hasTransparentBackground(): boolean {

@@ -64,4 +64,10 @@ export class AuthService {
       httpOptions
     );
   }
+
+    public isAdminUser(): Observable<any> {
+        return this.http.get(
+            environment.apiUrl + '/auth/api/is-admin'
+        );
+    }
 }

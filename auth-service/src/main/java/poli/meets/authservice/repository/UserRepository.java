@@ -2,8 +2,10 @@ package poli.meets.authservice.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import poli.meets.authservice.model.Role;
 import poli.meets.authservice.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository

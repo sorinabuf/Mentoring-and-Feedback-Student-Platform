@@ -1,19 +1,19 @@
 package poli.meets.coreservice.web.rest;
 
 import lombok.AllArgsConstructor;
+import poli.meets.coreservice.client.AuthClient;
 import poli.meets.coreservice.service.FacultyService;
 import poli.meets.coreservice.service.dto.FacultyDTO;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
+import poli.meets.coreservice.web.rest.errors.ForbiddenException;
 
 /**
  * REST controller for managing {@link poli.meets.coreservice.domain.Faculty}.
@@ -27,6 +27,8 @@ public class FacultyResource {
 
     private final FacultyService facultyService;
 
+    private final AuthClient authClient;
+
     /**
      * {@code POST  /faculties} : Create a new faculty.
      *
@@ -35,8 +37,14 @@ public class FacultyResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/faculties")
-    public ResponseEntity<FacultyDTO> createFaculty(@RequestBody FacultyDTO facultyDTO) throws URISyntaxException {
+    public ResponseEntity<FacultyDTO> createFaculty(@RequestHeader("Authorization") String token,
+                                                    @RequestBody FacultyDTO facultyDTO) throws URISyntaxException {
         log.debug("REST request to save Faculty : {}", facultyDTO);
+
+        ResponseEntity<Boolean> isAdmin = authClient.isCurrentUserAdmin(token);
+        if (isAdmin == null || isAdmin.getBody() == null || !isAdmin.getBody()) {
+            throw new ForbiddenException();
+        }
 
         FacultyDTO result = facultyService.save(facultyDTO);
         return ResponseEntity.created(new URI("/api/faculties/" + result.getId()))
@@ -53,8 +61,15 @@ public class FacultyResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/faculties")
-    public ResponseEntity<FacultyDTO> updateFaculty(@RequestBody FacultyDTO facultyDTO) throws URISyntaxException {
+    public ResponseEntity<FacultyDTO> updateFaculty(@RequestHeader("Authorization") String token,
+                                                    @RequestBody FacultyDTO facultyDTO) throws URISyntaxException {
         log.debug("REST request to update Faculty : {}", facultyDTO);
+
+        ResponseEntity<Boolean> isAdmin = authClient.isCurrentUserAdmin(token);
+        if (isAdmin == null || isAdmin.getBody() == null || !isAdmin.getBody()) {
+            throw new ForbiddenException();
+        }
+
 
         FacultyDTO result = facultyService.save(facultyDTO);
         return ResponseEntity.ok()
@@ -81,8 +96,15 @@ public class FacultyResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/faculties/{id}")
-    public ResponseEntity<Void> deleteFaculty(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteFaculty(@RequestHeader("Authorization") String token,
+                                              @PathVariable Long id) {
         log.debug("REST request to delete Faculty : {}", id);
+
+        ResponseEntity<Boolean> isAdmin = authClient.isCurrentUserAdmin(token);
+        if (isAdmin == null || isAdmin.getBody() == null || !isAdmin.getBody()) {
+            throw new ForbiddenException();
+        }
+
         facultyService.delete(id);
         return ResponseEntity.noContent().build();
     }

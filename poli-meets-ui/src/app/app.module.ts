@@ -63,6 +63,8 @@ import { MentorsComponent } from './components/mentorship/mentors/mentors.compon
 import { MentorFiltersDialogComponent } from './components/dialog/mentor-filters-dialog/mentor-filters-dialog.component';
 import { BookMeetingDialogComponent } from './components/dialog/book-meeting-dialog/book-meeting-dialog.component';
 import { PendingRequestsComponent } from './components/mentorship/pending-requests/pending-requests.component';
+import {AdminComponent} from "./components/admin/admin.component";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -96,7 +98,8 @@ import { PendingRequestsComponent } from './components/mentorship/pending-reques
     MentorFiltersDialogComponent,
     BookMeetingDialogComponent,
     PendingRequestsComponent,
-    SubjectDetailsComponent
+    SubjectDetailsComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -127,7 +130,8 @@ import { PendingRequestsComponent } from './components/mentorship/pending-reques
     MtxDatetimepickerModule,
     MtxNativeDatetimeModule,
     MatRadioModule,
-    MatGridListModule
+    MatGridListModule,
+    MatTableModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },

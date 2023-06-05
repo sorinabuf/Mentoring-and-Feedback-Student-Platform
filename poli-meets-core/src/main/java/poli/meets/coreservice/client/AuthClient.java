@@ -16,4 +16,7 @@ public interface AuthClient {
 
     @GetMapping("/auth/api/current-user")
     ResponseEntity<String> getCurrentUser(@RequestHeader("Authorization") String token);
+
+    @GetMapping("/auth/api/is-admin")
+    ResponseEntity<Boolean> isCurrentUserAdmin(@RequestHeader("Authorization") String token);
 }

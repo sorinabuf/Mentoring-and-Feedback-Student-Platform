@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import poli.meets.authservice.client.MailClient;
 import poli.meets.authservice.model.User;
+import poli.meets.authservice.repository.RoleRepository;
 import poli.meets.authservice.repository.UserRepository;
 import poli.meets.authservice.security.JwtTokenUtil;
 import poli.meets.authservice.service.dtos.ChangePasswordDTO;
@@ -27,6 +28,8 @@ public class UserUtilsService {
     private final UserService userService;
 
     private final MailClient mailClient;
+
+    private final RoleRepository roleRepository;
 
     public User register(UserRegisterDTO userDTO) throws Exception {
         Optional<User> user = userRepository.findByUsername(userDTO.getUsername());
@@ -90,5 +93,10 @@ public class UserUtilsService {
         userRepository.save(user);
 
         return true;
+    }
+
+    public boolean isCurrentUserAdmin(String username) {
+        return roleRepository.findRolesByUsername(username).stream()
+                .anyMatch(role -> role.getName().equals("ADMIN"));
     }
 }

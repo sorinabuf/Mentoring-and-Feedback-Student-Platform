@@ -10,6 +10,7 @@ import java.io.Serializable;
  */
 @Data
 @NoArgsConstructor
+
 public class StudentDTO implements Serializable {
     
     private Long id;
