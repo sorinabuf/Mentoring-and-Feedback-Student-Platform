@@ -1,9 +1,10 @@
 package com.poli.meets.feedback.service;
 
+import com.poli.meets.feedback.domain.Category;
 import com.poli.meets.feedback.domain.Student;
 import com.poli.meets.feedback.domain.UniversityClass;
 import com.poli.meets.feedback.domain.enumeration.Grade;
-import com.poli.meets.feedback.domain.enumeration.GradeDifficulty;
+import com.poli.meets.feedback.repository.CategoryRepository;
 import com.poli.meets.feedback.repository.UniversityClassRepository;
 import com.poli.meets.feedback.service.dto.*;
 import com.poli.meets.feedback.service.mapper.FeedbackMapper;
@@ -39,11 +40,11 @@ public class FeedbackService {
 
     private final StudentService studentService;
 
-    private final UniversityClassService universityClassService;
-
     private final UniversityClassRepository universityClassRepository;
 
     private final UniversityClassMapper universityClassMapper;
+
+    private final CategoryRepository categoryRepository;
 
 
     /**
@@ -57,7 +58,8 @@ public class FeedbackService {
 
         Student student = studentService.getCurrentUser(token);
 
-        if (feedbackRepository.findAllByStudentIdAndUniversityClassId(student.getId(), feedbackPostDTO.getUniversityClassId())
+        if (feedbackRepository.findAllByStudentIdAndUniversityClassIdAndCategoryId(
+                student.getId(), feedbackPostDTO.getUniversityClassId(), feedbackPostDTO.getCategoryId())
                 .stream().findAny().isPresent()) {
             throw new ForbiddenException();
         }
@@ -108,23 +110,22 @@ public class FeedbackService {
     }
 
     public FeedbackCountDTO getFeedbackCount(String token) {
-        FeedbackSubjectsDTO feedbackSubjectsDTO =
-                universityClassService.findAllFeedbackSubjects(token);
 
         FeedbackCountDTO feedbackCountDTO = new FeedbackCountDTO();
 
-        feedbackCountDTO.setCountActive(feedbackSubjectsDTO.getActiveSubjects().size());
-        feedbackCountDTO.setCountSubmitted(feedbackSubjectsDTO.getSubmittedSubjects().size());
+        feedbackCountDTO.setCountActive(3);
+        feedbackCountDTO.setCountSubmitted(5);
 
         return feedbackCountDTO;
     }
 
     public Double getOverallGradeForFeedbacks(List<Feedback> feedbacks) {
         List<Integer> grades = new ArrayList<>();
-        grades.addAll(feedbacks.stream().map(Feedback::getGradeCourse).map(Grade::getValue).collect(Collectors.toList()));
-        grades.addAll(feedbacks.stream().map(Feedback::getGradeExam).map(Grade::getValue).collect(Collectors.toList()));
-        grades.addAll(feedbacks.stream().map(Feedback::getGradeHomework).map(Grade::getValue).collect(Collectors.toList()));
-        grades.addAll(feedbacks.stream().map(Feedback::getGradeLaboratory).map(Grade::getValue).collect(Collectors.toList()));
+
+        grades.addAll(feedbacks.stream().filter(feedback -> !feedback.getCategory().getName().equals("Difficulty"))
+                .map(Feedback::getGrade).map(Grade::getValue).collect(Collectors.toList()));
+        grades.addAll(feedbacks.stream().filter(feedback -> feedback.getCategory().getName().equals("Difficulty"))
+                .map(Feedback::getGrade).map(grade -> 6 - grade.getValue()).collect(Collectors.toList()));
 
         return MathUtil.getAverage(grades);
     }
@@ -135,140 +136,45 @@ public class FeedbackService {
 
     public List<FeedbackCategoryDTO> getFeedbackCategoriesForUniversityClass(List<Feedback> feedbacks) {
 
-        FeedbackCategoryDTO feedbackDifficultyDTO = new FeedbackCategoryDTO();
-        feedbackDifficultyDTO.setCategoryName("Difficulty");
-        feedbackDifficultyDTO.setGradeCategory(MathUtil.getAverage(feedbacks.stream()
-                .map(Feedback::getGradeDifficulty)
-                .map(GradeDifficulty::getValue)
-                .collect(Collectors.toList())));
-        feedbackDifficultyDTO.setFeedbackComments(feedbacks.stream()
-                .filter(f -> f.getFeedbackDifficulty() != null && !f.getFeedbackDifficulty().isEmpty())
-                .map(f -> {
-            FeedbackCommentDTO feedbackCommentDTO = new FeedbackCommentDTO();
-            feedbackCommentDTO.setComment(f.getFeedbackDifficulty());
-            feedbackCommentDTO.setFeedbackDate(f.getFeedbackDate().toLocalDate());
-            return feedbackCommentDTO;
-        }).collect(Collectors.toList()));
-        List<RatingBreakdownDTO> ratingBreakdownDTOs = new ArrayList<>();
-        List<RatingBreakdownDTO> finalRatingBreakdownDTOs = ratingBreakdownDTOs;
-        Arrays.stream(GradeDifficulty.values()).forEach(gradeDifficulty -> {
-            RatingBreakdownDTO ratingBreakdownDTO = new RatingBreakdownDTO();
-            ratingBreakdownDTO.setGrade(gradeDifficulty.getValue());
-            ratingBreakdownDTO.setNumberGrades((int) feedbacks.stream()
-                    .filter(f -> f.getGradeDifficulty().equals(gradeDifficulty))
-                    .count());
-            finalRatingBreakdownDTOs.add(ratingBreakdownDTO);
-        });
-        feedbackDifficultyDTO.setRatingBreakdown(finalRatingBreakdownDTOs);
+        List<FeedbackCategoryDTO> feedbackCategoryDTOS = new ArrayList<>();
+        List<Category> categories = categoryRepository.findByOrderById();
 
-        FeedbackCategoryDTO feedbackCourseDTO = new FeedbackCategoryDTO();
-        feedbackCourseDTO.setCategoryName("Course");
-        feedbackCourseDTO.setGradeCategory(MathUtil.getAverage(feedbacks.stream()
-                .map(Feedback::getGradeCourse)
-                .map(Grade::getValue)
-                .collect(Collectors.toList())));
-        feedbackCourseDTO.setFeedbackComments(feedbacks.stream()
-                .filter(f -> f.getFeedbackCourse() != null && !f.getFeedbackCourse().isEmpty())
-                .map(f -> {
-                    FeedbackCommentDTO feedbackCommentDTO = new FeedbackCommentDTO();
-                    feedbackCommentDTO.setComment(f.getFeedbackCourse());
-                    feedbackCommentDTO.setFeedbackDate(f.getFeedbackDate().toLocalDate());
-                    return feedbackCommentDTO;
-                }).collect(Collectors.toList()));
-        ratingBreakdownDTOs = new ArrayList<>();
-        List<RatingBreakdownDTO> finalRatingBreakdownDTOs1 = ratingBreakdownDTOs;
-        Arrays.stream(Grade.values()).forEach(grade -> {
-            RatingBreakdownDTO ratingBreakdownDTO = new RatingBreakdownDTO();
-            ratingBreakdownDTO.setGrade(grade.getValue());
-            ratingBreakdownDTO.setNumberGrades((int) feedbacks.stream()
-                    .filter(f -> f.getGradeCourse().equals(grade))
-                    .count());
-            finalRatingBreakdownDTOs1.add(ratingBreakdownDTO);
-        });
-        feedbackCourseDTO.setRatingBreakdown(finalRatingBreakdownDTOs1);
+        for (Category category : categories) {
+            List<Feedback> feedbackForCategory = feedbacks.stream()
+                    .filter(feedback -> feedback.getCategory().getId().equals(category.getId()))
+                    .collect(Collectors.toList());
 
+            FeedbackCategoryDTO feedbackCategoryDTO = new FeedbackCategoryDTO();
+            feedbackCategoryDTO.setCategoryName(category.getName());
+            feedbackCategoryDTO.setGradeCategory(MathUtil.getAverage(feedbackForCategory.stream()
+                    .map(Feedback::getGrade)
+                    .map(Grade::getValue)
+                    .collect(Collectors.toList())));
+            feedbackCategoryDTO.setCountFeedbacks(feedbackForCategory.size());
 
-        FeedbackCategoryDTO feedbackLaboratoryDTO = new FeedbackCategoryDTO();
-        feedbackLaboratoryDTO.setCategoryName("Labs/Seminary");
-        feedbackLaboratoryDTO.setGradeCategory(MathUtil.getAverage(feedbacks.stream()
-                .map(Feedback::getGradeLaboratory)
-                .map(Grade::getValue)
-                .collect(Collectors.toList())));
-        feedbackLaboratoryDTO.setFeedbackComments(feedbacks.stream()
-                .filter(f -> f.getFeedbackLaboratory() != null && !f.getFeedbackLaboratory().isEmpty())
-                .map(f -> {
-                    FeedbackCommentDTO feedbackCommentDTO = new FeedbackCommentDTO();
-                    feedbackCommentDTO.setComment(f.getFeedbackLaboratory());
-                    feedbackCommentDTO.setFeedbackDate(f.getFeedbackDate().toLocalDate());
-                    return feedbackCommentDTO;
-                }).collect(Collectors.toList()));
-        ratingBreakdownDTOs = new ArrayList<>();
-        List<RatingBreakdownDTO> finalRatingBreakdownDTOs2 = ratingBreakdownDTOs;
-        Arrays.stream(Grade.values()).forEach(grade -> {
-            RatingBreakdownDTO ratingBreakdownDTO = new RatingBreakdownDTO();
-            ratingBreakdownDTO.setGrade(grade.getValue());
-            ratingBreakdownDTO.setNumberGrades((int) feedbacks.stream()
-                    .filter(f -> f.getGradeLaboratory().equals(grade))
-                    .count());
-            finalRatingBreakdownDTOs2.add(ratingBreakdownDTO);
-        });
-        feedbackLaboratoryDTO.setRatingBreakdown(finalRatingBreakdownDTOs2);
+            feedbackCategoryDTO.setFeedbackComments(feedbackForCategory.stream()
+                    .filter(f -> f.getFeedbackText() != null && !f.getFeedbackText().isEmpty())
+                    .map(f -> {
+                        FeedbackCommentDTO feedbackCommentDTO = new FeedbackCommentDTO();
+                        feedbackCommentDTO.setComment(f.getFeedbackText());
+                        feedbackCommentDTO.setFeedbackDate(f.getFeedbackDate().toLocalDate());
+                        return feedbackCommentDTO;
+                    }).collect(Collectors.toList()));
+            List<RatingBreakdownDTO> ratingBreakdownDTOs = new ArrayList<>();
+            Arrays.stream(Grade.values()).forEach(grade -> {
+                RatingBreakdownDTO ratingBreakdownDTO = new RatingBreakdownDTO();
+                ratingBreakdownDTO.setGrade(grade.getValue());
+                ratingBreakdownDTO.setNumberGrades((int) feedbackForCategory.stream()
+                        .filter(f -> f.getGrade().equals(grade))
+                        .count());
+                ratingBreakdownDTOs.add(ratingBreakdownDTO);
+            });
+            feedbackCategoryDTO.setRatingBreakdown(ratingBreakdownDTOs);
 
+            feedbackCategoryDTOS.add(feedbackCategoryDTO);
+        }
 
-        FeedbackCategoryDTO feedbackExamDTO = new FeedbackCategoryDTO();
-        feedbackExamDTO.setCategoryName("Exam");
-        feedbackExamDTO.setGradeCategory(MathUtil.getAverage(feedbacks.stream()
-                .map(Feedback::getGradeExam)
-                .map(Grade::getValue)
-                .collect(Collectors.toList())));
-        feedbackExamDTO.setFeedbackComments(feedbacks.stream()
-                .filter(f -> f.getFeedbackExam() != null && !f.getFeedbackExam().isEmpty())
-                .map(f -> {
-                    FeedbackCommentDTO feedbackCommentDTO = new FeedbackCommentDTO();
-                    feedbackCommentDTO.setComment(f.getFeedbackExam());
-                    feedbackCommentDTO.setFeedbackDate(f.getFeedbackDate().toLocalDate());
-                    return feedbackCommentDTO;
-                }).collect(Collectors.toList()));
-        ratingBreakdownDTOs = new ArrayList<>();
-        List<RatingBreakdownDTO> finalRatingBreakdownDTOs3 = ratingBreakdownDTOs;
-        Arrays.stream(Grade.values()).forEach(grade -> {
-            RatingBreakdownDTO ratingBreakdownDTO = new RatingBreakdownDTO();
-            ratingBreakdownDTO.setGrade(grade.getValue());
-            ratingBreakdownDTO.setNumberGrades((int) feedbacks.stream()
-                    .filter(f -> f.getGradeExam().equals(grade))
-                    .count());
-            finalRatingBreakdownDTOs3.add(ratingBreakdownDTO);
-        });
-        feedbackExamDTO.setRatingBreakdown(finalRatingBreakdownDTOs3);
-
-        FeedbackCategoryDTO feedbackDuringSemesterDTO = new FeedbackCategoryDTO();
-        feedbackDuringSemesterDTO.setCategoryName("During Semester");
-        feedbackDuringSemesterDTO.setGradeCategory(MathUtil.getAverage(feedbacks.stream()
-                .map(Feedback::getGradeHomework)
-                .map(Grade::getValue)
-                .collect(Collectors.toList())));
-        feedbackDuringSemesterDTO.setFeedbackComments(feedbacks.stream()
-                .filter(f -> f.getFeedbackDuringSemester() != null && !f.getFeedbackDuringSemester().isEmpty())
-                .map(f -> {
-                    FeedbackCommentDTO feedbackCommentDTO = new FeedbackCommentDTO();
-                    feedbackCommentDTO.setComment(f.getFeedbackDuringSemester());
-                    feedbackCommentDTO.setFeedbackDate(f.getFeedbackDate().toLocalDate());
-                    return feedbackCommentDTO;
-                }).collect(Collectors.toList()));
-        ratingBreakdownDTOs = new ArrayList<>();
-        List<RatingBreakdownDTO> finalRatingBreakdownDTOs4 = ratingBreakdownDTOs;
-        Arrays.stream(Grade.values()).forEach(grade -> {
-            RatingBreakdownDTO ratingBreakdownDTO = new RatingBreakdownDTO();
-            ratingBreakdownDTO.setGrade(grade.getValue());
-            ratingBreakdownDTO.setNumberGrades((int) feedbacks.stream()
-                    .filter(f -> f.getGradeHomework().equals(grade))
-                    .count());
-            finalRatingBreakdownDTOs4.add(ratingBreakdownDTO);
-        });
-        feedbackDuringSemesterDTO.setRatingBreakdown(finalRatingBreakdownDTOs4);
-
-        return List.of(feedbackDifficultyDTO, feedbackCourseDTO, feedbackLaboratoryDTO,
-                feedbackExamDTO, feedbackDuringSemesterDTO);
+       return feedbackCategoryDTOS;
     }
 
     public FeedbackSubjectDetailsDTO getUniversityClassFeedbackDetails(Long universityClassId) {

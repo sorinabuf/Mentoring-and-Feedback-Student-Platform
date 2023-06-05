@@ -9,15 +9,14 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Feedback} and its DTO {@link FeedbackPostDTO}.
  */
-@Mapper(componentModel = "spring", uses = {StudentMapper.class, TeachingAssistantMapper.class})
+@Mapper(componentModel = "spring", uses = {StudentMapper.class})
 public interface FeedbackMapper extends EntityMapper<FeedbackPostDTO, Feedback> {
 
     @Mapping(source = "universityClass.id", target = "universityClassId")
-    @Mapping(source = "teachingAssistant.id", target = "teachingAssistantId")
     FeedbackPostDTO toDto(Feedback feedback);
 
     @Mapping(source = "universityClassId", target = "universityClass.id")
-    @Mapping(source = "teachingAssistantId", target = "teachingAssistant")
+    @Mapping(source = "categoryId", target = "category.id")
     Feedback toEntity(FeedbackPostDTO feedbackPostDTO);
 
     default Feedback fromId(Long id) {

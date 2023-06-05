@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+
+    <changeSet id="20230604000000-1" author="cosmin.culea">
+        <addColumn tableName="student">
+            <column name="external_id" type="bigint" >
+            </column>
+        </addColumn>
+
+        <addUniqueConstraint columnNames="external_id"
+                             constraintName="unique_constraint_external_id_student"
+                             tableName="student"/>
+
+        <addColumn tableName="faculty">
+            <column name="external_id" type="bigint" >
+            </column>
+        </addColumn>
+
+        <addUniqueConstraint columnNames="external_id"
+                             constraintName="unique_constraint_external_id_faculty"
+                             tableName="faculty"/>
+
+
+        <addColumn tableName="teacher">
+            <column name="external_id" type="bigint" >
+            </column>
+        </addColumn>
+
+        <addUniqueConstraint columnNames="external_id"
+                             constraintName="unique_constraint_external_id_teacher"
+                             tableName="teacher"/>
+
+        <addColumn tableName="teaching_assistant">
+            <column name="external_id" type="bigint" >
+            </column>
+        </addColumn>
+
+        <addUniqueConstraint columnNames="external_id"
+                             constraintName="unique_constraint_external_id_teaching_assistant"
+                             tableName="teaching_assistant"/>
+
+        <addColumn tableName="teaching_assistant_class">
+            <column name="external_id" type="bigint" >
+            </column>
+        </addColumn>
+
+        <addUniqueConstraint columnNames="external_id"
+                             constraintName="unique_constraint_external_id_teaching_assistant_class"
+                             tableName="teaching_assistant_class"/>
+
+        <addColumn tableName="university_class">
+            <column name="external_id" type="bigint" >
+            </column>
+        </addColumn>
+
+        <addUniqueConstraint columnNames="external_id"
+                             constraintName="unique_constraint_external_id_university_class"
+                             tableName="university_class"/>
+
+        <addColumn tableName="university_year">
+            <column name="external_id" type="bigint" >
+            </column>
+        </addColumn>
+
+        <addUniqueConstraint columnNames="external_id"
+                             constraintName="unique_constraint_external_id_university_year"
+                             tableName="university_year"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,7 +1,6 @@
 package com.poli.meets.feedback.service.dto;
 
 import com.poli.meets.feedback.domain.Feedback;
-import com.poli.meets.feedback.domain.enumeration.GradeDifficulty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,27 +16,12 @@ public class FeedbackPostDTO implements Serializable {
     
     private Long id;
 
-    private Grade gradeCourse;
+    private Grade grade;
 
-    private String feedbackCourse;
+    private String feedbackText;
 
-    private Grade gradeLaboratory;
-
-    private String feedbackLaboratory;
-
-    private Grade gradeHomework;
-
-    private String feedbackDuringSemester;
-
-    private Grade gradeExam;
-
-    private String feedbackExam;
-
-    private GradeDifficulty gradeDifficulty;
-
-    private String feedbackDifficulty;
+    private Long categoryId;
 
     private Long universityClassId;
 
-    private Long teachingAssistantId;
 }

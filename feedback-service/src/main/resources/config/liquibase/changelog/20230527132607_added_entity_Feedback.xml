@@ -15,40 +15,10 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="grade_course" type="varchar(255)">
+            <column name="grade" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="feedback_course" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="grade_laboratory" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="feedback_laboratory" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="grade_homework" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="feedback_during_semester" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="grade_exam" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="feedback_exam" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="grade_difficulty" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="feedback_difficutly" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="grade_relevance" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="feedback_relevance" type="varchar(255)">
+            <column name="feedback_text" type="text">
                 <constraints nullable="true" />
             </column>
             <column name="student_id" type="bigint">
@@ -57,10 +27,12 @@
             <column name="university_class_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="teaching_assistant_id" type="bigint">
+            <column name="category_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-
+            <column name="feedback_date" type="datetime">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
@@ -70,19 +42,6 @@
                 <createSequence sequenceName="feedback_sequence_generator" startValue="100000" incrementBy="1"/>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
-
-    <changeSet id="20230603000000" author="cosmin.culea">
-        <addColumn tableName="feedback">
-            <column name="feedback_date" type="datetime"> </column>
-        </addColumn>
-    </changeSet>
-
-    <changeSet  author="20230603000000-1"  id="cosmin.culea">
-        <renameColumn newColumnName="feedback_difficulty"
-                       oldColumnName="feedback_difficutly"
-                       tableName="feedback"/>
-    </changeSet>
-
 
 
 </databaseChangeLog>

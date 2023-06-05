@@ -5,7 +5,11 @@ import lombok.Data;
 import java.util.Set;
 
 @Data
-public class FeedbackSubjectsDTO {
+public class CategorySubjectsDTO {
+
+    private Long id;
+
+    private String name;
 
     private Set<SubjectDTO> activeSubjects;
 

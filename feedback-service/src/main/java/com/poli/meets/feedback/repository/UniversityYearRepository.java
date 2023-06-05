@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Data repository for the UniversityYear entity.
@@ -15,4 +16,6 @@ import java.util.List;
 public interface UniversityYearRepository extends JpaRepository<UniversityYear, Long> {
 
     List<UniversityYear> findAllByFaculty_Id(Long facultyId);
+
+    Optional<UniversityYear> findByExternalId(Long externalId);
 }

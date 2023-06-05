@@ -21,6 +21,9 @@ public interface FacultyMapper extends EntityMapper<FacultyDTO, Faculty> {
 
     FeedbackFacultyDTO toFeedbackDto(Faculty facultyDTO);
 
+    @Mapping(target = "externalId", source = "id")
+    Faculty toEntity(poli.meets.coreservice.service.dto.FacultyDTO studentDTO);
+
     default Faculty fromId(Long id) {
         if (id == null) {
             return null;

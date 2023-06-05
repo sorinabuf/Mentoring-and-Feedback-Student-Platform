@@ -5,6 +5,7 @@ import {FeedbackService} from "../../../../services/feedback.service";
 import {Semester} from "../../../../models/semester.model";
 import {Year} from "../../../../models/year.model";
 import {Teacher} from "../../../../models/teacher.model";
+import {CategorySubjects} from "../../../../models/category-subjects.model";
 
 @Component({
   selector: 'app-subjects',
@@ -16,13 +17,14 @@ export class SubjectsComponent {
   activeSubjects: Subject[] | undefined;
   submittedSubjects: Subject[] | undefined;
 
+  categories: CategorySubjects[] | undefined;
+
   constructor(private feedbackService: FeedbackService) {}
 
   ngOnInit() {
-    this.feedbackService.getSubjects()
-        .subscribe( (subjectsDTO) => {
-          this.activeSubjects = subjectsDTO.activeSubjects;
-          this.submittedSubjects = subjectsDTO.submittedSubjects;
+    this.feedbackService.getCategorySubjects()
+        .subscribe( (categorySubjects) => {
+          this.categories = categorySubjects;
         }
     )
 

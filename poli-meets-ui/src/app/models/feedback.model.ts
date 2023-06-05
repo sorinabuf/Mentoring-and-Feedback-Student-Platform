@@ -1,27 +1,10 @@
 export class Feedback {
 
-    gradeCourse?: string;
+    grade?: string;
 
-    feedbackCourse?: string;
-
-    gradeLaboratory?: string;
-
-    feedbackLaboratory?: string;
-
-    gradeHomework?: string;
-
-    feedbackDuringSemester?: string;
-
-    gradeExam?: string;
-
-    feedbackExam?: string;
-
-    gradeDifficulty?: string;
-
-    feedbackDifficulty?: string;
+    feedbackText?: string;
 
     universityClassId?: number;
 
-    teachingAssistantId?: number;
-
+    categoryId?: number;
 }

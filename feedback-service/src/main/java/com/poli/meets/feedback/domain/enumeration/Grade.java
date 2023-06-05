@@ -4,11 +4,11 @@ package com.poli.meets.feedback.domain.enumeration;
  * The Grade enumeration.
  */
 public enum Grade {
-    STRONGLY_AGREE(5),
-    AGREE(4),
-    NEUTRAL(3),
-    DISAGREE(2),
-    STRONGLY_DISAGREE(1);
+    GRADE_5(5),
+    GRADE_4(4),
+    GRADE_3(3),
+    GRADE_2(2),
+    GRADE_1(1);
 
     private final Integer value;
 

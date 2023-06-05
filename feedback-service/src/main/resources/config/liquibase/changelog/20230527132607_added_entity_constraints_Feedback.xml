@@ -18,26 +18,15 @@
                                  baseTableName="feedback"
                                  constraintName="fk_feedback_university_class_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="student"/>
-
-        <addForeignKeyConstraint baseColumnNames="teaching_assistant_id"
-                                 baseTableName="feedback"
-                                 constraintName="fk_feedback_teaching_assistant_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="teaching_assistant"/>
-
-    </changeSet>
-
-    <changeSet id="20230527132607-3" author="jhipster">
-        <dropForeignKeyConstraint baseTableName="feedback"
-                                  constraintName="fk_feedback_university_class_id"/>
-
-        <addForeignKeyConstraint baseColumnNames="university_class_id"
-                                 baseTableName="feedback"
-                                 constraintName="fk_feedback_university_class_id"
-                                 referencedColumnNames="id"
                                  referencedTableName="university_class"/>
 
 
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="feedback"
+                                 constraintName="fk_feedback_category_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="category"/>
+
     </changeSet>
+
 </databaseChangeLog>

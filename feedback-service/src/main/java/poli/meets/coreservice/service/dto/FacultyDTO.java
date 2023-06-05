@@ -1,4 +1,4 @@
-package com.poli.meets.coreservice.service.dto;
+package poli.meets.coreservice.service.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

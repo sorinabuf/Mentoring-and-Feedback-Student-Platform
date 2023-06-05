@@ -3,7 +3,7 @@ package com.poli.meets.feedback.web.rest;
 import com.poli.meets.feedback.domain.UniversityClass;
 import com.poli.meets.feedback.service.FeedbackService;
 import com.poli.meets.feedback.service.dto.FeedbackSubjectDetailsDTO;
-import com.poli.meets.feedback.service.dto.FeedbackSubjectsDTO;
+import com.poli.meets.feedback.service.dto.CategorySubjectsDTO;
 import com.poli.meets.feedback.service.dto.SubjectDTO;
 import com.poli.meets.feedback.service.dto.UniversityClassDTO;
 import com.poli.meets.feedback.service.UniversityClassService;
@@ -78,7 +78,7 @@ public class UniversityClassResource {
     }
 
     @GetMapping("/university-classes/{id}")
-    public ResponseEntity<SubjectDTO> getAllUniversityClass(@PathVariable Long id) {
+    public ResponseEntity<SubjectDTO> getUniversityClass(@PathVariable Long id) {
         log.debug("REST request to get all UniversityClasses");
         return ResponseEntity.ok(universityClassService.findOne(id)
                 .orElseThrow(BadRequestException::new));
@@ -98,8 +98,8 @@ public class UniversityClassResource {
     }
 
     @GetMapping("/university-classes/me")
-    public ResponseEntity<FeedbackSubjectsDTO> getAllUniversityClassesForCurrentUser(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok(universityClassService.findAllFeedbackSubjects(token));
+    public ResponseEntity<List<CategorySubjectsDTO>> getAllUniversityClassesForCurrentUser(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(universityClassService.findAllCategorySubjects(token));
     }
 
     @GetMapping("/university-classes/{id}/feedback-details")

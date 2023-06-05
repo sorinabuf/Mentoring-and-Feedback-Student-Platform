@@ -34,6 +34,9 @@ public class UniversityClass {
     )
     private Long id;
 
+    @Column(name = "external_id", unique = true)
+    private Long externalId;
+
     @Column(name = "name")
     private String name;
 

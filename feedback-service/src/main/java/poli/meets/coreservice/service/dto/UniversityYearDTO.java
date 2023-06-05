@@ -1,4 +1,4 @@
-package com.poli.meets.coreservice.service.dto;
+package poli.meets.coreservice.service.dto;
 
 import com.poli.meets.feedback.domain.enumeration.Year;
 import lombok.Data;

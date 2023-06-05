@@ -64,7 +64,7 @@ export const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
-    path: 'feedback/me/subjects/:id/form', component: FormComponent,
+    path: 'feedback/me/subjects/:subjectId/categories/:categoryId/form', component: FormComponent,
     canActivate: [AuthGuardService]
     // TODO: add user guard so it cannot be accessed manually
   },

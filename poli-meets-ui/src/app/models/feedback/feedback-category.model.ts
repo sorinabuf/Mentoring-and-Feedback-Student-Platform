@@ -6,6 +6,8 @@ export class FeedbackCategory {
 
     gradeCategory?: number;
 
+    countFeedbacks?: number;
+
     feedbackComments?: FeedbackComment[];
 
     ratingBreakdown?: RatingBreakdown[];

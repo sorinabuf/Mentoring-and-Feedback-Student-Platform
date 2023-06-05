@@ -10,6 +10,7 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {ConfirmationDialogComponent} from "../../../dialog/confirmation-dialog/confirmation-dialog.component";
 import {localStorageKey} from "../../../../helpers/constants";
 import {FeedbackDialogComponent} from "../../../dialog/feedback-dialog/feedback-dialog.component";
+import {Category} from "../../../../models/category.model";
 
 @Component({
   selector: 'app-form',
@@ -22,22 +23,24 @@ export class FormComponent {
   feedback: Feedback;
 
   options: { value: string, label: string }[] = [
-    { value: 'STRONGLY_AGREE', label: 'Strongly Agree' },
-    { value: 'AGREE', label: 'Agree' },
-    { value: 'NEUTRAL', label: 'Neutral' },
-    { value: 'DISAGREE', label: 'Disagree' },
-    { value: 'STRONGLY_DISAGREE', label: 'Strongly Disagree' }
+    { value: 'GRADE_5', label: 'Strongly Agree' },
+    { value: 'GRADE_4', label: 'Agree' },
+    { value: 'GRADE_3', label: 'Neutral' },
+    { value: 'GRADE_2', label: 'Disagree' },
+    { value: 'GRADE_1', label: 'Strongly Disagree' }
   ];
 
   optionsDifficulty: { value: string, label: string }[] = [
-    { value: 'VERY_DIFFICULT', label: 'Very Difficult' },
-    { value: 'DIFFICULT', label: 'Difficult' },
-    { value: 'MODERATE', label: 'Moderate' },
-    { value: 'EASY', label: 'Easy' },
-    { value: 'VERY_EASY', label: 'Very Easy' }
+    { value: 'GRADE_5', label: 'Very Difficult' },
+    { value: 'GRADE_4', label: 'Difficult' },
+    { value: 'GRADE_3', label: 'Moderate' },
+    { value: 'GRADE_2', label: 'Easy' },
+    { value: 'GRADE_1', label: 'Very Easy' }
   ];
 
   universityClass: Subject | undefined;
+
+  category: Category | undefined;
 
   selectedOption: string | undefined;
 
@@ -54,55 +57,34 @@ export class FormComponent {
 
 
     this.form = this.fb.group({
-      gradeCourse: ['', Validators.required],
-      gradeLaboratory: ['', Validators.required],
-      gradeHomework: ['', Validators.required],
-      gradeExam: ['', Validators.required],
-      gradeDifficulty: ['', Validators.required],
-      feedbackCourse: [''],
-      feedbackLaboratory: [''],
-      feedbackDuringSemester: [''],
-      feedbackExam: [''],
-      feedbackDifficulty: [''],
-      teachingAssistant: ['']
+      grade: ['', Validators.required],
+      feedbackText: [''],
+
     });
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.feedbackService.getSubject(params['id']).subscribe( (universityClass) => {
+      this.feedbackService.getSubject(params['subjectId']).subscribe( (universityClass) => {
         this.universityClass = universityClass;
       });
 
-      this.feedbackService.getTeachingAssistants(params['id']).subscribe( (teachingAssistants) => {
-        this.teachingAssistants = teachingAssistants.map((ta: { id: { toString: () => any; }; firstName: string; lastName: string; }) => {
-          return {
-            value: ta.id,
-            label: ta.firstName + ' ' + ta.lastName
-          };
-        })
-      }
-    )
-    });
+      this.feedbackService.getCategory(params['categoryId']).subscribe( (category) => {
+        this.category = category;
+      });
 
+    });
   }
 
   onSubmit() {
     if (this.form.valid) {
       const formValues = this.form.value;
 
-      this.feedback.gradeCourse = formValues.gradeCourse;
-      this.feedback.gradeLaboratory = formValues.gradeLaboratory;
-      this.feedback.gradeHomework = formValues.gradeHomework;
-      this.feedback.gradeExam = formValues.gradeExam;
-      this.feedback.gradeDifficulty = formValues.gradeDifficulty;
-      this.feedback.feedbackCourse = formValues.feedbackCourse;
-      this.feedback.feedbackLaboratory = formValues.feedbackLaboratory;
-      this.feedback.feedbackDuringSemester = formValues.feedbackDuringSemester;
-      this.feedback.feedbackExam = formValues.feedbackExam;
-      this.feedback.feedbackDifficulty = formValues.feedbackDifficulty;
+      this.feedback.grade = formValues.grade;
+      this.feedback.feedbackText = formValues.feedbackText;
       this.feedback.universityClassId = this.universityClass?.id;
-      this.feedback.teachingAssistantId = formValues.teachingAssistant;
+      this.feedback.categoryId = this.category?.id;
+
 
       this.feedbackService.postFeedback(this.feedback).subscribe();
       console.log(this.feedback);
@@ -137,6 +119,14 @@ export class FormComponent {
 
   getTeacherFullName(teacher: Teacher | undefined) {
     return teacher?.firstName + " " + teacher?.lastName;
+  }
+
+  getOptions() {
+    if (this.category?.name == "Difficulty") {
+      return this.optionsDifficulty;
+    } else {
+      return this.options;
+    }
   }
 
 }

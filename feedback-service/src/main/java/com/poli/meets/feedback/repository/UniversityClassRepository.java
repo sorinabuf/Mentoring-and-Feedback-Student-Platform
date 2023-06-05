@@ -17,10 +17,12 @@ import java.util.List;
 public interface UniversityClassRepository extends JpaRepository<UniversityClass, Long> {
 
     @Query("select uc from UniversityClass uc, Feedback f " +
-            "where f.universityClass.id = uc.id and f.student.id = :studentId")
-    List<UniversityClass> findAllSubmittedSubjects(Long studentId);
+            "where f.universityClass.id = uc.id and f.student.id = :studentId and f.category.id = :categoryId")
+    List<UniversityClass> findAllSubmittedSubjectsAndCategory(Long studentId, Long categoryId);
 
     List<UniversityClass> findAllByUniversityYear_YearIn(List<Year> years);
 
     List<UniversityClass> findAllByUniversityYearId(Long yearId);
+
+    List<UniversityClass> findAllByUniversityYearYearAndUniversityYearFacultyId(Year year, Long facultyId);
 }

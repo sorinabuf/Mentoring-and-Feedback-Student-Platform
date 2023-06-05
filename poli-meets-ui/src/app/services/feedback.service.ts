@@ -11,7 +11,7 @@ export class FeedbackService {
   
   constructor(private http: HttpClient) { }
 
-  public getSubjects(): Observable<any> {
+  public getCategorySubjects(): Observable<any> {
     return this.http.get(
         environment.apiUrl + '/feedback/api/university-classes/me',
     );
@@ -59,6 +59,12 @@ export class FeedbackService {
   public getFeedbackSubjectDetails(id: number): Observable<any> {
     return this.http.get(
         environment.apiUrl + '/feedback/api/university-classes/' + id.toString() +'/feedback-details',
+    );
+  }
+
+  public getCategory(id: number): Observable<any> {
+    return this.http.get(
+        environment.apiUrl + '/feedback/api/categories/' + id.toString()
     );
   }
 }

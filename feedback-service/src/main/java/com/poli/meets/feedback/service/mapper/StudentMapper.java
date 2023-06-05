@@ -21,6 +21,9 @@ public interface StudentMapper extends EntityMapper<StudentDTO, Student> {
     @Mapping(source = "universityYearId", target = "universityYear")
     Student toEntity(StudentDTO studentDTO);
 
+    @Mapping(target = "externalId", source = "id")
+    Student toEntity(poli.meets.coreservice.service.dto.StudentDTO studentDTO);
+
     default Student fromId(Long id) {
         if (id == null) {
             return null;
