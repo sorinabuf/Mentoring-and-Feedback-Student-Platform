@@ -24,23 +24,14 @@ import poli.meets.coreservice.web.rest.errors.ForbiddenException;
 @AllArgsConstructor
 public class FacultyResource {
 
-
     private final FacultyService facultyService;
 
     private final AuthClient authClient;
 
-    /**
-     * {@code POST  /faculties} : Create a new faculty.
-     *
-     * @param facultyDTO the facultyDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new facultyDTO, or with status {@code 400 (Bad Request)} if the faculty has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PostMapping("/faculties")
-    public ResponseEntity<FacultyDTO> createFaculty(@RequestHeader("Authorization") String token,
-                                                    @RequestBody FacultyDTO facultyDTO) throws URISyntaxException {
-        log.debug("REST request to save Faculty : {}", facultyDTO);
-
+    public ResponseEntity<FacultyDTO> createFaculty(
+            @RequestHeader("Authorization") String token,
+            @RequestBody FacultyDTO facultyDTO) throws URISyntaxException {
         ResponseEntity<Boolean> isAdmin = authClient.isCurrentUserAdmin(token);
         if (isAdmin == null || isAdmin.getBody() == null || !isAdmin.getBody()) {
             throw new ForbiddenException();
@@ -48,58 +39,31 @@ public class FacultyResource {
 
         FacultyDTO result = facultyService.save(facultyDTO);
         return ResponseEntity.created(new URI("/api/faculties/" + result.getId()))
-            .body(result);
+                .body(result);
     }
 
-    /**
-     * {@code PUT  /faculties} : Updates an existing faculty.
-     *
-     * @param facultyDTO the facultyDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated facultyDTO,
-     * or with status {@code 400 (Bad Request)} if the facultyDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the facultyDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PutMapping("/faculties")
-    public ResponseEntity<FacultyDTO> updateFaculty(@RequestHeader("Authorization") String token,
-                                                    @RequestBody FacultyDTO facultyDTO) throws URISyntaxException {
-        log.debug("REST request to update Faculty : {}", facultyDTO);
-
+    public ResponseEntity<FacultyDTO> updateFaculty(
+            @RequestHeader("Authorization") String token,
+            @RequestBody FacultyDTO facultyDTO) {
         ResponseEntity<Boolean> isAdmin = authClient.isCurrentUserAdmin(token);
         if (isAdmin == null || isAdmin.getBody() == null || !isAdmin.getBody()) {
             throw new ForbiddenException();
         }
 
-
         FacultyDTO result = facultyService.save(facultyDTO);
-        return ResponseEntity.ok()
-
-            .body(result);
+        return ResponseEntity.ok().body(result);
     }
 
-    /**
-     * {@code GET  /faculties} : get all the faculties.
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of faculties in body.
-     */
     @GetMapping("/faculties")
     public List<FacultyDTO> getAllFaculties() {
-        log.debug("REST request to get all Faculties");
         return facultyService.findAll();
     }
 
-
-    /**
-     * {@code DELETE  /faculties/:id} : delete the "id" faculty.
-     *
-     * @param id the id of the facultyDTO to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
     @DeleteMapping("/faculties/{id}")
-    public ResponseEntity<Void> deleteFaculty(@RequestHeader("Authorization") String token,
-                                              @PathVariable Long id) {
-        log.debug("REST request to delete Faculty : {}", id);
-
+    public ResponseEntity<Void> deleteFaculty(
+            @RequestHeader("Authorization") String token,
+            @PathVariable Long id) {
         ResponseEntity<Boolean> isAdmin = authClient.isCurrentUserAdmin(token);
         if (isAdmin == null || isAdmin.getBody() == null || !isAdmin.getBody()) {
             throw new ForbiddenException();

@@ -1,25 +1,186 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,900,800,700");
 @import "../../../font_colors";
 @import "../../../theme_variables";
+@import "../../../text_form_field";
 
 .admin-container-padding {
   padding-top: 64px; // dimensiunea navbar-ului
 
   .admin-container {
     min-height: calc(100vh - 64px); // minus dimensiunea navbar-ului
-    padding: 32px 0 0 0;
+    padding: 64px 0 0 0;
     width: 100%;
     background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    .tab-group {
-      width: 80%;
+    .mat-mdc-tab-header {
+      margin-right: 40%;
+      border-bottom: 1px solid rgba(0, 29, 61, 0.2);
+    }
 
-      .table-section {
-        width: 100%;
+    .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
+      flex-grow: 0;
+    }
+
+    .mat-mdc-table tbody,
+    .mat-mdc-table tfoot,
+    .mat-mdc-table thead,
+    .mat-mdc-cell,
+    .mat-mdc-footer-cell,
+    .mat-mdc-header-row,
+    .mat-mdc-row,
+    .mat-mdc-footer-row,
+    .mat-mdc-table .mat-mdc-header-cell {
+      padding: 16px 32px;
+      font-family: 'Montserrat';
+      color: $font-color-light;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .mdc-text-field {
+      height: 50px;
+      border-color: white !important;
+
+      mat-icon {
+        color: $font-color;
       }
     }
+
+    .mat-sort-header-content {
+      font-weight: 600;
+      color: $font-color;
+      font-size: 13px;
+      font-family: 'Roboto';
+    }
+
+    .padding-tab {
+      padding: 32px 0;
+    }
+
+    .title {
+      width: 90%;
+      font-family: 'Montserrat';
+      font-weight: 700;
+      font-size: x-large;
+      padding-bottom: 64px;
+      color: $font-color;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 30%;
+      padding: 8px 0 16px;
+
+      mat-label {
+        color: $font-color;
+        font-weight: 600;
+      }
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+
+      mat-icon {
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+
+    .tab-group {
+      width: 90%;
+
+      table {
+        width: 100%;
+        margin-bottom: 16px;
+        border-radius: 4px;
+        overflow: hidden;
+        background-color: #fefefe;
+        table-layout: fixed;
+      }
+
+      .faculty th:not(:last-child) {
+        width: 30%;
+      }
+
+      .faculty th:last-child {
+        width: 10%;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: 'Roboto';
+        color: rgba(0, 0, 0, 0.6) !important;
+      }
+
+      .university-class th:not(:last-child) {
+        width: 15%;
+      }
+
+      .university-class th:last-child {
+        width: 10%;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: 'Roboto';
+        color: rgba(0, 0, 0, 0.6) !important;
+      }
+
+      .university-year th:not(:last-child) {
+        width: 30%;
+      }
+
+      .university-year th:last-child {
+        width: 10%;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: 'Roboto';
+        color: rgba(0, 0, 0, 0.6) !important;
+      }
+
+      .teacher th:not(:last-child) {
+        width: 45%;
+      }
+
+      .teacher th:last-child {
+        width: 10%;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: 'Roboto';
+        color: rgba(0, 0, 0, 0.6) !important;
+      }
+    }
+
+    .mat-column-actions {
+      text-align: end;
+    }
+
+    .mdc-data-table__cell {
+      overflow: visible;
+    }
   }
+}
+
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  min-width: auto !important;
+  padding: 0 50px 0 50px;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__label {
+  padding-left: 0;
+  padding-right: 0;
 }

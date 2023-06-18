@@ -19,5 +19,7 @@ public interface MeetingSlotRepository extends JpaRepository<MeetingSlot, Long>,
                                                            MeetingSlotStatus status,
                                                            Instant date);
 
+    void deleteByDateBefore(Instant date);
+
     void deleteByMentorId(Long mentorId);
 }

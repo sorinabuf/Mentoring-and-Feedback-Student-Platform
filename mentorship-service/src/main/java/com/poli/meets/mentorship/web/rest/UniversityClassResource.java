@@ -87,14 +87,16 @@ public class UniversityClassResource {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/university-classes/mentorship")
-    public ResponseEntity<List<UniversityClassMentorshipDTO>> getAllMentorshipUniversityClasses(@RequestHeader("Authorization") String token) {
+    @GetMapping("/university-classes/current-user/mentorship")
+    public ResponseEntity<List<UniversityClassMentorshipDTO>> getAllMentorshipUniversityClasses(
+            @RequestHeader("Authorization") String token) {
 
         return ResponseEntity.ok().body(universityClassService.findAllMentorship(token));
     }
 
-    @GetMapping("/university-classes/mentors")
-    public ResponseEntity<List<UniversityClassDTO>> getAllMentorsUniversityClasses(@RequestHeader("Authorization") String token) {
+    @GetMapping("/university-classes/current-user/mentors")
+    public ResponseEntity<List<UniversityClassDTO>> getAllMentorsUniversityClasses(
+            @RequestHeader("Authorization") String token) {
 
         return ResponseEntity.ok().body(universityClassService.findAllMentors(token));
     }

@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../environment/environment';
 import { Faculty } from '../models/faculty.model';
+import { UniversityYear } from '../models/university-year-info.model';
+import { UniversityClass } from '../models/university-class-info.model';
+import { Teacher } from '../models/teacher.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +22,64 @@ export class CoreService {
   public get_all_faculties(): Observable<Faculty[]> {
     return this.http.get<Faculty[]>(
       environment.apiUrl + '/core/api/faculties',
+    );
+  }
+
+  public add_faculty(faculty: Faculty): Observable<any> {
+    return this.http.post(
+      environment.apiUrl + '/core/api/faculties',
+      faculty
+    );
+  }
+
+  public update_faculty(faculty: Faculty): Observable<any> {
+    return this.http.put(
+      environment.apiUrl + '/core/api/faculties',
+      faculty
+    );
+  }
+
+  public delete_faculty(id: number): Observable<any> {
+    return this.http.delete(
+      environment.apiUrl + '/core/api/faculties/' + id
+    );
+  }
+
+  public get_all_university_years(): Observable<UniversityYear[]> {
+    return this.http.get<UniversityYear[]>(
+      environment.apiUrl + '/core/api/university-years',
+    );
+  }
+
+  public add_university_year(universityYear: UniversityYear): Observable<any> {
+    return this.http.post(
+      environment.apiUrl + '/core/api/university-years',
+      universityYear
+    );
+  }
+
+  public update_university_year(universityYear: UniversityYear): Observable<any> {
+    return this.http.put(
+      environment.apiUrl + '/core/api/university-years',
+      universityYear
+    );
+  }
+
+  public delete_university_year(id: number): Observable<any> {
+    return this.http.delete(
+      environment.apiUrl + '/core/api/university-years/' + id
+    );
+  }
+
+  public get_all_university_classes(): Observable<UniversityClass[]> {
+    return this.http.get<UniversityClass[]>(
+      environment.apiUrl + '/core/api/university-classes',
+    );
+  }
+
+  public get_all_teachers(): Observable<Teacher[]> {
+    return this.http.get<Teacher[]>(
+      environment.apiUrl + '/core/api/teachers',
     );
   }
 

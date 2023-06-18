@@ -5,6 +5,7 @@ import com.poli.meets.mentorship.client.MailClient;
 import com.poli.meets.mentorship.domain.*;
 import com.poli.meets.mentorship.domain.enumeration.MeetingRequestStatus;
 import com.poli.meets.mentorship.domain.enumeration.MeetingSlotStatus;
+import com.poli.meets.mentorship.domain.enumeration.Year;
 import com.poli.meets.mentorship.repository.*;
 import com.poli.meets.mentorship.service.dto.*;
 import com.poli.meets.mentorship.service.mapper.*;
@@ -20,10 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
@@ -105,12 +103,20 @@ public class MentorService {
             .map(mentorMapper::toDto);
     }
 
-    /**
-     * Delete the mentor by id.
-     *
-     * @param id the id of the entity.
-     */
-    public void delete(Long id) {
+    public void delete(String token) {
+        Student student =
+                studentRepository.findByStudentEmail(authClient.getCurrentUser(token).getBody())
+                        .stream()
+                        .findAny()
+                        .orElseThrow(ForbiddenException::new);
+
+        Mentor mentor =
+                mentorRepository.findByStudentId(student.getId()).stream()
+                        .findAny()
+                        .orElseThrow(BadRequestException::new);
+
+        Long id = mentor.getId();
+
         mentorSkillRepository.deleteByMentorId(id);
 
         List<MeetingRequest> meetingRequests =
@@ -228,6 +234,13 @@ public class MentorService {
                         .findAny()
                         .orElseThrow(ForbiddenException::new);
 
+        List<Mentor> existentMentor =
+                mentorRepository.findByStudentId(student.getId());
+
+        if (existentMentor.size() > 0) {
+            throw new BadRequestException();
+        }
+
         Mentor mentor = new Mentor();
         mentor.setDescription(mentorDTO.getDescription());
         mentor.setStudent(student);
@@ -243,6 +256,15 @@ public class MentorService {
                         .stream()
                         .findAny()
                         .orElseThrow(ForbiddenException::new);
+
+        Mentor currentMentor =
+                mentorRepository.findByStudentId(student.getId()).stream()
+                        .findAny()
+                        .orElseThrow(BadRequestException::new);
+
+        if (!Objects.equals(currentMentor.getId(), mentorDTO.getId())) {
+            throw new BadRequestException();
+        }
 
         Mentor mentor = new Mentor();
         mentor.setId(mentorDTO.getId());

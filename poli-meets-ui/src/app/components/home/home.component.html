@@ -38,8 +38,12 @@
             </mat-card-header>
 
             <mat-card-actions>
-                <button mat-button color="primary">FIND A MENTOR</button>
-                <button mat-button color="primary">BE A MENTOR</button>
+                <a mat-button color="primary" routerLink="/mentorship/mentors">
+                    FIND A MENTOR
+                </a>
+                <a mat-button color="primary" routerLink="/my-account">
+                    BE A MENTOR
+                </a>
             </mat-card-actions>
         </mat-card>
 
@@ -54,8 +58,12 @@
             </mat-card-header>
 
             <mat-card-actions>
-                <button mat-button color="primary">SEE FEEDBACK</button>
-                <button mat-button color="primary">GIVE FEEDBACK</button>
+                <a mat-button color="primary" routerLink="/feedback/me">
+                    SEE FEEDBACK
+                </a>
+                <a mat-button color="primary" routerLink="/feedback/subjects">
+                    GIVE FEEDBACK
+                </a>
             </mat-card-actions>
         </mat-card>
     </div>

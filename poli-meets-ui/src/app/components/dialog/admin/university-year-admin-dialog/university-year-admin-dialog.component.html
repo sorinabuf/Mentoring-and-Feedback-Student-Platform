@@ -1,0 +1,43 @@
+<mat-dialog-content class="admin-dialog">
+    <div class="dialog-header">
+        <p>Add university year</p>
+        <span>* required fields</span>
+    </div>
+
+    <div class="dialog-content">
+        <form [formGroup]="adminForm">
+            <div class="admin-fields">
+                <mat-label>Faculty <span>*</span></mat-label>
+                <mat-form-field appearance="fill">
+                    <mat-select formControlName="faculty" placeholder="Select a faculty">
+                        <mat-option *ngFor="let faculty of faculties" [value]="faculty.id">
+                            {{faculty.name}} - {{faculty.domain}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-label>Year <span>*</span></mat-label>
+                <mat-form-field appearance="fill">
+                    <mat-select formControlName="year" placeholder="Select a study year">
+                        <mat-option *ngFor="let year of years" [value]="year">
+                            {{year}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-label>Cohort <span>*</span></mat-label>
+                <mat-form-field appearance="fill">
+                    <input matInput placeholder="University year cohort" formControlName="cohort">
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-stroked-button class="admin-cancel-button" mat-dialog-close>Cancel
+    </button>
+    <button mat-flat-button cdkFocusInitial class="admin-add-button"
+        [ngClass]="{'enabled': isFormValid() && isFormModified()}" [disabled]="!isFormValid() || !isFormModified()"
+        [mat-dialog-close]="getNewEntry()">Submit</button>
+</mat-dialog-actions>

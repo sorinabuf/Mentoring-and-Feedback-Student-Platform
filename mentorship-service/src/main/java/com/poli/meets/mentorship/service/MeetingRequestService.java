@@ -25,10 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
@@ -310,9 +307,20 @@ public class MeetingRequestService {
         return meetingRequestMapper.toDto(meetingRequest);
     }
 
-    public void approveMeeting(MeetingDTO meetingDTO) {
+    public void approveMeeting(String token, MeetingDTO meetingDTO) {
         Optional<MeetingRequest> meetingRequestOptional =
                 meetingRequestRepository.findById(meetingDTO.getId());
+
+        Student currentStudent =
+                studentRepository.findByStudentEmail(authClient.getCurrentUser(token).getBody())
+                        .stream()
+                        .findAny()
+                        .orElseThrow(ForbiddenException::new);
+
+        Mentor currentMentor =
+                mentorRepository.findByStudentId(currentStudent.getId()).stream()
+                        .findAny()
+                        .orElseThrow(BadRequestException::new);
 
         if (meetingRequestOptional.isPresent()) {
             MeetingRequest meetingRequest = meetingRequestOptional.get();
@@ -323,6 +331,11 @@ public class MeetingRequestService {
             Student mentor =
                     meetingRequest.getMeetingSlot().getMentor().getStudent();
             MeetingSlot meetingSlot = meetingRequest.getMeetingSlot();
+
+            if (!Objects.equals(currentMentor.getStudent().getId(),
+                    mentor.getId())) {
+                throw new BadRequestException();
+            }
 
             EmailDTO emailDTO = new EmailDTO();
             DateTimeFormatter formatter =

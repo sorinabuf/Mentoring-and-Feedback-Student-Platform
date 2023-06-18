@@ -9,6 +9,8 @@ import { MeetingSlot } from 'src/app/models/meeting-slot.model';
 import { BookMeetingDialogComponent } from '../../dialog/book-meeting-dialog/book-meeting-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import * as AOS from 'aos';
+
 @Component({
   selector: 'app-mentors',
   templateUrl: './mentors.component.html',
@@ -48,6 +50,8 @@ export class MentorsComponent {
   }
 
   ngOnInit(): void {
+    AOS.init();
+    
     this.mentorshipService.get_skills().subscribe((response) => {
       this.skills = response;
     });
@@ -57,8 +61,8 @@ export class MentorsComponent {
     });
 
     this.mentorshipService.get_all_mentors().subscribe((response) => {
-      this.mentors = response;
-      this.filteredMentors = response;
+      this.mentors = response.filter(mentor => mentor.subjects.map(subject => subject.id).some(subject => new Set(this.subjects.map(subject => subject.id)).has(subject)));
+      this.filteredMentors = this.mentors;
 
       this.mentorsSkills = [... new Set(this.mentors.map(mentor => mentor.skills).flatMap(list => list).map(skill => skill.id))];
       this.mentorsSubjects = [... new Set(this.mentors.map(mentor => mentor.subjects).flatMap(list => list).map(subject => subject.id))];
