@@ -14,21 +14,6 @@ export class SubjectDetailsComponent {
 
     feedbackSubjectDetails: FeedbackSubjectDetails;
 
-    chartOptions = {
-        title: {
-            text: "Basic Column Chart in Angular"
-        },
-        data: [{
-            type: "column",
-            dataPoints: [
-                { label: "Apple",  y: 10  },
-                { label: "Orange", y: 15  },
-                { label: "Banana", y: 25  },
-                { label: "Mango",  y: 30  },
-                { label: "Grape",  y: 28  }
-            ]
-        }]
-    };
 
     constructor(private feedbackService: FeedbackService, private route: ActivatedRoute) {
         this.feedbackSubjectDetails = new FeedbackSubjectDetails();
@@ -59,10 +44,10 @@ export class SubjectDetailsComponent {
     }
 
     getPercentageFeedbacks(partial: number | undefined, total: number | undefined) {
-        if (partial === undefined || partial == 0) {
+        if (partial === undefined || partial == 0 || total == undefined || total == 0) {
             return 0
         }
 
-        return 100 * (total ?? 0) / partial;
+        return (100 * partial) / total;
     }
 }

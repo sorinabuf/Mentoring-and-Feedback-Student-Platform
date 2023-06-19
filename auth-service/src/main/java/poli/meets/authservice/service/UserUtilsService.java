@@ -4,16 +4,21 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import poli.meets.authservice.client.MailClient;
+import poli.meets.authservice.model.Role;
 import poli.meets.authservice.model.User;
+import poli.meets.authservice.model.enums.RoleType;
 import poli.meets.authservice.repository.RoleRepository;
 import poli.meets.authservice.repository.UserRepository;
 import poli.meets.authservice.security.JwtTokenUtil;
 import poli.meets.authservice.service.dtos.ChangePasswordDTO;
 import poli.meets.authservice.service.dtos.EmailDTO;
+import poli.meets.authservice.service.dtos.UserDetailsDTO;
 import poli.meets.authservice.service.dtos.UserRegisterDTO;
 import poli.meets.authservice.web.error.ForbiddenException;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -95,8 +100,21 @@ public class UserUtilsService {
         return true;
     }
 
+    public UserDetailsDTO getCurrentUserDetails(String token) {
+        User user = userRepository.findByUsername(jwtTokenUtil.extractUsername(token.substring(7)))
+                .orElseThrow(ForbiddenException::new);
+        List<Role> roles = roleRepository.findRolesByUsername(user.getUsername());
+
+        UserDetailsDTO userDetailsDTO = new UserDetailsDTO();
+        userDetailsDTO.setUsername(user.getUsername());
+        userDetailsDTO.setIsActivated(user.getIsActivated());
+        userDetailsDTO.setRoles(roles.stream().map(Role::getName).collect(Collectors.toList()));
+
+        return userDetailsDTO;
+    }
+
     public boolean isCurrentUserAdmin(String username) {
         return roleRepository.findRolesByUsername(username).stream()
-                .anyMatch(role -> role.getName().equals("ADMIN"));
+                .anyMatch(role -> role.getName().equals(RoleType.ROLE_ADMIN));
     }
 }

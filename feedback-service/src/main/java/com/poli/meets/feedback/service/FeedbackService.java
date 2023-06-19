@@ -112,9 +112,16 @@ public class FeedbackService {
     public FeedbackCountDTO getFeedbackCount(String token) {
 
         FeedbackCountDTO feedbackCountDTO = new FeedbackCountDTO();
+        Student currentStudent = studentService.getCurrentUser(token);
 
-        feedbackCountDTO.setCountActive(3);
-        feedbackCountDTO.setCountSubmitted(5);
+        long feedbackCountSubmitted = feedbackRepository.countAllByStudentIdAndUniversityClass_UniversityYearId(
+                currentStudent.getId(), currentStudent.getUniversityYear().getId());
+
+        long feedbackCountAll = categoryRepository.count() *
+                universityClassRepository.countAllByUniversityYear(currentStudent.getUniversityYear());
+
+        feedbackCountDTO.setCountActive(feedbackCountAll - feedbackCountSubmitted);
+        feedbackCountDTO.setCountSubmitted(feedbackCountSubmitted);
 
         return feedbackCountDTO;
     }
@@ -142,6 +149,7 @@ public class FeedbackService {
         for (Category category : categories) {
             List<Feedback> feedbackForCategory = feedbacks.stream()
                     .filter(feedback -> feedback.getCategory().getId().equals(category.getId()))
+                    .sorted(Comparator.comparing(Feedback::getFeedbackDate).reversed())
                     .collect(Collectors.toList());
 
             FeedbackCategoryDTO feedbackCategoryDTO = new FeedbackCategoryDTO();
@@ -151,6 +159,7 @@ public class FeedbackService {
                     .map(Grade::getValue)
                     .collect(Collectors.toList())));
             feedbackCategoryDTO.setCountFeedbacks(feedbackForCategory.size());
+            feedbackCategoryDTO.setGradeQuestion(category.getGradeQuestion());
 
             feedbackCategoryDTO.setFeedbackComments(feedbackForCategory.stream()
                     .filter(f -> f.getFeedbackText() != null && !f.getFeedbackText().isEmpty())
@@ -158,6 +167,7 @@ public class FeedbackService {
                         FeedbackCommentDTO feedbackCommentDTO = new FeedbackCommentDTO();
                         feedbackCommentDTO.setComment(f.getFeedbackText());
                         feedbackCommentDTO.setFeedbackDate(f.getFeedbackDate().toLocalDate());
+                        feedbackCommentDTO.setGrade(f.getGrade().getValue());
                         return feedbackCommentDTO;
                     }).collect(Collectors.toList()));
             List<RatingBreakdownDTO> ratingBreakdownDTOs = new ArrayList<>();

@@ -16,8 +16,7 @@ public interface StudentMapper extends EntityMapper<StudentDTO, Student> {
     @Mapping(source = "universityYear.id", target = "universityYearId")
     StudentDTO toDto(Student student);
 
-    @Mapping(target = "feedbacks", ignore = true)
-    @Mapping(target = "removeFeedbacks", ignore = true)
+
     @Mapping(source = "universityYearId", target = "universityYear")
     Student toEntity(StudentDTO studentDTO);
 

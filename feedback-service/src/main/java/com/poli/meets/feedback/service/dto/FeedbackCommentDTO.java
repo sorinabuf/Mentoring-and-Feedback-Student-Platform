@@ -1,5 +1,6 @@
 package com.poli.meets.feedback.service.dto;
 
+import com.poli.meets.feedback.domain.enumeration.Grade;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -11,4 +12,6 @@ public class FeedbackCommentDTO {
     private LocalDate feedbackDate;
 
     private String comment;
+
+    private Integer grade;
 }

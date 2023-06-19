@@ -11,6 +11,8 @@ public class FeedbackCategoryDTO {
 
     private Double gradeCategory;
 
+    private String gradeQuestion;
+
     private Integer countFeedbacks;
 
     private List<FeedbackCommentDTO> feedbackComments;

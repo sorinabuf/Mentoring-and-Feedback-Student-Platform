@@ -42,7 +42,7 @@ public class UserService implements UserDetailsService {
 
 
     private Collection<? extends GrantedAuthority> getAuthorities(List<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
     }
 
 

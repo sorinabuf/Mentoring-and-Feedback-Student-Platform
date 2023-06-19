@@ -59,7 +59,6 @@ export class FormComponent {
     this.form = this.fb.group({
       grade: ['', Validators.required],
       feedbackText: [''],
-
     });
   }
 

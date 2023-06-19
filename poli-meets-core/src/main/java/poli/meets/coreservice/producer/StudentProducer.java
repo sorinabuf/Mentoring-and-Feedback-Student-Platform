@@ -8,7 +8,7 @@ import poli.meets.coreservice.service.dto.StudentDTO;
 
 @Service
 @AllArgsConstructor
-public class Producer {
+public class StudentProducer {
 
     private static final String TOPIC = "students";
 

@@ -56,6 +56,17 @@
         <mat-tab-group animationDuration="1000ms">
             <mat-tab *ngFor="let category of feedbackSubjectDetails.feedbackCategories" label="{{category.categoryName}}">
                 <div class="feedback-stats">
+
+                    <mat-card class="specific-rating-card" >
+                        <mat-card-content class="specific-rating-card-content">
+                            <mat-card-title class="mat-mdc-card-title-rating-specific"> Rating Question </mat-card-title>
+
+                            <div class="question-text">
+                                "{{category.gradeQuestion}}"
+                            </div>
+
+                        </mat-card-content>
+                    </mat-card>
                     <mat-card class="specific-rating-card" >
                         <mat-card-content class="specific-rating-card-content">
                             <mat-card-title class="mat-mdc-card-title-rating-specific"> {{category.categoryName}} Rating </mat-card-title>
@@ -100,7 +111,7 @@
                                     </mat-icon>
 
                                     <mat-progress-bar class= "bar" mode="determinate"
-                                                      value="{{getPercentageFeedbacks(star.numberGrades, feedbackSubjectDetails.countFeedbacks)}}">
+                                                      value="{{getPercentageFeedbacks(star.numberGrades, category.countFeedbacks)}}">
                                     </mat-progress-bar>
 
                                     <div class="number-reviews" >
@@ -129,12 +140,12 @@
 
                                     <div class="comment-date-stars">
                                         <div class="stars-section">
-                                            <div class="star"  *ngFor="let star of [].constructor(3);">
+                                            <div class="star"  *ngFor="let star of [].constructor(comment.grade ? comment.grade : 0);">
                                                 <mat-icon>
                                                     star
                                                 </mat-icon>
                                             </div>
-                                            <div class="star"  *ngFor="let star of [].constructor(5 - 3)">
+                                            <div class="star"  *ngFor="let star of [].constructor(5 - (comment.grade ? comment.grade : 0))">
                                                 <mat-icon>
                                                     star_border
                                                 </mat-icon>

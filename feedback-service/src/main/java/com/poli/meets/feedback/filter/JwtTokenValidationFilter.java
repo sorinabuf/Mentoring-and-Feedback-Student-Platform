@@ -36,14 +36,13 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
 
         feignClientInterceptor.setJwtTokenStorage(token);
 
-
         ResponseEntity<String> responseEntity = authClient.validateToken();
 
-            if (Objects.equals(responseEntity.getBody(), "validated")) {
-                chain.doFilter(request, response);
-            } else {
-                response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            }
+        if (Objects.equals(responseEntity.getBody(), "validated")) {
+            chain.doFilter(request, response);
+        } else {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        }
 
     }
 

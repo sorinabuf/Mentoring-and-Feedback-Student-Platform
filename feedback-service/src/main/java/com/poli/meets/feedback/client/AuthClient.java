@@ -13,7 +13,4 @@ public interface AuthClient {
 
     @PostMapping("/auth/validate-token")
     ResponseEntity<String> validateToken();
-
-    @GetMapping("/auth/api/current-user")
-    ResponseEntity<String> getCurrentUser(@RequestHeader("Authorization") String token);
 }

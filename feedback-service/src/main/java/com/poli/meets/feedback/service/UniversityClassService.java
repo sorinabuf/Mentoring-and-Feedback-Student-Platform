@@ -22,9 +22,7 @@ import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * Service Implementation for managing {@link UniversityClass}.
- */
+
 @Slf4j
 @Service
 @Transactional
@@ -40,58 +38,6 @@ public class UniversityClassService {
     private final CategoryRepository categoryRepository;
 
     private final CategoryMapper categoryMapper;
-
-
-    /**
-     * Save a universityClass.
-     *
-     * @param universityClassDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public UniversityClassDTO save(UniversityClassDTO universityClassDTO) {
-        log.debug("Request to save UniversityClass : {}", universityClassDTO);
-        UniversityClass universityClass = universityClassMapper.toEntity(universityClassDTO);
-        universityClass = universityClassRepository.save(universityClass);
-        return universityClassMapper.toDto(universityClass);
-    }
-
-    /**
-     * Get all the universityClasses.
-     *
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<UniversityClassDTO> findAll() {
-        log.debug("Request to get all UniversityClasses");
-        return universityClassRepository.findAll().stream()
-            .map(universityClassMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
-    }
-
-
-    /**
-     * Get one universityClass by id.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
-    @Transactional(readOnly = true)
-    public Optional<SubjectDTO> findOne(Long id) {
-        log.debug("Request to get UniversityClass : {}", id);
-        return universityClassRepository.findById(id)
-            .map(universityClassMapper::toSubjectDto);
-    }
-
-    /**
-     * Delete the universityClass by id.
-     *
-     * @param id the id of the entity.
-     */
-    public void delete(Long id) {
-        log.debug("Request to delete UniversityClass : {}", id);
-        universityClassRepository.deleteById(id);
-    }
-
 
     public List<CategorySubjectsDTO> findAllCategorySubjects(String token) {
         Student student = studentService.getCurrentUser(token);

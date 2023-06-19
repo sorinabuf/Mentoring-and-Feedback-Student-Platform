@@ -9,9 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * Spring Data repository for the UniversityClass entity.
- */
+
 @SuppressWarnings("unused")
 @Repository
 public interface UniversityClassRepository extends JpaRepository<UniversityClass, Long> {
@@ -25,4 +23,6 @@ public interface UniversityClassRepository extends JpaRepository<UniversityClass
     List<UniversityClass> findAllByUniversityYearId(Long yearId);
 
     List<UniversityClass> findAllByUniversityYearYearAndUniversityYearFacultyId(Year year, Long facultyId);
+
+    long countAllByUniversityYear(UniversityYear universityYear);
 }

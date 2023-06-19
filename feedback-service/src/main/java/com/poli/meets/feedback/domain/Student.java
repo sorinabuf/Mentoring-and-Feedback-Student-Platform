@@ -10,12 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
 
-/**
- * A Student.
- */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -48,11 +44,6 @@ public class Student {
     @Column(name = "personal_email")
     private String personalEmail;
 
-    @OneToMany(mappedBy = "student")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Feedback> feedbacks = new HashSet<>();
-
-
     @ManyToOne
     @JsonIgnoreProperties(value = "students", allowSetters = true)
     private UniversityYear universityYear;
@@ -84,22 +75,6 @@ public class Student {
         return this;
     }
 
-    public Student feedbacks(Set<Feedback> feedbacks) {
-        this.feedbacks = feedbacks;
-        return this;
-    }
-
-    public Student addFeedbacks(Feedback feedback) {
-        this.feedbacks.add(feedback);
-        feedback.setStudent(this);
-        return this;
-    }
-
-    public Student removeFeedbacks(Feedback feedback) {
-        this.feedbacks.remove(feedback);
-        feedback.setStudent(null);
-        return this;
-    }
 
     public Student universityYear(UniversityYear universityYear) {
         this.universityYear = universityYear;

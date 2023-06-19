@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import poli.meets.authservice.model.User;
 import poli.meets.authservice.security.JwtTokenUtil;
@@ -33,6 +35,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -41,6 +44,7 @@ public class AuthController {
         }
 
         UserDetails userDetails = userService.loadUserByUsername(loginRequest.getUsername());
+
 
         if (!userUtilsService.isActivated(userDetails.getUsername())) {
             throw new ForbiddenException("Account is not activated");

@@ -24,7 +24,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class ConsumerStudent {
+public class StudentConsumer {
 
     private final StudentRepository studentRepository;
 

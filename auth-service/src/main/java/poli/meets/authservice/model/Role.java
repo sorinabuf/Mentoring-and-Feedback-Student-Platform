@@ -2,6 +2,7 @@ package poli.meets.authservice.model;
 
 
 import lombok.Data;
+import poli.meets.authservice.model.enums.RoleType;
 
 import javax.persistence.*;
 
@@ -21,6 +22,7 @@ public class Role {
     private Long id;
 
     @Column(name = "name")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private RoleType name;
 
 }

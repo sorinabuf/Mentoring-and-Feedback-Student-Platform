@@ -2,6 +2,7 @@ package com.poli.meets.feedback.repository;
 
 import com.poli.meets.feedback.domain.Feedback;
 
+import com.poli.meets.feedback.domain.UniversityYear;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -20,5 +21,5 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
     List<Feedback> findAllByStudentIdAndUniversityClassIdAndCategory_IdIn(Long studentId, Long universityClassId, List<Long> categoryIds);
 
-
+    long countAllByStudentIdAndUniversityClass_UniversityYearId(Long studentId, Long universityYearId);
 }

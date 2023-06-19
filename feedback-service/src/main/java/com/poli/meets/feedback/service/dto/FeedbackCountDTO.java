@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class FeedbackCountDTO {
 
-    private Integer countActive;
+    private Long countActive;
 
-    private Integer countSubmitted;
+    private Long countSubmitted;
 }

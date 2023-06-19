@@ -6,6 +6,7 @@ import com.poli.meets.feedback.service.mapper.StudentMapper;
 import com.poli.meets.feedback.domain.Student;
 import com.poli.meets.feedback.repository.StudentRepository;
 
+import com.poli.meets.feedback.util.JwtTokenUtil;
 import com.poli.meets.feedback.web.rest.errors.ForbiddenException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @AllArgsConstructor
 public class StudentService {
+
+    private final JwtTokenUtil jwtTokenUtil;
 
     private final StudentRepository studentRepository;
 
@@ -84,7 +87,7 @@ public class StudentService {
     }
 
     public Student getCurrentUser(String token) {
-        return studentRepository.findByStudentEmail(authClient.getCurrentUser(token).getBody())
+        return studentRepository.findByStudentEmail(jwtTokenUtil.extractUsername(token.substring(7)))
                 .orElseThrow(ForbiddenException::new);
     }
 }
