@@ -26,7 +26,7 @@ public class UniversityClassDTO implements Serializable {
     @Enumerated(EnumType.STRING)
     private Semester semester;
 
-    private Long teacherId;
+    private TeacherDTO teacher;
 
-    private Long universityYearId;
+    private UniversityYearDTO universityYear;
 }

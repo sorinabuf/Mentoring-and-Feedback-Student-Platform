@@ -24,6 +24,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { MtxDatetimepickerModule } from '@ng-matero/extensions/datetimepicker';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -54,8 +56,8 @@ import { AllSubjectsComponent } from './components/feedback/view-feedback/all-su
 import { SubjectDetailsComponent } from './components/feedback/view-feedback/subject-details/subject-details.component';
 import { PhotoDialogComponent } from './components/dialog/photo-dialog/photo-dialog.component';
 import { MatRadioModule } from "@angular/material/radio";
-import {FeedbackDialogComponent} from "./components/dialog/feedback-dialog/feedback-dialog.component";
-import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { FeedbackDialogComponent } from "./components/dialog/feedback-dialog/feedback-dialog.component";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { UpcomingMeetingsComponent } from './components/mentorship/upcoming-meetings/upcoming-meetings.component';
 import { MtxNativeDatetimeModule } from '@ng-matero/extensions/core';
 import { FreeSlotComponent } from './components/dialog/free-slot/free-slot.component';
@@ -63,8 +65,11 @@ import { MentorsComponent } from './components/mentorship/mentors/mentors.compon
 import { MentorFiltersDialogComponent } from './components/dialog/mentor-filters-dialog/mentor-filters-dialog.component';
 import { BookMeetingDialogComponent } from './components/dialog/book-meeting-dialog/book-meeting-dialog.component';
 import { PendingRequestsComponent } from './components/mentorship/pending-requests/pending-requests.component';
-import {AdminComponent} from "./components/admin/admin.component";
-import {MatTableModule} from "@angular/material/table";
+import { AdminComponent } from "./components/admin/admin.component";
+import { MatTableModule } from "@angular/material/table";
+import { ErrorInterceptorService } from './services/error-interceptor.service';
+import { FacultyAdminDialogComponent } from './components/dialog/admin/faculty-admin-dialog/faculty-admin-dialog.component';
+import { UniversityYearAdminDialogComponent } from './components/dialog/admin/university-year-admin-dialog/university-year-admin-dialog.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +104,9 @@ import {MatTableModule} from "@angular/material/table";
     BookMeetingDialogComponent,
     PendingRequestsComponent,
     SubjectDetailsComponent,
-    AdminComponent
+    AdminComponent,
+    FacultyAdminDialogComponent,
+    UniversityYearAdminDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -131,10 +138,13 @@ import {MatTableModule} from "@angular/material/table";
     MtxNativeDatetimeModule,
     MatRadioModule,
     MatGridListModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
     NoAuthGuardService
   ],
   bootstrap: [AppComponent],
@@ -145,7 +155,9 @@ import {MatTableModule} from "@angular/material/table";
     PhotoDialogComponent,
     FreeSlotComponent,
     MentorFiltersDialogComponent,
-    BookMeetingDialogComponent
+    BookMeetingDialogComponent,
+    FacultyAdminDialogComponent,
+    UniversityYearAdminDialogComponent
   ]
 })
 export class AppModule {

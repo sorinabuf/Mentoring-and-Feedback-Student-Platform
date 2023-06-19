@@ -33,33 +33,33 @@ export class MentorshipService {
 
   public create_mentor(mentorInfo: MentorInfo): Observable<any> {
     return this.http.post<MentorInfo>(
-      environment.apiUrl + '/mentorship/api/mentors/details',
+      environment.apiUrl + '/mentorship/api/mentors/current-user/details',
       mentorInfo
     );
   }
 
   public update_mentor(mentorInfo: MentorInfo): Observable<any> {
     return this.http.put<MentorInfo>(
-      environment.apiUrl + '/mentorship/api/mentors/details',
+      environment.apiUrl + '/mentorship/api/mentors/current-user/details',
       mentorInfo
     );
   }
 
-  public delete_mentor(mentorId: number): Observable<any> {
+  public delete_mentor(): Observable<any> {
     return this.http.delete(
-      environment.apiUrl + '/mentorship/api/mentors/' + mentorId
+      environment.apiUrl + '/mentorship/api/mentors/current-user'
     );
   }
 
   public get_mentor_possible_subjects(): Observable<SubjectDetail[]> {
     return this.http.get<SubjectDetail[]>(
-      environment.apiUrl + '/mentorship/api/university-classes/mentorship'
+      environment.apiUrl + '/mentorship/api/university-classes/current-user/mentorship'
     );
   }
 
   public get_mentor_filter_subjects(): Observable<UniversityClass[]> {
     return this.http.get<UniversityClass[]>(
-      environment.apiUrl + '/mentorship/api/university-classes/mentors'
+      environment.apiUrl + '/mentorship/api/university-classes/current-user/mentors'
     );
   }
 
@@ -77,13 +77,18 @@ export class MentorshipService {
 
   public get_mentor_free_slots(id: number): Observable<MeetingSlot[]> {
     return this.http.get<MeetingSlot[]>(
-      environment.apiUrl + '/mentorship/api/meeting-slots/' + id
+      environment.apiUrl + '/mentorship/api/meeting-slots',
+      {
+        params: {
+          "mentorId": id
+        }
+      }
     );
   }
 
   public delete_meeting_free_slot(id: number): Observable<any> {
     return this.http.delete(
-      environment.apiUrl + '/mentorship/api/meeting-slots/' + id
+      environment.apiUrl + '/mentorship/api/meeting-slots/current-user/' + id
     );
   }
 
@@ -152,7 +157,7 @@ export class MentorshipService {
 
   public update_pending_meeting(meeting: Meeting): Observable<any> {
     return this.http.put(
-      environment.apiUrl + '/mentorship/api/meeting-requests/pending',
+      environment.apiUrl + '/mentorship/api/meeting-requests/current-user/mentor/pending',
       meeting
     );
   }

@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -92,8 +93,25 @@ public class MeetingSlotService {
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
-        log.debug("Request to delete MeetingSlot : {}", id);
+    public void delete(String token, Long id) {
+        Student student =
+                studentRepository.findByStudentEmail(authClient.getCurrentUser(token).getBody())
+                        .stream()
+                        .findAny()
+                        .orElseThrow(ForbiddenException::new);
+
+        Mentor mentor =
+                mentorRepository.findByStudentId(student.getId()).stream()
+                        .findAny()
+                        .orElseThrow(BadRequestException::new);
+
+        Optional<MeetingSlot> meetingSlot = meetingSlotRepository.findById(id);
+        if (meetingSlot.isPresent()) {
+            if (!Objects.equals(meetingSlot.get().getMentor().getId(), mentor.getId())) {
+                throw  new BadRequestException();
+            }
+        }
+
         meetingSlotRepository.deleteById(id);
     }
 

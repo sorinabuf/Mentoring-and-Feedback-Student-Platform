@@ -17,10 +17,10 @@ export class NavbarComponent {
   isAdmin: boolean
 
   mentorshipMenuItems = [
-      { name: "Mentors", route: "" },
-      { name: "Pending Requests", route: "" },
-      { name: "Upcoming Meetings", route: "" },
-      { name: "Edit Account", route: ""}
+      { name: "Mentors", route: "/mentorship/mentors" },
+      { name: "Pending Requests", route: "/mentorship/pending-requests" },
+      { name: "Upcoming Meetings", route: "/mentorship/upcoming-meetings" },
+      { name: "Edit Account", route: "/my-account"}
     ];
 
   feedbackMenuItems = [

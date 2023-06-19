@@ -186,10 +186,8 @@ export class MyAccountComponent {
       if (result === "yes") {
         this.isMentor = false;
 
-        this.mentorshipService.delete_mentor(this.mentorId!).subscribe(() => {
+        this.mentorshipService.delete_mentor().subscribe(() => {
         });
-
-        //TODO: delete current ongoing meetings
       }
     });
   }

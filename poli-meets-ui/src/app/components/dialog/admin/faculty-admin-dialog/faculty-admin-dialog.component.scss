@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:600,800,900");
+@import "../../../../../font_colors";
+@import "../../../../../text_form_field";
+@import "../../../../../theme_variables";
+
+.mat-mdc-dialog-content.mdc-dialog__content.admin-dialog {
+    padding: 0;
+    max-height: 85vh;
+    width: 40vw;
+}
+
+.admin-dialog {
+
+    .dialog-header {
+        p {
+            margin: 0;
+        }
+
+        span {
+            font-weight: 500;
+            font-size: x-small;
+            color: $warn;
+        }
+
+        padding: 24px;
+        color: $font-color;
+        font-weight: 800;
+        font-size: 17px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.dialog-content {
+    padding: 0 24px;
+
+    p {
+        margin: 0;
+        font-size: small;
+        font-weight: 400;
+        color: $font-color-light;
+    }
+
+    .admin-fields {
+        display: flex;
+        flex-direction: column;
+
+        mat-label {
+            font-size: smaller;
+            font-weight: 500;
+            color: $font-color-light;
+            padding: 8px;
+            line-height: normal;
+
+            span {
+                font-weight: 500;
+                font-size: x-small;
+                color: $warn;
+            }
+        }
+    }
+}
+
+.mdc-text-field--invalid .mdc-text-field__input {
+    caret-color: inherit;
+}
+
+.mat-mdc-form-field .mat-mdc-select.mat-mdc-select-invalid .mat-mdc-select-arrow {
+    color: inherit;
+}
+
+.mat-mdc-dialog-actions.mat-mdc-dialog-actions-align-end,
+.mat-mdc-dialog-actions[align=end] {
+    gap: 8px;
+    background-color: #fafafa;
+    padding: 8px 16px;
+}
+
+.admin-cancel-button {
+    background-color: white !important;
+}
+
+.admin-add-button {
+    &.enabled {
+        background-color: #377AB8 !important;
+    }
+
+    background-color: $font-color-light !important;
+    color: white !important;
+}
