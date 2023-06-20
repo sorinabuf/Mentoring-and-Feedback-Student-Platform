@@ -77,9 +77,49 @@ export class CoreService {
     );
   }
 
+  public add_university_class(universityClass: UniversityClass): Observable<any> {
+    return this.http.post(
+      environment.apiUrl + '/core/api/university-classes',
+      universityClass
+    );
+  }
+
+  public update_university_class(universityClass: UniversityClass): Observable<any> {
+    return this.http.put(
+      environment.apiUrl + '/core/api/university-classes',
+      universityClass
+    );
+  }
+
+  public delete_university_class(id: number): Observable<any> {
+    return this.http.delete(
+      environment.apiUrl + '/core/api/university-classes/' + id
+    );
+  }
+
   public get_all_teachers(): Observable<Teacher[]> {
     return this.http.get<Teacher[]>(
       environment.apiUrl + '/core/api/teachers',
+    );
+  }
+
+  public add_teacher(teacher: Teacher): Observable<any> {
+    return this.http.post(
+      environment.apiUrl + '/core/api/teachers',
+      teacher
+    );
+  }
+
+  public update_teacher(teacher: Teacher): Observable<any> {
+    return this.http.put(
+      environment.apiUrl + '/core/api/teachers',
+      teacher
+    );
+  }
+
+  public delete_teacher(id: number): Observable<any> {
+    return this.http.delete(
+      environment.apiUrl + '/core/api/teachers/' + id
     );
   }
 

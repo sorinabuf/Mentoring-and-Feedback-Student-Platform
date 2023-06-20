@@ -1,26 +1,21 @@
 <mat-dialog-content class="admin-dialog">
     <div class="dialog-header">
-        <p *ngIf="!isEdit">Add faculty</p>
-        <p *ngIf="isEdit">Edit faculty</p>
+        <p *ngIf="!isEdit">Add teacher</p>
+        <p *ngIf="isEdit">Edit teacher</p>
         <span>* required fields</span>
     </div>
 
     <div class="dialog-content">
         <form [formGroup]="adminForm">
             <div class="admin-fields">
-                <mat-label>Name <span>*</span></mat-label>
+                <mat-label>First Name <span>*</span></mat-label>
                 <mat-form-field appearance="fill">
-                    <input matInput placeholder="Faculty name" formControlName="name">
+                    <input matInput placeholder="Teacher name" formControlName="firstName">
                 </mat-form-field>
 
-                <mat-label>Domain <span>*</span></mat-label>
+                <mat-label>Last Name <span>*</span></mat-label>
                 <mat-form-field appearance="fill">
-                    <input matInput placeholder="Faculty domain" formControlName="domain">
-                </mat-form-field>
-
-                <mat-label>Description <span>*</span></mat-label>
-                <mat-form-field appearance="fill">
-                    <textarea matInput formControlName="description" placeholder="Faculty description"></textarea>
+                    <input matInput placeholder="Teacher surname" formControlName="lastName">
                 </mat-form-field>
             </div>
         </form>

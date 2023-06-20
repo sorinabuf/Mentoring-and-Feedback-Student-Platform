@@ -71,6 +71,8 @@ import { ErrorInterceptorService } from './services/error-interceptor.service';
 import { FacultyAdminDialogComponent } from './components/dialog/admin/faculty-admin-dialog/faculty-admin-dialog.component';
 import { UniversityYearAdminDialogComponent } from './components/dialog/admin/university-year-admin-dialog/university-year-admin-dialog.component';
 import {CategoryAdminDialogComponent} from "./components/dialog/admin/category-admin-dialog/category-admin-dialog.component";
+import { TeacherAdminDialogComponent } from './components/dialog/admin/teacher-admin-dialog/teacher-admin-dialog.component';
+import { UniversityClassAdminDialogComponent } from './components/dialog/admin/university-class-admin-dialog/university-class-admin-dialog.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +110,9 @@ import {CategoryAdminDialogComponent} from "./components/dialog/admin/category-a
     AdminComponent,
     FacultyAdminDialogComponent,
     UniversityYearAdminDialogComponent,
-    CategoryAdminDialogComponent
+    CategoryAdminDialogComponent,
+    TeacherAdminDialogComponent,
+    UniversityClassAdminDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -159,7 +163,9 @@ import {CategoryAdminDialogComponent} from "./components/dialog/admin/category-a
     MentorFiltersDialogComponent,
     BookMeetingDialogComponent,
     FacultyAdminDialogComponent,
-    UniversityYearAdminDialogComponent
+    UniversityYearAdminDialogComponent,
+    TeacherAdminDialogComponent,
+    UniversityClassAdminDialogComponent
   ]
 })
 export class AppModule {

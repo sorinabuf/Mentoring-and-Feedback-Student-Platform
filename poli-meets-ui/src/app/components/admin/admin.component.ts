@@ -14,9 +14,11 @@ import { ConfirmationDialogComponent } from '../dialog/confirmation-dialog/confi
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FacultyAdminDialogComponent } from '../dialog/admin/faculty-admin-dialog/faculty-admin-dialog.component';
 import { UniversityYearAdminDialogComponent } from '../dialog/admin/university-year-admin-dialog/university-year-admin-dialog.component';
-import {FeedbackService} from "../../services/feedback.service";
-import {Category} from "../../models/category.model";
-import {CategoryAdminDialogComponent} from "../dialog/admin/category-admin-dialog/category-admin-dialog.component";
+import { FeedbackService } from "../../services/feedback.service";
+import { Category } from "../../models/category.model";
+import { CategoryAdminDialogComponent } from "../dialog/admin/category-admin-dialog/category-admin-dialog.component";
+import { TeacherAdminDialogComponent } from '../dialog/admin/teacher-admin-dialog/teacher-admin-dialog.component';
+import { UniversityClassAdminDialogComponent } from '../dialog/admin/university-class-admin-dialog/university-class-admin-dialog.component';
 
 
 @Component({
@@ -43,6 +45,8 @@ export class AdminComponent {
     categories: MatTableDataSource<Category>;
 
     allFaculties: Faculty[];
+    allTeachers: Teacher[];
+    allUniversityYears: UniversityYear[];
 
     ngAfterViewInit() {
         this.faculties.paginator = this.paginator.toArray()[0];
@@ -62,22 +66,22 @@ export class AdminComponent {
     }
 
     constructor(private coreService: CoreService,
-                private feedbackService: FeedbackService,
-                private dialog: MatDialog,
-                private snackBar: MatSnackBar) {
+        private feedbackService: FeedbackService,
+        private dialog: MatDialog,
+        private snackBar: MatSnackBar) {
         this.faculties = new MatTableDataSource();
         this.universityYears = new MatTableDataSource();
         this.universityClasses = new MatTableDataSource();
         this.teachers = new MatTableDataSource();
         this.categories = new MatTableDataSource();
-        this.selectedTabIndex = 1;
+        this.selectedTabIndex = 0;
         this.allFaculties = [];
+        this.allTeachers = [];
+        this.allUniversityYears = [];
     }
 
     ngOnInit() {
         this.initFaculties();
-        this.initUniversityYears();
-        this.initUniversityClasses();
         this.initTeachers();
         this.initCategories();
     }
@@ -94,24 +98,56 @@ export class AdminComponent {
 
                 return result;
             });
+
+            this.initUniversityYears();
         });
     }
 
     initUniversityYears(): void {
         this.coreService.get_all_university_years().subscribe(universityYears => {
             this.universityYears.data = universityYears.reverse().map(element => { return { ...element, facultyName: this.getFacultyNameDomain(element), yearValue: this.getYear(element.year) } });
+            this.allUniversityYears = universityYears.sort((a, b) => {
+                let result = a.faculty.name.localeCompare(b.faculty.name);
+
+                if (!result) {
+                    result = a.faculty.domain.localeCompare(b.faculty.domain);
+                }
+
+                if (!result) {
+                    result = a.year.localeCompare(b.year);
+                }
+
+                if (!result) {
+                    result = a.series.localeCompare(b.series);
+                }
+
+                return result;
+            });
+
+            this.initUniversityClasses();
         });
     }
 
     initUniversityClasses(): void {
         this.coreService.get_all_university_classes().subscribe(universityClasses => {
-            this.universityClasses.data = universityClasses;
+            this.universityClasses.data = universityClasses.reverse();
         });
     }
 
     initTeachers(): void {
         this.coreService.get_all_teachers().subscribe(teachers => {
-            this.teachers.data = teachers;
+            this.teachers.data = teachers.reverse();
+            this.allTeachers = teachers.sort((a, b) => {
+                let result = a.firstName.localeCompare(b.firstName);
+
+                if (!result) {
+                    result = a.lastName.localeCompare(b.lastName);
+                }
+
+                return result;
+            });
+
+            this.initUniversityClasses();
         });
     }
 
@@ -149,6 +185,16 @@ export class AdminComponent {
                 break;
             }
 
+            case 2: {
+                this.openUniversityClassDialog(undefined);
+                break;
+            }
+
+            case 3: {
+                this.openTeacherDialog(undefined);
+                break;
+            }
+
             case 4: {
                 this.openCategoryDialog(undefined);
                 break;
@@ -168,7 +214,7 @@ export class AdminComponent {
 
         dialogRef.afterClosed().subscribe((response) => {
             if (response) {
-                if (faculty) {
+                if (!faculty) {
                     this.coreService.add_faculty(response).subscribe(_ => {
                         this.initFaculties();
 
@@ -206,7 +252,7 @@ export class AdminComponent {
 
         dialogRef.afterClosed().subscribe((response) => {
             if (response) {
-                if (universityYear) {
+                if (!universityYear) {
                     this.coreService.add_university_year(response).subscribe(_ => {
                         this.initUniversityYears();
 
@@ -231,6 +277,82 @@ export class AdminComponent {
         });
     }
 
+    openUniversityClassDialog(universityClass: UniversityClass | undefined): void {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+        dialogConfig.data = {
+            universityClass: universityClass,
+            teachers: this.allTeachers,
+            universityYears: this.allUniversityYears
+        }
+
+        const dialogRef = this.dialog.open(UniversityClassAdminDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe((response) => {
+            if (response) {
+                if (!universityClass) {
+                    this.coreService.add_university_class(response).subscribe(_ => {
+                        this.initUniversityClasses();
+
+                        console.log("Added university class");
+
+                        this.snackBar.open('Successful university class addition', undefined, {
+                            duration: 3000
+                        });
+                    });
+                } else {
+                    this.coreService.update_university_class(response).subscribe(_ => {
+                        this.initUniversityClasses();
+
+                        console.log("Updated university class");
+
+                        this.snackBar.open('Successful university class update', undefined, {
+                            duration: 3000
+                        });
+                    });
+                }
+            }
+        });
+    }
+
+    openTeacherDialog(teacher: Teacher | undefined): void {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+        dialogConfig.data = {
+            teacher: teacher
+        }
+
+        const dialogRef = this.dialog.open(TeacherAdminDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe((response) => {
+            if (response) {
+                if (!teacher) {
+                    this.coreService.add_teacher(response).subscribe(_ => {
+                        this.initTeachers();
+
+                        console.log("Added teacher");
+
+                        this.snackBar.open('Successful teacher addition', undefined, {
+                            duration: 3000
+                        });
+                    });
+                } else {
+                    this.coreService.update_teacher(response).subscribe(_ => {
+                        this.initTeachers();
+
+                        console.log("Updated teacher");
+
+                        this.snackBar.open('Successful teacher update', undefined, {
+                            duration: 3000
+                        });
+                    });
+                }
+            }
+        });
+    }
+
     openCategoryDialog(category: Category | undefined): void {
         const dialogConfig = new MatDialogConfig();
 
@@ -243,9 +365,9 @@ export class AdminComponent {
 
         dialogRef.afterClosed().subscribe((response) => {
             if (response) {
-                if (category) {
+                if (!category) {
                     this.feedbackService.addCategory(response).subscribe(_ => {
-                        this.initFaculties();
+                        this.initCategories();
 
                         console.log("Added feedback category");
 
@@ -255,7 +377,7 @@ export class AdminComponent {
                     });
                 } else {
                     this.feedbackService.updateCategory(response).subscribe(_ => {
-                        this.initFaculties();
+                        this.initCategories();
 
                         console.log("Updated feedback category");
 
@@ -349,6 +471,60 @@ export class AdminComponent {
         });
     }
 
+    openUniversityClassDeleteDialog(universityClass: UniversityClass): void {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+
+        dialogConfig.data = {
+            title: 'Delete university class',
+            message: 'Are you sure you want to delete this university class?'
+        };
+
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === "yes") {
+                this.coreService.delete_university_class(universityClass.id).subscribe(_ => {
+                    this.initUniversityClasses();
+
+                    console.log("Deleted university class");
+
+                    this.snackBar.open('Successful university class deletion', undefined, {
+                        duration: 3000
+                    });
+                });
+            }
+        });
+    }
+
+    openTeacherDeleteDialog(teacher: Teacher): void {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+
+        dialogConfig.data = {
+            title: 'Delete teacher',
+            message: 'Are you sure you want to delete this teacher?'
+        };
+
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === "yes") {
+                this.coreService.delete_teacher(teacher.id).subscribe(_ => {
+                    this.initTeachers();
+
+                    console.log("Deleted teacher");
+
+                    this.snackBar.open('Successful teacher deletion', undefined, {
+                        duration: 3000
+                    });
+                });
+            }
+        });
+    }
+
     filterFaculties(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
         this.faculties.filter = filterValue.trim().toLowerCase();
@@ -357,6 +533,11 @@ export class AdminComponent {
     filterUniversityYears(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
         this.universityYears.filter = filterValue.trim().toLowerCase();
+    }
+
+    filterTeachers(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.teachers.filter = filterValue.trim().toLowerCase();
     }
 
     filterUniversityClasses(event: Event) {

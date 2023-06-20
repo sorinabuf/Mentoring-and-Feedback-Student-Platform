@@ -1,0 +1,63 @@
+<mat-dialog-content class="admin-dialog">
+    <div class="dialog-header">
+        <p *ngIf="!isEdit">Add university class</p>
+        <p *ngIf="isEdit">Edit university class</p>
+        <span>* required fields</span>
+    </div>
+
+    <div class="dialog-content">
+        <form [formGroup]="adminForm">
+            <div class="admin-fields">
+                <mat-label>Name <span>*</span></mat-label>
+                <mat-form-field appearance="fill">
+                    <input matInput placeholder="University class name" formControlName="name">
+                </mat-form-field>
+
+                <mat-label>Abbreviation <span>*</span></mat-label>
+                <mat-form-field appearance="fill">
+                    <input matInput placeholder="University class abbreviation" formControlName="abbreviation">
+                </mat-form-field>
+
+                <mat-label>Description <span>*</span></mat-label>
+                <mat-form-field appearance="fill">
+                    <input matInput placeholder="University class description" formControlName="description">
+                </mat-form-field>
+
+                <mat-label>Teacher <span>*</span></mat-label>
+                <mat-form-field appearance="fill">
+                    <mat-select formControlName="teacher" placeholder="Select a teacher">
+                        <mat-option *ngFor="let teacher of teachers" [value]="teacher.id">
+                            {{teacher.firstName}} {{teacher.lastName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-label>University Year <span>*</span></mat-label>
+                <mat-form-field appearance="fill">
+                    <mat-select formControlName="universityYear" placeholder="Select a university year">
+                        <mat-option *ngFor="let universityYear of universityYears" [value]="universityYear.id">
+                            {{universityYear.faculty.name}} - {{universityYear.faculty.domain}} - {{getYearValue(universityYear.year)}} - {{universityYear.series}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-label>Semester <span>*</span></mat-label>
+                <mat-form-field appearance="fill">
+                    <mat-select formControlName="semester" placeholder="Select a semester">
+                        <mat-option *ngFor="let semester of semesters" [value]="semester">
+                            {{semester}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-stroked-button class="admin-cancel-button" mat-dialog-close>Cancel
+    </button>
+    <button mat-flat-button cdkFocusInitial class="admin-add-button"
+        [ngClass]="{'enabled': isFormValid() && isFormModified()}" [disabled]="!isFormValid() || !isFormModified()"
+        [mat-dialog-close]="getNewEntry()">Submit</button>
+</mat-dialog-actions>

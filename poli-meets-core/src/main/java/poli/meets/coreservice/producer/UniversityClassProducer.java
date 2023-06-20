@@ -9,7 +9,7 @@ import poli.meets.coreservice.service.dto.UniversityClassDTO;
 @Service
 @AllArgsConstructor
 public class UniversityClassProducer {
-    private static final String TOPIC = "unviersity_classes";
+    private static final String TOPIC = "university_classes";
 
     private final KafkaTemplate<String, UniversityClassDTO> kafkaTemplate;
 

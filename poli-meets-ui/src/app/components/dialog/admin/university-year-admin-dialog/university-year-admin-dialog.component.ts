@@ -80,7 +80,6 @@ export class UniversityYearAdminDialogComponent {
   isFormModified(): boolean {
     if (this.isFormValid()) {
       let newUniversityYear = this.getNewEntry();
-      console.log(newUniversityYear);
 
       if (this.initialUniversityYear) {
         return !(this.initialUniversityYear.id == newUniversityYear.id &&

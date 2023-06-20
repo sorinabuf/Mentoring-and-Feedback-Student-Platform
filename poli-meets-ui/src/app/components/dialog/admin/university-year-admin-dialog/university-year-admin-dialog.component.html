@@ -1,6 +1,7 @@
 <mat-dialog-content class="admin-dialog">
     <div class="dialog-header">
-        <p>Add university year</p>
+        <p *ngIf="!isEdit">Add university year</p>
+        <p *ngIf="isEdit">Edit university year</p>
         <span>* required fields</span>
     </div>
 

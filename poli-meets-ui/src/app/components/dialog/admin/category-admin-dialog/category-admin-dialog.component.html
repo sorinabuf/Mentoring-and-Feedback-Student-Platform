@@ -1,6 +1,7 @@
 <mat-dialog-content class="admin-dialog">
     <div class="dialog-header">
-        <p>Add Feedback Category</p>
+        <p *ngIf="!isEdit">Add Feedback Category</p>
+        <p *ngIf="isEdit">Edit Feedback Category</p>
         <span>* required fields</span>
     </div>
 
