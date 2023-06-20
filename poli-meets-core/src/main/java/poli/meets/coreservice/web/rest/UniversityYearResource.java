@@ -3,6 +3,7 @@ package poli.meets.coreservice.web.rest;
 import lombok.AllArgsConstructor;
 import poli.meets.coreservice.client.AuthClient;
 import poli.meets.coreservice.domain.enumeration.Year;
+import poli.meets.coreservice.producer.UniversityYearProducer;
 import poli.meets.coreservice.service.UniversityYearService;
 import poli.meets.coreservice.service.dto.UniversityYearDTO;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,8 @@ public class UniversityYearResource {
 
     private final AuthClient authClient;
 
+    private final UniversityYearProducer universityYearProducer;
+
     @PostMapping("/university-years")
     public ResponseEntity<UniversityYearDTO> createUniversityYear(
             @RequestHeader("Authorization") String token,
@@ -38,6 +41,8 @@ public class UniversityYearResource {
         }
 
         UniversityYearDTO result = universityYearService.save(universityYearDTO);
+        universityYearProducer.createOrUpdate(result);
+
         return ResponseEntity.created(new URI("/api/university-years/" + result.getId()))
             .body(result);
     }
@@ -52,6 +57,8 @@ public class UniversityYearResource {
         }
 
         UniversityYearDTO result = universityYearService.save(universityYearDTO);
+        universityYearProducer.createOrUpdate(result);
+
         return ResponseEntity.ok().body(result);
     }
 
@@ -70,6 +77,8 @@ public class UniversityYearResource {
         }
 
         universityYearService.delete(id);
+        universityYearProducer.delete(id);
+
         return ResponseEntity.noContent().build();
     }
 

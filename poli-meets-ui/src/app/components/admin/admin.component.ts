@@ -14,6 +14,9 @@ import { ConfirmationDialogComponent } from '../dialog/confirmation-dialog/confi
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FacultyAdminDialogComponent } from '../dialog/admin/faculty-admin-dialog/faculty-admin-dialog.component';
 import { UniversityYearAdminDialogComponent } from '../dialog/admin/university-year-admin-dialog/university-year-admin-dialog.component';
+import {FeedbackService} from "../../services/feedback.service";
+import {Category} from "../../models/category.model";
+import {CategoryAdminDialogComponent} from "../dialog/admin/category-admin-dialog/category-admin-dialog.component";
 
 
 @Component({
@@ -32,10 +35,12 @@ export class AdminComponent {
     displayedColumnsUniversityYears: string[] = ['facultyName', 'yearValue', 'series', 'actions'];
     displayedColumnsUniversityClasses: string[] = ['name', 'abbreviation', 'description', 'teacher', 'universityYear', 'semester', 'actions'];
     displayedColumnsTeachers: string[] = ['firstName', 'lastName', 'actions'];
+    displayedColumnsCategories: string[] = ['categoryName', 'gradeQuestion', 'textQuestion', 'actions'];
     faculties: MatTableDataSource<Faculty>;
     universityYears: MatTableDataSource<UniversityYear>;
     universityClasses: MatTableDataSource<UniversityClass>;
     teachers: MatTableDataSource<Teacher>;
+    categories: MatTableDataSource<Category>;
 
     allFaculties: Faculty[];
 
@@ -51,13 +56,20 @@ export class AdminComponent {
 
         this.teachers.paginator = this.paginator.toArray()[3];
         this.teachers.sort = this.sort.toArray()[3];
+
+        this.categories.paginator = this.paginator.toArray()[4];
+        this.categories.sort = this.sort.toArray()[4];
     }
 
-    constructor(private coreService: CoreService, private dialog: MatDialog, private snackBar: MatSnackBar) {
+    constructor(private coreService: CoreService,
+                private feedbackService: FeedbackService,
+                private dialog: MatDialog,
+                private snackBar: MatSnackBar) {
         this.faculties = new MatTableDataSource();
         this.universityYears = new MatTableDataSource();
         this.universityClasses = new MatTableDataSource();
         this.teachers = new MatTableDataSource();
+        this.categories = new MatTableDataSource();
         this.selectedTabIndex = 1;
         this.allFaculties = [];
     }
@@ -67,6 +79,7 @@ export class AdminComponent {
         this.initUniversityYears();
         this.initUniversityClasses();
         this.initTeachers();
+        this.initCategories();
     }
 
     initFaculties(): void {
@@ -102,6 +115,12 @@ export class AdminComponent {
         });
     }
 
+    initCategories(): void {
+        this.feedbackService.getCategories().subscribe(categories => {
+            this.categories.data = categories;
+        });
+    }
+
     getYear(year: string): string {
         return Year[year as keyof typeof Year];
     }
@@ -127,6 +146,11 @@ export class AdminComponent {
 
             case 1: {
                 this.openUniversityYearDialog(undefined);
+                break;
+            }
+
+            case 4: {
+                this.openCategoryDialog(undefined);
                 break;
             }
         }
@@ -207,6 +231,43 @@ export class AdminComponent {
         });
     }
 
+    openCategoryDialog(category: Category | undefined): void {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+        dialogConfig.data = {
+            category: category
+        }
+
+        const dialogRef = this.dialog.open(CategoryAdminDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe((response) => {
+            if (response) {
+                if (category) {
+                    this.feedbackService.addCategory(response).subscribe(_ => {
+                        this.initFaculties();
+
+                        console.log("Added feedback category");
+
+                        this.snackBar.open('Successful feedback category addition', undefined, {
+                            duration: 3000
+                        });
+                    });
+                } else {
+                    this.feedbackService.updateCategory(response).subscribe(_ => {
+                        this.initFaculties();
+
+                        console.log("Updated feedback category");
+
+                        this.snackBar.open('Successful feedback category update', undefined, {
+                            duration: 3000
+                        });
+                    });
+                }
+            }
+        });
+    }
+
     openFacultyDeleteDialog(faculy: Faculty): void {
         const dialogConfig = new MatDialogConfig();
 
@@ -227,6 +288,33 @@ export class AdminComponent {
                     console.log("Deleted faculty");
 
                     this.snackBar.open('Successful faculty deletion', undefined, {
+                        duration: 3000
+                    });
+                });
+            }
+        });
+    }
+
+    openCategoryDeleteDialog(category: Category): void {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+
+        dialogConfig.data = {
+            title: 'Delete category',
+            message: 'Are you sure you want to delete this category?'
+        };
+
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === "yes") {
+                this.feedbackService.deleteCategory(category.id).subscribe(_ => {
+                    this.initFaculties();
+
+                    console.log("Deleted category");
+
+                    this.snackBar.open('Successful category deletion', undefined, {
                         duration: 3000
                     });
                 });

@@ -33,4 +33,12 @@ public class CategoryService {
                 .map(categoryMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    public CategoryDTO createUpdateCategory(CategoryDTO categoryDTO) {
+        return categoryMapper.toDto(categoryRepository.save(categoryMapper.toEntity(categoryDTO)));
+    }
+
+    public void deleteOne(Long id) {
+        categoryRepository.deleteById(id);
+    }
 }

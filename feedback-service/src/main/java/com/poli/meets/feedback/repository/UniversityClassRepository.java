@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @SuppressWarnings("unused")
@@ -25,4 +26,6 @@ public interface UniversityClassRepository extends JpaRepository<UniversityClass
     List<UniversityClass> findAllByUniversityYearYearAndUniversityYearFacultyId(Year year, Long facultyId);
 
     long countAllByUniversityYear(UniversityYear universityYear);
+
+    Optional<UniversityClass> findByExternalId(Long id);
 }

@@ -23,6 +23,10 @@ public interface UniversityYearMapper extends EntityMapper<UniversityYearDTO, Un
     @Mapping(source = "facultyId", target = "faculty")
     UniversityYear toEntity(UniversityYearDTO universityYearDTO);
 
+    @Mapping(target = "externalId", source = "id")
+    @Mapping(target = "id", ignore = true)
+    UniversityYear toEntity(poli.meets.coreservice.service.dto.UniversityYearDTO studentDTO);
+
     default UniversityYear fromId(Long id) {
         if (id == null) {
             return null;

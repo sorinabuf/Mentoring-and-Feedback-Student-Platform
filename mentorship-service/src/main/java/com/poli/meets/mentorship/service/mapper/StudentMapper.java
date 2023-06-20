@@ -45,6 +45,10 @@ public interface StudentMapper extends EntityMapper<StudentDTO, Student> {
     @Mapping(source = "image", qualifiedByName = "compressImage", target = "image")
     Student toEntity(StudentDTO studentDTO);
 
+    @Mapping(target = "externalId", source = "id")
+    @Mapping(target = "id", ignore = true)
+    Student toEntity(poli.meets.coreservice.service.dto.StudentDTO studentDTO);
+
     default Student fromId(Long id) {
         if (id == null) {
             return null;

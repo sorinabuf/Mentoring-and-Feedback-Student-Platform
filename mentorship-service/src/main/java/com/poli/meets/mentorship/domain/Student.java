@@ -33,6 +33,9 @@ public class Student {
     )
     private Long id;
 
+    @Column(name = "external_id")
+    private Long externalId;
+
     @Column(name = "first_name")
     private String firstName;
 

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Data repository for the UniversityClass entity.
@@ -20,4 +21,6 @@ public interface UniversityClassRepository extends JpaRepository<UniversityClass
             "Mentor m where m.id = ms.mentor.id and ms.universityClass.id = " +
             "uc.id and m.id = :mentorId")
     List<UniversityClass> findMentorSubjects(Long mentorId);
+
+    Optional<UniversityClass> findByExternalId(Long id);
 }

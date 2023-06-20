@@ -13,6 +13,7 @@ import com.poli.meets.feedback.service.mapper.CategoryMapper;
 import com.poli.meets.feedback.service.mapper.UniversityClassMapper;
 import com.poli.meets.feedback.domain.UniversityClass;
 
+import com.poli.meets.feedback.web.rest.errors.BadRequestException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,6 +74,10 @@ public class UniversityClassService {
             categorySubjectsDTO.setActiveSubjects(activeSubjects);
             return categorySubjectsDTO;
         }).collect(Collectors.toList());
+    }
+
+    public SubjectDTO findOne(Long id) {
+        return universityClassMapper.toSubjectDto(universityClassRepository.findById(id).orElseThrow(BadRequestException::new));
     }
 
 }

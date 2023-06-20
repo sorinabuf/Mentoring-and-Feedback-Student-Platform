@@ -2,6 +2,7 @@ package poli.meets.coreservice.web.rest;
 
 import lombok.AllArgsConstructor;
 import poli.meets.coreservice.client.AuthClient;
+import poli.meets.coreservice.producer.UniversityClassProducer;
 import poli.meets.coreservice.service.UniversityClassService;
 import poli.meets.coreservice.service.dto.UniversityClassDTO;
 
@@ -28,6 +29,8 @@ public class UniversityClassResource {
 
     private final AuthClient authClient;
 
+    private final UniversityClassProducer universityClassProducer;
+
     @PostMapping("/university-classes")
     public ResponseEntity<UniversityClassDTO> createUniversityClass(
             @RequestHeader("Authorization") String token,
@@ -38,6 +41,8 @@ public class UniversityClassResource {
         }
 
         UniversityClassDTO result = universityClassService.save(universityClassDTO);
+        universityClassProducer.createOrUpdate(result);
+
         return ResponseEntity.created(new URI("/api/university-classes/" + result.getId()))
             .body(result);
     }
@@ -52,6 +57,8 @@ public class UniversityClassResource {
         }
 
         UniversityClassDTO result = universityClassService.save(universityClassDTO);
+        universityClassProducer.createOrUpdate(result);
+
         return ResponseEntity.ok().body(result);
     }
 
@@ -59,6 +66,7 @@ public class UniversityClassResource {
     public List<UniversityClassDTO> getAllUniversityClasses() {
         return universityClassService.findAll();
     }
+
 
     @DeleteMapping("/university-classes/{id}")
     public ResponseEntity<Void> deleteUniversityClass(
@@ -70,6 +78,8 @@ public class UniversityClassResource {
         }
 
         universityClassService.delete(id);
+        universityClassProducer.delete(id);
+
         return ResponseEntity.noContent().build();
     }
 }

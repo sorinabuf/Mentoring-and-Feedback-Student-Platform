@@ -2,6 +2,7 @@ package poli.meets.coreservice.web.rest;
 
 import lombok.AllArgsConstructor;
 import poli.meets.coreservice.client.AuthClient;
+import poli.meets.coreservice.producer.TeacherProducer;
 import poli.meets.coreservice.service.TeacherService;
 import poli.meets.coreservice.service.dto.TeacherDTO;
 
@@ -28,6 +29,8 @@ public class TeacherResource {
 
     private final AuthClient authClient;
 
+    private final TeacherProducer teacherProducer;
+
     @PostMapping("/teachers")
     public ResponseEntity<TeacherDTO> createTeacher(
             @RequestHeader("Authorization") String token,
@@ -38,6 +41,8 @@ public class TeacherResource {
         }
 
         TeacherDTO result = teacherService.save(teacherDTO);
+
+        teacherProducer.createOrUpdate(result);
         return ResponseEntity.created(new URI("/api/teachers/" + result.getId()))
             .body(result);
     }
@@ -52,6 +57,8 @@ public class TeacherResource {
         }
 
         TeacherDTO result = teacherService.save(teacherDTO);
+        teacherProducer.createOrUpdate(result);
+
         return ResponseEntity.ok()
             .body(result);
     }
@@ -71,6 +78,8 @@ public class TeacherResource {
         }
 
         teacherService.delete(id);
+        teacherProducer.delete(id);
+
         return ResponseEntity.noContent().build();
     }
 }

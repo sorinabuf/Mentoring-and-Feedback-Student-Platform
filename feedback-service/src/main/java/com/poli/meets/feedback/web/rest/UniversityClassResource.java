@@ -5,9 +5,9 @@ import com.poli.meets.feedback.service.FeedbackService;
 import com.poli.meets.feedback.service.dto.FeedbackSubjectDetailsDTO;
 import com.poli.meets.feedback.service.dto.CategorySubjectsDTO;
 import com.poli.meets.feedback.service.dto.SubjectDTO;
-import com.poli.meets.feedback.service.dto.UniversityClassDTO;
 import com.poli.meets.feedback.service.UniversityClassService;
 
+import com.poli.meets.feedback.service.dto.UniversityClassDTO;
 import com.poli.meets.feedback.web.rest.errors.BadRequestException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +30,11 @@ public class UniversityClassResource {
 
     private final FeedbackService feedbackService;
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SubjectDTO> getUniverisityClass(@PathVariable Long id) {
+        return ResponseEntity.ok(universityClassService.findOne(id));
+    }
 
     @GetMapping("/me")
     public ResponseEntity<List<CategorySubjectsDTO>> getAllUniversityClassesForCurrentUser(

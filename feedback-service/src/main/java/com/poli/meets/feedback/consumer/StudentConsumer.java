@@ -38,7 +38,7 @@ public class StudentConsumer {
 
     private final FacultyMapper facultyMapper;
 
-    @KafkaListener(topics = "students", groupId = "feedback_group")
+    @KafkaListener(topics = "students", groupId = "feedback-group")
     public void consume(StudentDTO studentDTO) throws IOException {
 
         Faculty newFaculty = facultyMapper.toEntity(studentDTO.getUniversityYear().getFaculty());
@@ -52,26 +52,33 @@ public class StudentConsumer {
         newFaculty = facultyRepository.save(newFaculty);
 
         UniversityYear newUniversityYear = universityYearMapper.toEntity(studentDTO.getUniversityYear());
+        newUniversityYear.setFaculty(newFaculty);
+
         Optional<UniversityYear> oldUniversityYear = universityYearRepository
                 .findByExternalId(studentDTO.getUniversityYear().getId());
 
         if (oldUniversityYear.isPresent()) {
             newUniversityYear.setId(oldUniversityYear.get().getId());
-            newUniversityYear.setFaculty(newFaculty);
         }
 
         newUniversityYear = universityYearRepository.save(newUniversityYear);
 
 
         Student newStudent = studentMapper.toEntity(studentDTO);
+        newStudent.setUniversityYear(newUniversityYear);
+
         Optional<Student> oldStudent = studentRepository.findByExternalId(studentDTO.getId());
 
         if (oldStudent.isPresent()) {
             newStudent.setId(oldStudent.get().getId());
-            newStudent.setUniversityYear(newUniversityYear);
         }
 
         newStudent = studentRepository.save(newStudent);
 
+    }
+
+    @KafkaListener(topics = "students-delete", groupId = "feedback-group")
+    public void delete(StudentDTO studentDTO) throws IOException {
+        studentRepository.findByExternalId(studentDTO.getId()).ifPresent(studentRepository::delete);
     }
 }

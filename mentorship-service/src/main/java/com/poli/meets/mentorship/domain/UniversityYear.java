@@ -34,6 +34,9 @@ public class UniversityYear {
     )
     private Long id;
 
+    @Column(name = "external_id")
+    private Long externalId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "year")
     private Year year;

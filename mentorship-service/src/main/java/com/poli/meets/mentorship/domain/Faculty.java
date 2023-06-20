@@ -32,6 +32,9 @@ public class Faculty {
     )
     private Long id;
 
+    @Column(name = "external_id")
+    private Long externalId;
+
     @Column(name = "name")
     private String name;
 

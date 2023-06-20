@@ -70,6 +70,7 @@ import { MatTableModule } from "@angular/material/table";
 import { ErrorInterceptorService } from './services/error-interceptor.service';
 import { FacultyAdminDialogComponent } from './components/dialog/admin/faculty-admin-dialog/faculty-admin-dialog.component';
 import { UniversityYearAdminDialogComponent } from './components/dialog/admin/university-year-admin-dialog/university-year-admin-dialog.component';
+import {CategoryAdminDialogComponent} from "./components/dialog/admin/category-admin-dialog/category-admin-dialog.component";
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import { UniversityYearAdminDialogComponent } from './components/dialog/admin/un
     SubjectDetailsComponent,
     AdminComponent,
     FacultyAdminDialogComponent,
-    UniversityYearAdminDialogComponent
+    UniversityYearAdminDialogComponent,
+    CategoryAdminDialogComponent
   ],
   imports: [
     BrowserModule,

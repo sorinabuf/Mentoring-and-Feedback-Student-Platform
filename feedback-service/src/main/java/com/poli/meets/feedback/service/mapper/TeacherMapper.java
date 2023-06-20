@@ -15,6 +15,9 @@ public interface TeacherMapper extends EntityMapper<TeacherDTO, Teacher> {
 
     Teacher toEntity(TeacherDTO teacherDTO);
 
+    @Mapping(target = "externalId", source = "id")
+    Teacher toEntity(poli.meets.coreservice.service.dto.TeacherDTO teacherDTO);
+
     default Teacher fromId(Long id) {
         if (id == null) {
             return null;

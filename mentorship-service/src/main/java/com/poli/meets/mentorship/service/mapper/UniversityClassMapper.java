@@ -25,6 +25,10 @@ public interface UniversityClassMapper extends EntityMapper<UniversityClassDTO, 
     @Mapping(source = "universityYearId", target = "universityYear")
     UniversityClass toEntity(UniversityClassDTO universityClassDTO);
 
+    @Mapping(target = "externalId", source = "id")
+    @Mapping(target = "id", ignore = true)
+    UniversityClass toEntity(poli.meets.coreservice.service.dto.UniversityClassDTO universityClassDTO);
+
     default UniversityClass fromId(Long id) {
         if (id == null) {
             return null;

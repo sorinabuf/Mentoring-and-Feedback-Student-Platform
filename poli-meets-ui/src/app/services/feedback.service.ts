@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {environment} from "../environment/environment";
 import {Feedback} from "../models/feedback.model";
+import {Category} from "../models/category.model";
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,30 @@ export class FeedbackService {
   public getCategory(id: number): Observable<any> {
     return this.http.get(
         environment.apiUrl + '/feedback/api/categories/' + id.toString()
+    );
+  }
+
+  public getCategories(): Observable<any> {
+    return this.http.get(
+        environment.apiUrl + '/feedback/api/categories'
+    );
+  }
+
+  public addCategory(category: Category): Observable<any> {
+    return this.http.post(
+        environment.apiUrl + '/feedback/api/categories', category
+    );
+  }
+
+  public updateCategory(category: Category): Observable<any> {
+    return this.http.put(
+        environment.apiUrl + '/feedback/api/categories', category
+    );
+  }
+
+  public deleteCategory(categoryId: number | undefined): Observable<any> {
+    return this.http.delete(
+        environment.apiUrl + '/feedback/api/categories/' + categoryId
     );
   }
 }
