@@ -76,7 +76,9 @@ export class MentorDialogComponent {
   ngOnInit() {
     this.mentorshipService.get_mentor_possible_subjects()
       .subscribe((response) => {
-        this.subjects = response;
+        this.subjects = response.filter((object, index, self) =>
+          index === self.findIndex((o) => o.name === object.name)
+        );
       });
 
     this.mentorshipService.get_skills()

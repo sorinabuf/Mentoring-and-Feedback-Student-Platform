@@ -57,29 +57,27 @@ export class LoginComponent {
       this.isLoading = true;
     }
 
-    setTimeout(() => {
-      if (this.loginForm.valid) {
-        this.authService.login(
-          this.loginForm.controls['email'].value,
-          this.loginForm.controls['password'].value,
-          this.loginForm.controls['rememberCredentials'].value)
-          .pipe(
-            catchError(() => {
-              this.failedLogin = true;
-              this.isLoading = false;
-              console.error("Invalid credentials")
+    if (this.loginForm.valid) {
+      this.authService.login(
+        this.loginForm.controls['email'].value,
+        this.loginForm.controls['password'].value,
+        this.loginForm.controls['rememberCredentials'].value)
+        .pipe(
+          catchError(() => {
+            this.failedLogin = true;
+            this.isLoading = false;
+            console.error("Invalid credentials")
 
-              return EMPTY;
-            })
-          )
-          .subscribe((response) => {
-            localStorage.setItem(localStorageKey, response.token);
-            console.log("Login successful")
+            return EMPTY;
+          })
+        )
+        .subscribe((response) => {
+          localStorage.setItem(localStorageKey, response.token);
+          console.log("Login successful")
 
-            this.router.navigate(["/home"]);
-          });
-      }
-    }, 500); // fake traffic with timeout so loading spinner renders
+          this.router.navigate(["/home"]);
+        });
+    }
   }
 
   toggleVisibility(): void {

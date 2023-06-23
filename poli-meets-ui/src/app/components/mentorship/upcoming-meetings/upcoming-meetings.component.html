@@ -10,11 +10,9 @@
             </div>
 
             <div class="secondary-content">
-                <!-- TODO: add correct number and redirect to pending meetings page -->
-                <div class="left-section">
-                    <p>0 pending requests</p>
+                <div class="left-section" routerLink="/mentorship/pending-requests">
+                    <p>{{numPendingRequests}} pending requests</p>
                 </div>
-                <!-- TODO: redirect to contact page when it will exist -->
                 <div class="right-section" routerLink="/home">
                     <p>Get help</p>
                 </div>

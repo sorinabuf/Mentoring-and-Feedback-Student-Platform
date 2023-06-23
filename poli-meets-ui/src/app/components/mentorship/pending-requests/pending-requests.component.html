@@ -2,7 +2,7 @@
     <div class="mentorship-container">
         <mat-card class="mentorship-action-card">
             <div class="primary-content">
-                <p>{{pendingRequests.length}} pending requests</p>
+                <p>{{getNumPendingRequests()}} pending requests</p>
             </div>
 
             <div class="image-container">
@@ -10,9 +10,8 @@
             </div>
 
             <div class="secondary-content">
-                <!-- TODO: add correct number and redirect to mentors page -->
-                <div class="left-section">
-                    <p>0 mentors available</p>
+                <div class="left-section" routerLink="/mentorship/mentors">
+                    <p>{{numMentors}} mentors available</p>
                 </div>
                 <!-- TODO: redirect to contact page when it will exist -->
                 <div class="right-section" routerLink="/home">

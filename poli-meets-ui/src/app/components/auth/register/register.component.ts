@@ -76,60 +76,58 @@ export class RegisterComponent {
       this.isLoading = true;
     }
 
-    setTimeout(() => {
-      if (this.registerForm.valid) {
-        this.authService.register(
-          this.registerForm.controls['email'].value,
-          this.registerForm.controls['password'].value)
-          .pipe(
-            catchError(() => {
-              this.failedRegister = true;
-              this.isLoading = false;
-              console.error("Username already exists");
+    if (this.registerForm.valid) {
+      this.authService.register(
+        this.registerForm.controls['email'].value,
+        this.registerForm.controls['password'].value)
+        .pipe(
+          catchError(() => {
+            this.failedRegister = true;
+            this.isLoading = false;
+            console.error("Username already exists");
 
-              return EMPTY;
-            })
-          )
-          .subscribe(() => {
-            console.log("Continue with email verification");
+            return EMPTY;
+          })
+        )
+        .subscribe(() => {
+          console.log("Continue with email verification");
 
-            this.successfulRegister = true;
+          this.successfulRegister = true;
 
-            interval(pollingActivateInterval)
-              .pipe(
-                startWith(0),
-                switchMap(() => this.authService.is_activated(
-                  this.registerForm.controls['email'].value
-                )),
-                takeUntil(this.stopPollingActivate)
-              )
-              .subscribe(response => {
-                if (response) {
-                  this.stopPollingActivate.next(0);
-                  console.log("Account activated");
+          interval(pollingActivateInterval)
+            .pipe(
+              startWith(0),
+              switchMap(() => this.authService.is_activated(
+                this.registerForm.controls['email'].value
+              )),
+              takeUntil(this.stopPollingActivate)
+            )
+            .subscribe(response => {
+              if (response) {
+                this.stopPollingActivate.next(0);
+                console.log("Account activated");
 
-                  this.snackBar.open('Successful email activation', undefined, {
-                    duration: 3000
-                  });
-
-                  this.router.navigate(["/login"]);
-                }
-              });
-
-            setTimeout(() => {
-              this.stopPollingActivate.next(0);
-
-              if (this.location.path() === '/register') {
-                console.log("Account activation page timeout");
-
-                this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                  this.router.navigate(["/register"]);
+                this.snackBar.open('Successful email activation', undefined, {
+                  duration: 3000
                 });
+
+                this.router.navigate(["/login"]);
               }
-            }, pollingActivateTimeout);
-          });
-      }
-    }, 500); // fake traffic with timeout so loading spinner renders
+            });
+
+          setTimeout(() => {
+            this.stopPollingActivate.next(0);
+
+            if (this.location.path() === '/register') {
+              console.log("Account activation page timeout");
+
+              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                this.router.navigate(["/register"]);
+              });
+            }
+          }, pollingActivateTimeout);
+        });
+    }
   }
 
   toggleVisibility(): void {

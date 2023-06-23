@@ -64,6 +64,8 @@ export class MentorsComponent {
       this.mentors = response.filter(mentor => mentor.subjects.map(subject => subject.id).some(subject => new Set(this.subjects.map(subject => subject.id)).has(subject)));
       this.filteredMentors = this.mentors;
 
+      console.log(this.mentors);
+
       this.mentorsSkills = [... new Set(this.mentors.map(mentor => mentor.skills).flatMap(list => list).map(skill => skill.id))];
       this.mentorsSubjects = [... new Set(this.mentors.map(mentor => mentor.subjects).flatMap(list => list).map(subject => subject.id))];
 
@@ -95,6 +97,10 @@ export class MentorsComponent {
         this.filterMentors();
       }
     });
+  }
+
+  getMeetingSlots(mentor: MentorInfo) : number {
+    return this.mentorsSlots[mentor.id].length;
   }
 
   openBookingMeetingDialog(mentor: MentorInfo): void {

@@ -49,6 +49,12 @@
     height: 100%;
     display: flex;
     padding: 10px 0;
+
+    .subject {
+        span {
+            text-align: end;
+        }
+    }
 }
 
 .row2 {

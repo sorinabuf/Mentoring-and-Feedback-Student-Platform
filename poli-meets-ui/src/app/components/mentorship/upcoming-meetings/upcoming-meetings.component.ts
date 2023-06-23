@@ -43,6 +43,7 @@ export class UpcomingMeetingsComponent {
   upcomingMeetingsSecondColumn: Meeting[];
   allMeetings: any[];
   isMentor: boolean;
+  numPendingRequests: number;
 
   filterChips = [
     {
@@ -63,6 +64,7 @@ export class UpcomingMeetingsComponent {
     this.upcomingMeetingsSecondColumn = [];
     this.allMeetings = [];
     this.isMentor = false;
+    this.numPendingRequests = 0;
   }
 
   ngOnInit() {
@@ -80,6 +82,16 @@ export class UpcomingMeetingsComponent {
     this.updateFreeSlots();
     this.updateUpcomingMeetings();
     this.updateAllMeetings();
+
+    if (this.isMentor) {
+      this.mentorshipService.get_all_pending_meetings().subscribe((response) => {
+        this.numPendingRequests = response.length;
+      });
+    } else {
+      this.mentorshipService.get_student_pending_meetings().subscribe((response) => {
+        this.numPendingRequests = response.length;
+      })
+    }
   }
 
   updateAllMeetings() {

@@ -23,12 +23,14 @@ export class PendingRequestsComponent {
   myPendingRequests: Meeting[];
   pendingRequestsForMe: Meeting[];
   isMentor: boolean;
+  numMentors: number;
 
   constructor(private mentorshipService: MentorshipService, private dialog: MatDialog, private snackBar: MatSnackBar, private activatedRoute: ActivatedRoute) {
     this.pendingRequests = [];
     this.myPendingRequests = [];
     this.pendingRequestsForMe = [];
     this.isMentor = false;
+    this.numMentors = 0;
   }
 
   ngOnInit(): void {
@@ -44,6 +46,16 @@ export class PendingRequestsComponent {
     });
 
     this.initPendingMeetings();
+
+    this.mentorshipService.get_mentor_filter_subjects().subscribe((response) => {
+      let subjects = response;
+
+      this.mentorshipService.get_all_mentors().subscribe((response) => {
+        let mentors = response.filter(mentor => mentor.subjects.map(subject => subject.id).some(subject => new Set(subjects.map(subject => subject.id)).has(subject)));
+
+        this.numMentors = mentors.length;
+      });
+    });
   }
 
   initPendingMeetings(): void {
@@ -60,6 +72,10 @@ export class PendingRequestsComponent {
         this.myPendingRequests = response;
       })
     }
+  }
+
+  getNumPendingRequests(): number {
+    return this.myPendingRequests.length + this.pendingRequestsForMe.length;
   }
 
   openDeleteDialog(meeting: Meeting): void {

@@ -35,7 +35,7 @@ export class AdminComponent {
 
     displayedColumnsFaculty: string[] = ['name', 'domain', 'description', 'actions'];
     displayedColumnsUniversityYears: string[] = ['facultyName', 'yearValue', 'series', 'actions'];
-    displayedColumnsUniversityClasses: string[] = ['name', 'abbreviation', 'description', 'teacher', 'universityYear', 'semester', 'actions'];
+    displayedColumnsUniversityClasses: string[] = ['name', 'abbreviation', 'description', 'teacherName', 'universityYear', 'semester', 'actions'];
     displayedColumnsTeachers: string[] = ['firstName', 'lastName', 'actions'];
     displayedColumnsCategories: string[] = ['categoryName', 'gradeQuestion', 'textQuestion', 'actions'];
     faculties: MatTableDataSource<Faculty>;
@@ -130,7 +130,7 @@ export class AdminComponent {
 
     initUniversityClasses(): void {
         this.coreService.get_all_university_classes().subscribe(universityClasses => {
-            this.universityClasses.data = universityClasses.reverse();
+            this.universityClasses.data = universityClasses.reverse().map(element => { return { ...element, teacherName: this.getTeacherName(element.teacher) } });
         });
     }
 
@@ -171,6 +171,10 @@ export class AdminComponent {
 
     getFacultyNameDomain(universityYear: UniversityYear): string {
         return universityYear.faculty.name + ' - ' + universityYear.faculty.domain;
+    }
+
+    getTeacherName(teacher: Teacher): string {
+        return teacher.firstName + ' ' + teacher.lastName;
     }
 
     openAddDialog(): void {

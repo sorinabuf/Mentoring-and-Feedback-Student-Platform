@@ -88,7 +88,8 @@
 
                             <div>
                                 <div class="buttons">
-                                    <button mat-flat-button color="primary" class="book-meeting" (click)="openBookingMeetingDialog(mentor);">REQUEST MEETING
+                                    <button mat-flat-button color="primary" 
+                                    [disabled]="!getMeetingSlots(mentor)" class="book-meeting" (click)="openBookingMeetingDialog(mentor);">REQUEST MEETING
                                     </button>
                                 </div>
 
