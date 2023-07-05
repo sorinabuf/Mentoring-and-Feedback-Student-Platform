@@ -15,7 +15,7 @@
 
             </app-button-menu>
 
-            <a mat-button>CONTACT</a>
+            <a mat-button routerLink="/contact">CONTACT</a>
 
             <a mat-button>ABOUT</a>
 
@@ -23,7 +23,8 @@
         </div>
 
         <div class="navbar-buttons">
-            <button mat-flat-button color="accent" class="button-round-outline" (click)="goToMyAccount()">My Account</button>
+            <button mat-flat-button color="accent" class="button-round-outline" (click)="goToMyAccount()">My
+                Account</button>
 
             <button mat-stroked-button [ngClass]="{'transparent' : hasTransparentBackground()}"
                 [color]="getLogoutButtonColor()" class="button-round-outline"

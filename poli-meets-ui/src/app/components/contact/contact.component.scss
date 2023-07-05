@@ -1,0 +1,170 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,900,800,700");
+@import "../../../font_colors";
+@import "../../../theme_variables";
+@import "../../../text_form_field";
+
+.contact-container-padding {
+    padding-top: 64px; // dimensiunea navbar-ului
+
+    .contact-container {
+        min-height: calc(100vh - 64px); // minus dimensiunea navbar-ului
+        background-color: white;
+
+        .header {
+            background-color: white;
+            width: 100%;
+            min-height: 340px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            font-family: 'Montserrat';
+            background-image: url("../../../assets/images/contact/contact-bg.png");
+            background-size: cover;
+            background-position: center center;
+
+            .p1 {
+                margin-top: -8px;
+                font-weight: 700;
+                font-size: 40px;
+                color: $font-color;
+            }
+
+            .p2 {
+                font-weight: 500;
+                font-size: 14px;
+                color: $font-color;
+                font-family: 'Roboto';
+            }
+        }
+
+        .content {
+            background-color: white;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding-bottom: 32px;
+
+            .card {
+                background-color: white;
+                width: 50%;
+                min-height: 100px;
+                box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+                border-radius: 12px;
+                margin-top: -108px;
+
+                .margin {
+                    width: 100%;
+                    height: 10px;
+                    background-color: $primary;
+                    border-radius: 12px 12px 0 0;
+                }
+
+                .form {
+                    padding: 32px 48px;
+                }
+
+                p {
+                    margin: 0;
+                    font-size: small;
+                    font-weight: 400;
+                    color: $font-color-light;
+                }
+
+                .contact-fields-header {
+                    font-family: 'Montserrat';
+                    font-weight: 700;
+                    font-size: larger;
+                    color: $font-color;
+                    padding: 8px 0 32px 0;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .required-message {
+                        font-weight: 500;
+                        font-size: 11.5px;
+                        color: $warn;
+                        font-family: 'Roboto';
+                    }
+                }
+
+                .contact-fields {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+
+                    .fields {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 32px;
+                    }
+
+                    .text-fields {
+                        display: flex;
+                        flex-direction: column;
+                        flex-grow: 1;
+                    }
+
+                    .message-fields {
+                        display: flex;
+                        flex-direction: column;
+                        flex-grow: 1;
+
+                        textarea {
+                            min-height: 116px;
+                        }
+                    }
+
+                    mat-hint {
+                        color: #00000099;
+                        font-size: 12px;
+                    }
+
+                    mat-label {
+                        font-size: smaller;
+                        font-weight: 500;
+                        color: $font-color-light;
+                        padding: 8px;
+                        line-height: normal;
+
+                        span {
+                            font-weight: 500;
+                            font-size: x-small;
+                            color: $warn;
+                        }
+                    }
+
+                    .button-container {
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        margin-top: 32px;
+                    }
+
+                    button {
+                        border-color: currentColor !important;
+                        width: 300px !important;
+                    }
+
+                    button[mat-stroked-button] {
+                        border-width: 2px !important;
+                        border-radius: 44px !important;
+                        font-weight: 600 !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+    min-width: auto !important;
+    padding: 0 50px 0 50px;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__label {
+    padding-left: 0;
+    padding-right: 0;
+}

@@ -73,6 +73,7 @@ import { UniversityYearAdminDialogComponent } from './components/dialog/admin/un
 import {CategoryAdminDialogComponent} from "./components/dialog/admin/category-admin-dialog/category-admin-dialog.component";
 import { TeacherAdminDialogComponent } from './components/dialog/admin/teacher-admin-dialog/teacher-admin-dialog.component';
 import { UniversityClassAdminDialogComponent } from './components/dialog/admin/university-class-admin-dialog/university-class-admin-dialog.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +113,8 @@ import { UniversityClassAdminDialogComponent } from './components/dialog/admin/u
     UniversityYearAdminDialogComponent,
     CategoryAdminDialogComponent,
     TeacherAdminDialogComponent,
-    UniversityClassAdminDialogComponent
+    UniversityClassAdminDialogComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,

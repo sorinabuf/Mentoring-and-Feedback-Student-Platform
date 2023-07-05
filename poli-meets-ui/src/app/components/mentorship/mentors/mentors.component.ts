@@ -31,6 +31,8 @@ export class MentorsComponent {
   filters: { [key: string]: any };
   showDetails: { [key: number]: boolean };
   searchName: string;
+  isLoading: boolean;
+  countLoads: number;
 
   constructor(private dialog: MatDialog, private mentorshipService: MentorshipService, private snackBar: MatSnackBar) {
     this.skills = [];
@@ -47,11 +49,13 @@ export class MentorsComponent {
     };
     this.showDetails = {};
     this.searchName = '';
+    this.isLoading = false;
+    this.countLoads = 0;
   }
 
   ngOnInit(): void {
     AOS.init();
-    
+
     this.mentorshipService.get_skills().subscribe((response) => {
       this.skills = response;
     });
@@ -60,22 +64,33 @@ export class MentorsComponent {
       this.subjects = response;
     });
 
-    this.mentorshipService.get_all_mentors().subscribe((response) => {
-      this.mentors = response.filter(mentor => mentor.subjects.map(subject => subject.id).some(subject => new Set(this.subjects.map(subject => subject.id)).has(subject)));
-      this.filteredMentors = this.mentors;
+    this.isLoading = true;
 
-      console.log(this.mentors);
+    setTimeout(() => {
+      this.mentorshipService.get_all_mentors().subscribe((response) => {
+        this.mentors = response.filter(mentor => mentor.subjects.map(subject => subject.id).some(subject => new Set(this.subjects.map(subject => subject.id)).has(subject)));
+        this.filteredMentors = this.mentors;
 
-      this.mentorsSkills = [... new Set(this.mentors.map(mentor => mentor.skills).flatMap(list => list).map(skill => skill.id))];
-      this.mentorsSubjects = [... new Set(this.mentors.map(mentor => mentor.subjects).flatMap(list => list).map(subject => subject.id))];
+        console.log(this.mentors);
 
-      this.mentors.forEach(mentor => {
-        this.mentorshipService.get_mentor_free_slots(mentor.id).subscribe(response => {
-          this.mentorsSlots[mentor.id] = response;
-          this.showDetails[mentor.id] = false;
+        this.mentorsSkills = [... new Set(this.mentors.map(mentor => mentor.skills).flatMap(list => list).map(skill => skill.id))];
+        this.mentorsSubjects = [... new Set(this.mentors.map(mentor => mentor.subjects).flatMap(list => list).map(subject => subject.id))];
+
+        this.mentors.forEach(mentor => {
+          this.mentorshipService.get_mentor_free_slots(mentor.id).subscribe(response => {
+            this.mentorsSlots[mentor.id] = response;
+            this.showDetails[mentor.id] = false;
+
+            this.countLoads++;
+
+            if (this.countLoads == this.mentors.length) {
+              this.countLoads = 0;
+              this.isLoading = false;
+            }
+          });
         });
       });
-    });
+    }, 200);
   }
 
   openFiltersDialog(): void {
@@ -99,7 +114,7 @@ export class MentorsComponent {
     });
   }
 
-  getMeetingSlots(mentor: MentorInfo) : number {
+  getMeetingSlots(mentor: MentorInfo): number {
     return this.mentorsSlots[mentor.id].length;
   }
 
@@ -166,39 +181,44 @@ export class MentorsComponent {
   }
 
   filterMentors(): void {
-    this.filteredMentors = this.mentors;
-    Object.keys(this.showDetails).forEach(key => this.showDetails[+key] = false);
+    this.filteredMentors = [];
 
-    if (this.searchName) {
-      this.filteredMentors = this.filteredMentors.filter(mentor => {
-        let name = mentor.student?.firstName + ' ' + mentor.student?.lastName;
+    setTimeout(() => {
+      this.filteredMentors = this.mentors;
 
-        console.log(name);
+      Object.keys(this.showDetails).forEach(key => this.showDetails[+key] = false);
 
-        return name.toLowerCase().includes(this.searchName.toLowerCase());
+      if (this.searchName) {
+        this.filteredMentors = this.filteredMentors.filter(mentor => {
+          let name = mentor.student?.firstName + ' ' + mentor.student?.lastName;
+
+          console.log(name);
+
+          return name.toLowerCase().includes(this.searchName.toLowerCase());
+        }
+        );
       }
-      );
-    }
 
-    if (this.filters['skills'].size) {
-      this.filteredMentors = this.filteredMentors.filter(mentor => mentor.skills.map(skill => skill.id).some(skill => this.filters['skills'].has(skill)));
-    }
-
-    if (this.filters['subjects'].size) {
-      this.filteredMentors = this.filteredMentors.filter(mentor => mentor.subjects.map(subject => subject.id).some(subject => this.filters['subjects'].has(subject)));
-    }
-
-    if (this.filters['availability'] && this.filteredMentors.length) {
-      if (this.filters['availability'] == 'Today') {
-        this.filteredMentors = this.filteredMentors.filter(mentor => this.mentorsSlots[mentor.id].map(slot => new Date(slot.date)).some(date => this.isDateToday(date)));
-      } else if (this.filters['availability'] == 'In a week') {
-        this.filteredMentors = this.filteredMentors.filter(mentor => this.mentorsSlots[mentor.id].map(slot => new Date(slot.date)).some(date => this.isDateInNext7Days(date)));
-      } else if (this.filters['availability'] == 'In a month') {
-        this.filteredMentors = this.filteredMentors.filter(mentor => this.mentorsSlots[mentor.id].map(slot => new Date(slot.date)).some(date => this.isDateInNextMonth(date)));
+      if (this.filters['skills'].size) {
+        this.filteredMentors = this.filteredMentors.filter(mentor => mentor.skills.map(skill => skill.id).some(skill => this.filters['skills'].has(skill)));
       }
-    }
 
-    console.log(this.filteredMentors);
+      if (this.filters['subjects'].size) {
+        this.filteredMentors = this.filteredMentors.filter(mentor => mentor.subjects.map(subject => subject.id).some(subject => this.filters['subjects'].has(subject)));
+      }
+
+      if (this.filters['availability'] && this.filteredMentors.length) {
+        if (this.filters['availability'] == 'Today') {
+          this.filteredMentors = this.filteredMentors.filter(mentor => this.mentorsSlots[mentor.id].map(slot => new Date(slot.date)).some(date => this.isDateToday(date)));
+        } else if (this.filters['availability'] == 'In a week') {
+          this.filteredMentors = this.filteredMentors.filter(mentor => this.mentorsSlots[mentor.id].map(slot => new Date(slot.date)).some(date => this.isDateInNext7Days(date)));
+        } else if (this.filters['availability'] == 'In a month') {
+          this.filteredMentors = this.filteredMentors.filter(mentor => this.mentorsSlots[mentor.id].map(slot => new Date(slot.date)).some(date => this.isDateInNextMonth(date)));
+        }
+      }
+
+      console.log(this.filteredMentors);
+    }, 50);
   }
 
   isDateToday(date: Date): boolean {

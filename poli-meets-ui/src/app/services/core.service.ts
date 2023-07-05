@@ -190,4 +190,15 @@ export class CoreService {
       environment.apiUrl + '/core/api/students/current-user'
     );
   }
+  
+  public send_contact_message(name: string, email: string, message: string): Observable<any> {
+    const body = {
+      name: name,
+      email: email,
+      message: message
+    }
+
+    return this.http.post(
+      environment.apiUrl + '/core/api/contact-message', body);
+  }
 }

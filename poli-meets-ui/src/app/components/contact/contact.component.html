@@ -1,0 +1,60 @@
+<div class="contact-container-padding">
+    <div class="contact-container">
+        <div class="header" data-aos="zoom-out"
+        data-aos-duration="1000" data-aos-easing="ease-in-out-quad">
+            <span class="p1">Contact Us</span>
+            <span class="p2">Have any questions or just want to get in touch? We'd love to hear from you!</span>
+        </div>
+
+        <div class="content">
+            <div class="card" data-aos="fade-up" data-aos-delay="200">
+                <div class="margin">
+
+                </div>
+
+                <div class="form">
+                    <form [formGroup]="contactForm" (ngSubmit)="onSend()">
+                        <div class="contact-fields">
+                            <div class="contact-fields-header">
+                                <span>Contact Form</span>
+                                <span class="required-message">* required fields</span>
+                            </div>
+
+                            <div class="fields">
+                                <div class="text-fields">
+                                    <mat-label>Name <span>*</span></mat-label>
+                                    <mat-form-field appearance="fill">
+                                        <input matInput placeholder="Your name" formControlName="name">
+                                    </mat-form-field>
+
+                                    <mat-label>Email <span>*</span></mat-label>
+                                    <mat-form-field appearance="fill">
+                                        <input matInput placeholder="Your contact email address"
+                                            formControlName="email">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="message-fields">
+                                    <mat-label>Message <span>*</span></mat-label>
+                                    <mat-form-field appearance="fill">
+                                        <textarea matInput formControlName="message"
+                                            placeholder="Your message for us"></textarea>
+                                        <mat-hint align="end">{{messageLength}}/{{maxMessageLength}} maximum characters</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="button-container">
+                                <button mat-stroked-button color="primary" type="submit" [disabled]="isLoading || !contactForm.valid">
+                                    <span *ngIf="!isLoading">SEND
+                                    </span>
+                                    <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

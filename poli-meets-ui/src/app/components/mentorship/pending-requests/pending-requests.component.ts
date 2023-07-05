@@ -24,6 +24,7 @@ export class PendingRequestsComponent {
   pendingRequestsForMe: Meeting[];
   isMentor: boolean;
   numMentors: number;
+  isLoading: boolean;
 
   constructor(private mentorshipService: MentorshipService, private dialog: MatDialog, private snackBar: MatSnackBar, private activatedRoute: ActivatedRoute) {
     this.pendingRequests = [];
@@ -31,6 +32,7 @@ export class PendingRequestsComponent {
     this.pendingRequestsForMe = [];
     this.isMentor = false;
     this.numMentors = 0;
+    this.isLoading = false;
   }
 
   ngOnInit(): void {

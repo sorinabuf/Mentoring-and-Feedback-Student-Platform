@@ -131,11 +131,14 @@
         justify-content: center;
 
         p {
-            padding: 20px;
+            padding: 60px;
             opacity: 0;
             transition: opacity 200ms linear;
-            font-size: large;
+            font-size: 14px;
             color: $font-color;
+            font-family: 'Montserrat';
+            font-weight: 600;
+            text-align: justify;
         }
     }
 
